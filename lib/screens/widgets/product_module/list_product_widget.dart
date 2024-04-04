@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
@@ -217,15 +218,8 @@ class _ListProductsState extends State<ListProducts> {
               shape: const CircleBorder(),
               onPressed: () {
                 //Add Product Scan page navigation here
-                () async {
-                  var res = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SimpleBarcodeScannerPage(),
-                        // ignore: avoid_print
-                       
-                      )); print(res);
-                };
+                Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const BarcodeApp()));
               },
               child: const ColorFiltered(
                 colorFilter: ColorFilter.mode(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/db/functions/db_functions.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -7,11 +6,10 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getAllStudents(); 
 
     
     Future.delayed(const Duration(seconds: 2), () {
-      var categories;
+     // var categories;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),

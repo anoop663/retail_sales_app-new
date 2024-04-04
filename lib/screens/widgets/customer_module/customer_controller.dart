@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
@@ -17,7 +16,6 @@ Future<void> getAllCustomers() async {
 }
 
 // Function to delete a category in Hive
-
 
 // Function to update a category in Hive
 Future<void> updateCustomers(CustomerModel updatedCategory) async {
@@ -52,19 +50,19 @@ Future<void> addCustomers(CustomerModel category) async {
   await box1.add(category);
 
   getAllCustomers();
-} 
+}
 
 Future<void> deleteCustomers(int id) async {
   try {
     final box1 = await Hive.openBox<CustomerModel>('customer_db');
-      await box1.delete(id);
-      print('Category with ID $id deleted successfully.');
-      customerListNotifier.value.clear();
-      
+    await box1.delete(id);
+    await box1.compact();
+    print('Category with ID $id deleted successfully.');
+    customerListNotifier.value.clear();
+
     await box1.close();
   } catch (e) {
     print('Error deleting category: $e');
   }
   await getAllCustomers();
-
 }
