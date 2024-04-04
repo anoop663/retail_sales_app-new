@@ -60,7 +60,7 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       stock: fields[4] as String,
       price: fields[3] as String,
       date: fields[5] as String,
-      image: fields[6] as Uint8List?,
+      image: fields[6] as String?,
       id: fields[7] as int?,
     );
   }

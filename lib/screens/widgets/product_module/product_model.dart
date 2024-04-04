@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'dart:typed_data';
 part 'product_model.g.dart';
 
 @HiveType(typeId: 3)
@@ -31,7 +30,7 @@ class ProductModel {
   @HiveField(5)
   late String date;
   @HiveField(6)
-   Uint8List? image;
+  late String? image;
   @HiveField(7)
   int? id;
 

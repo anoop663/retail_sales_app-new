@@ -1,11 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path_provider/path_provider.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/services.dart';
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -37,6 +41,13 @@ class _AddProductsState extends State<AddProducts> {
         print('No image selected.');
       }
     });
+  }
+
+  Future<String> _saveImage(File image) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final imageName = path.basename(image.path);
+    final savedImage = await image.copy('${appDir.path}/$imageName');
+    return savedImage.path;
   }
 
   @override
@@ -74,8 +85,10 @@ class _AddProductsState extends State<AddProducts> {
               centerTitle: true,
               leading: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const ListProducts()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListProducts()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -212,7 +225,8 @@ class _AddProductsState extends State<AddProducts> {
                       ),
                       keyboardType: TextInputType.text,
                     ),
-                  ),const SizedBox(height: 20),
+                  ),
+                  const SizedBox(height: 20),
                   const Text(
                     'Product Code',
                     style: TextStyle(
@@ -267,6 +281,64 @@ class _AddProductsState extends State<AddProducts> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
+                    'Product Stock',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      controller: _stockController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Product Stock",
+                        hintStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      keyboardType:
+                          TextInputType.number, // Set keyboardType to number
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allow only digits
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
                     'Product Price',
                     style: TextStyle(
                       color: Colors.black,
@@ -315,7 +387,12 @@ class _AddProductsState extends State<AddProducts> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      keyboardType: TextInputType.text,
+                      keyboardType:
+                          TextInputType.number, // Set keyboardType to number
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allow only digits
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -381,7 +458,7 @@ class _AddProductsState extends State<AddProducts> {
                       foregroundColor: Colors.white,
                     ),
                     icon: const Icon(Icons.file_upload_outlined),
-                    label: const Text('Capture Image'),
+                    label: const Text('Upload Image'),
                   ),
                   // Show Captured Image
                   if (_image != null) ...[
@@ -400,6 +477,11 @@ class _AddProductsState extends State<AddProducts> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
+                        String? imagePath;
+                        if (_image != null) {
+                          imagePath = await _saveImage(_image!);
+                        }
+
                         if (widget.product != null) {
                           widget.product!.category = _categoryController.text;
                           widget.product!.name = _nameController.text;
@@ -407,7 +489,8 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.price = _priceController.text;
                           widget.product!.stock = _stockController.text;
                           widget.product!.date = _expiryDateController.text;
-                          // Add image name here if needed
+                          widget.product!.image =
+                              imagePath; // Update image path
                           await updateProducts(widget.product!);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -423,7 +506,7 @@ class _AddProductsState extends State<AddProducts> {
                             price: _priceController.text,
                             stock: _stockController.text,
                             date: _expiryDateController.text,
-                            // Add image name here if needed
+                            image: imagePath, // Add image path
                           );
                           await addProducts(product);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -434,8 +517,12 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         }
 
-                        // Navigate back to the category list page and pass a flag to indicate refreshing
-                        Navigator.of(context).pop(true);
+                        // Navigate back to the product list page and pass a flag to indicate refreshing
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ListProducts()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),
@@ -461,7 +548,7 @@ class _AddProductsState extends State<AddProducts> {
             ),
           );
         } else {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

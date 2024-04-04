@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:typed_data';
 
 //Category Controllers are given below
 
@@ -66,9 +65,9 @@ Future<void> deleteCategory(int id) async {
   await  getAllCategories();
 }
 
-
+//////////////////////////////////////////
 // Product Controllers are given below //
-
+//////////////////////////////////////////
 
 ValueNotifier<List<ProductModel>> productListNotifier = ValueNotifier([]);
 
@@ -108,16 +107,8 @@ Future<void> addProducts(ProductModel product) async {
   const uuid = Uuid();
   final uuidString = uuid.v4(); // Generate UUID as a string
   final id = uuidString.hashCode.abs(); // Convert UUID string to integer
-
   product.id = id;
-
-  // Convert the image to a byte array
-  Uint8List? imageBytes = product.image;
-
-  product.image = imageBytes; // Assign the image byte array to the product model
-
   await box1.add(product);
-
   getAllProducts();
 }
 
@@ -138,3 +129,8 @@ Future<void> deleteProducts(int id) async {
   }
   await  getAllProducts();
 }
+
+  Future<void> initializeHive() async {
+    await Hive.openBox<ProductModel>('product_db2');
+    getAllProducts(); // Fetch products from Hive
+  }

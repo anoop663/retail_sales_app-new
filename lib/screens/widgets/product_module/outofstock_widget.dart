@@ -9,14 +9,14 @@ import 'package:project_fourth/screens/widgets/product_module/list_category_widg
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 
-class ListProducts extends StatefulWidget {
-  const ListProducts({Key? key}) : super(key: key);
+class OutofStock extends StatefulWidget {
+  const OutofStock({Key? key}) : super(key: key);
 
   @override
-  _ListProductsState createState() => _ListProductsState();
+  _OutofStockState createState() => _OutofStockState();
 }
 
-class _ListProductsState extends State<ListProducts> {
+class _OutofStockState extends State<OutofStock> {
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _ListProductsState extends State<ListProducts> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this category?"),
+          content: const Text("Are you sure you want to delete this product?"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -62,7 +62,7 @@ class _ListProductsState extends State<ListProducts> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          'Product List',
+          'Out of Stock List',
           style: TextStyle(
             color: Color(0xff4B4B87),
             fontWeight: FontWeight.bold,
@@ -94,10 +94,11 @@ class _ListProductsState extends State<ListProducts> {
         child: ValueListenableBuilder<List<ProductModel>>(
           valueListenable: productListNotifier,
           builder: (context, products, _) {
-            if (products.isEmpty) {
+            final outOfStockProducts = products.where((product) => product.stock == null || product.stock == "0").toList();
+            if (outOfStockProducts.isEmpty) {
               return const Center(
                 child: Text(
-                  'Product List is Empty',
+                  'No Products Out of Stock',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
@@ -108,7 +109,7 @@ class _ListProductsState extends State<ListProducts> {
             } else {
               return ListView.separated(
                 itemBuilder: (ctx, index) {
-                  final product = products[index];
+                  final product = outOfStockProducts[index];
                   return Container(
                     height: 85,
                     decoration: BoxDecoration(
@@ -210,50 +211,15 @@ class _ListProductsState extends State<ListProducts> {
                 },
                 separatorBuilder: (BuildContext context, int index) =>
                     const SizedBox(height: 14),
-                itemCount: products.length,
+                itemCount: outOfStockProducts.length,
+                
+
               );
             }
           },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              backgroundColor: const Color(0xFF4B4B87),
-              tooltip: 'Scan Button',
-              shape: const CircleBorder(),
-              onPressed: () {
-                //Add Product Scan page navigation here
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const BarcodeApp()));
-              },
-              child: const ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-                child: ImageIcon(AssetImage('lib/assets/scan1.png')),
-              ),
-            ),
-            const SizedBox(width: 12), // Add space between the buttons
-            FloatingActionButton(
-              backgroundColor: const Color(0xFF4B4B87),
-              tooltip: 'New Product',
-              shape: const CircleBorder(),
-              onPressed: () {
-                //Add Product page navigation
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const AddProducts()));
-              },
-              child: const Icon(Icons.add, color: Colors.white, size: 28),
-            ),
-          ],
-        ),
-      ),
+      
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

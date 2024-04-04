@@ -4,6 +4,7 @@ import 'package:project_fourth/screens/widgets/customer_module/list_customer_wid
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
+import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,8 +26,7 @@ class HomePage extends StatelessWidget {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) =>  const BusinessCard()));
+                MaterialPageRoute(builder: (context) => const BusinessCard()));
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: const Color(0xFFF1F5F9),
       body: SingleChildScrollView(
         child: Column(
-          children: [     
+          children: [
             Row(
               children: [
                 //Expanded model for cards
@@ -54,9 +54,8 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) =>  const ListCategories()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ListCategories()));
                       },
                       child: Container(
                         width: double.infinity,
@@ -83,7 +82,8 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             const Positioned(
-                              left: 80, // Adjust left position to align with circle
+                              left:
+                                  80, // Adjust left position to align with circle
                               top: 10, // Adjust top position for alignment
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,9 +120,8 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) =>  const ListProducts()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ListProducts()));
                       },
                       child: Container(
                         width: double.infinity,
@@ -149,7 +148,8 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             const Positioned(
-                              left: 80, // Adjust left position to align with circle
+                              left:
+                                  80, // Adjust left position to align with circle
                               top: 10, // Adjust top position for alignment
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,8 +192,7 @@ class HomePage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-               builder: (context) => const ListCustomer()
-               ));
+                            builder: (context) => const ListCustomer()));
                       },
                       child: Container(
                         width: double.infinity,
@@ -220,7 +219,8 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             const Positioned(
-                              left: 80, // Adjust left position to align with circle
+                              left:
+                                  80, // Adjust left position to align with circle
                               top: 10, // Adjust top position for alignment
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,7 +257,8 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        // Add the page navigation to Out of stock page
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const OutofStock()));
                       },
                       child: Container(
                         width: double.infinity,
@@ -284,7 +285,8 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             const Positioned(
-                              left: 80, // Adjust left position to align with circle
+                              left:
+                                  80, // Adjust left position to align with circle
                               top: 10, // Adjust top position for alignment
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +352,7 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 120, 
+              height: 120,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: GestureDetector(
@@ -424,7 +426,9 @@ class HomePage extends StatelessWidget {
                     left: 0,
                     top: 128,
                     child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-1.57),
+                      transform: Matrix4.identity()
+                        ..translate(0.0, 0.0)
+                        ..rotateZ(-1.57),
                       child: const Text(
                         'Sales',
                         style: TextStyle(
@@ -628,7 +632,7 @@ class HomePage extends StatelessWidget {
                     top: 90,
                     child: Container(
                       width: 318,
-                      decoration:const ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 1,
@@ -660,7 +664,7 @@ class HomePage extends StatelessWidget {
                     top: 172,
                     child: Container(
                       width: 318,
-                      decoration:const  ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 1,
@@ -676,7 +680,7 @@ class HomePage extends StatelessWidget {
                     top: 213,
                     child: Container(
                       width: 318,
-                      decoration:const  ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 1,
@@ -695,7 +699,8 @@ class HomePage extends StatelessWidget {
                       height: 206,
                       decoration: ShapeDecoration(
                         color: const Color(0xFF6659FF),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
                       ),
                     ),
                   ),
@@ -707,7 +712,8 @@ class HomePage extends StatelessWidget {
                       height: 165,
                       decoration: ShapeDecoration(
                         color: const Color(0xFFB9EAFF),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
                       ),
                     ),
                   ),
@@ -719,7 +725,8 @@ class HomePage extends StatelessWidget {
                       height: 83,
                       decoration: ShapeDecoration(
                         color: const Color(0xFFBEADFF),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
                       ),
                     ),
                   ),
@@ -731,7 +738,8 @@ class HomePage extends StatelessWidget {
                       height: 83,
                       decoration: ShapeDecoration(
                         color: const Color(0xFFEB77FF),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
                       ),
                     ),
                   ),
@@ -741,34 +749,36 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-    floatingActionButton: Padding(
-  padding: const EdgeInsets.only(left: 30.0),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: [
-      FloatingActionButton(
-        backgroundColor: const Color(0xFF4B4B87),
-        tooltip: 'Sales Button',
-        shape: const CircleBorder(),
-        onPressed: () {
-          //Need to Add Navigation to Sale create Page
-        },
-        child: const Icon(Icons.percent, color: Colors.white, size: 28),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(left: 30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              backgroundColor: const Color(0xFF4B4B87),
+              tooltip: 'Sales Button',
+              shape: const CircleBorder(),
+              onPressed: () {
+                //Need to Add Navigation to Sale create Page
+              },
+              child: const Icon(Icons.percent, color: Colors.white, size: 28),
+            ),
+            const SizedBox(width: 12), // Add space between the buttons
+            FloatingActionButton(
+              backgroundColor: const Color(0xFF4B4B87),
+              tooltip: 'New Product',
+              shape: const CircleBorder(),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const AddProducts()));
+              },
+              child: const Icon(Icons.add, color: Colors.white, size: 28),
+            ),
+          ],
+        ),
       ),
-      const SizedBox(width: 12), // Add space between the buttons
-      FloatingActionButton(
-        backgroundColor: const Color(0xFF4B4B87),
-        tooltip: 'New Product',
-        shape: const CircleBorder(),
-        onPressed: () {Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const AddProducts()));},
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
-],
-),
-),
-bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
             icon: Image.asset('lib/assets/Home1.png'),
@@ -798,23 +808,19 @@ bottomNavigationBar: BottomNavigationBar(
               break;
             case 1:
               Navigator.of(context).push(MaterialPageRoute(
-               builder: (context) => const ListCustomer()
-               ));
+                  builder: (context) => const ListCustomer()));
               break;
             case 2:
               Navigator.of(context).push(MaterialPageRoute(
-               builder: (context) => const ListCategories()
-               ));
+                  builder: (context) => const ListCategories()));
               break;
             case 3:
-              Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) =>  const ListProducts()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ListProducts()));
               break;
           }
         },
       ),
     );
-
   }
 }
