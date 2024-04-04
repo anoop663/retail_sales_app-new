@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'dart:typed_data';
 part 'product_model.g.dart';
 
 @HiveType(typeId: 3)
@@ -19,21 +19,24 @@ class CategoryModel {
 @HiveType(typeId: 5)
 class ProductModel {
   @HiveField(0)
-  late String name;
+  late String category;
   @HiveField(1)
+  late String name;
+  @HiveField(2)
   late String code;
-   @HiveField(2)
+  @HiveField(3)
   late String price;
-   @HiveField(3)
+  @HiveField(4)
   late String stock;
-     @HiveField(4)
-  late String date;
   @HiveField(5)
-  late String? image;
-   @HiveField(6)
+  late String date;
+  @HiveField(6)
+   Uint8List? image;
+  @HiveField(7)
   int? id;
 
   ProductModel({
+    required this.category,
     required this.name,
     required this.code,
     required this.stock,

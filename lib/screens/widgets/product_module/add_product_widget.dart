@@ -17,6 +17,7 @@ class AddProducts extends StatefulWidget {
 }
 
 class _AddProductsState extends State<AddProducts> {
+  final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
@@ -400,6 +401,7 @@ class _AddProductsState extends State<AddProducts> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (widget.product != null) {
+                          widget.product!.category = _categoryController.text;
                           widget.product!.name = _nameController.text;
                           widget.product!.code = _codeController.text;
                           widget.product!.price = _priceController.text;
@@ -415,6 +417,7 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         } else {
                           ProductModel product = ProductModel(
+                            category: _categoryController.text,
                             name: _nameController.text,
                             code: _codeController.text,
                             price: _priceController.text,

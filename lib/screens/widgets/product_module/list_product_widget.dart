@@ -6,7 +6,6 @@ import 'package:project_fourth/screens/widgets/product_module/add_product_widget
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class ListProducts extends StatefulWidget {
   const ListProducts({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _ListProductsState extends State<ListProducts> {
     getAllCategories();
   }
 
-  Future<void> showDeleteConfirmationDialog(ProductModel cat) async {
+  Future<void> showDeleteConfirmationDialog(ProductModel pro) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -39,10 +38,10 @@ class _ListProductsState extends State<ListProducts> {
             ),
             TextButton(
               onPressed: () {
-                if (cat.id != null) {
-                  // deleteCategory(cat.id!);
+                if (pro.id != null) {
+                   deleteProducts(pro.id!);
                 } else {
-                  const Text('Category ID is null, unable to delete');
+                  const Text('Product ID is null, unable to delete');
                 }
                 Navigator.of(context).pop(true);
               },
@@ -94,13 +93,13 @@ class _ListProductsState extends State<ListProducts> {
           valueListenable: productListNotifier,
           builder: (context, products, _) {
             if (products.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text(
                   'Product List is Empty',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromARGB(137, 0, 0, 0),
                   ),
                 ),
               );
@@ -218,8 +217,8 @@ class _ListProductsState extends State<ListProducts> {
               shape: const CircleBorder(),
               onPressed: () {
                 //Add Product Scan page navigation here
-                Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const BarcodeApp()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const BarcodeApp()));
               },
               child: const ColorFiltered(
                 colorFilter: ColorFilter.mode(

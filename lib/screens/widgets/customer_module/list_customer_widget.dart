@@ -28,7 +28,7 @@ class _ListCustomerState extends State<ListCustomer> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this category?"),
+          content: const Text("Are you sure you want to delete this customer?"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -38,11 +38,14 @@ class _ListCustomerState extends State<ListCustomer> {
             ),
             TextButton(
               onPressed: () {
-                print('The Product ID is:');
-                print(id);
                 deleteCustomers(id);
-
                 Navigator.of(context).pop(true);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Customer deleted successfully!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               },
               child: const Text("Yes"),
             ),
@@ -159,18 +162,10 @@ class _ListCustomerState extends State<ListCustomer> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 20),
                                     child: GestureDetector(
-                                      onTap: ()
-                                          // Show delete confirmation dialog
-                                          //showDeleteConfirmationDialog(
-                                          //  customer.id);
-                                          async {
-                                        print('Id Generated is:');
-                                        print(customer.id.toString());
-                                        await deleteCustomers(customer.id!);
-                                        setState(() {
-                                          // Remove the deleted customer from the list
-                                          customers.remove(customer);
-                                        });
+                                      onTap: () {
+                                        // Show delete confirmation dialog
+                                        showDeleteConfirmationDialog(
+                                            customer.id!);
                                       },
                                       child: Container(
                                         width: 30,
@@ -247,8 +242,7 @@ class _ListCustomerState extends State<ListCustomer> {
               break;
             case 2:
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const ListCategories()
-                  ));
+                  builder: (context) => const ListCategories()));
               break;
             case 3:
               Navigator.of(context).pushReplacement(MaterialPageRoute(

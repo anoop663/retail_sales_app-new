@@ -55,14 +55,17 @@ Future<void> addCustomers(CustomerModel category) async {
 Future<void> deleteCustomers(int id) async {
   try {
     final box1 = await Hive.openBox<CustomerModel>('customer_db');
-    await box1.delete(id);
-    await box1.compact();
-    print('Category with ID $id deleted successfully.');
+    // Iterate through the box and delete entries with matching ID
+    final keys = box1.keys.toList();
+    for (var key in keys) {
+      final customer = box1.get(key);
+      if (customer != null && customer.id == id) {
+        await box1.delete(key);
+      }
+    }
     customerListNotifier.value.clear();
-
-    await box1.close();
   } catch (e) {
-    print('Error deleting category: $e');
+    print('Error deleting customers: $e');
   }
   await getAllCustomers();
 }

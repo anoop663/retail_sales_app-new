@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:typed_data';
 
-//CAtegory Controllers are given below
+//Category Controllers are given below
+
 ValueNotifier<List<CategoryModel>> categoryListNotifier = ValueNotifier([]);
 
 Future<void> getAllCategories() async {
@@ -14,9 +16,6 @@ Future<void> getAllCategories() async {
   categoryListNotifier.notifyListeners();
   print('All Categories are listed');
 }
-
-// Function to delete a category in Hive
-
 
 // Function to update a category in Hive
 Future<void> updateCategory(CategoryModel updatedCategory) async {
@@ -36,11 +35,6 @@ Future<void> updateCategory(CategoryModel updatedCategory) async {
   getAllCategories();
 }
 
-//Future<void> addCategory(CategoryModel categories) async {
-//  final box1 = await Hive.openBox<CategoryModel>('product_db');
-//  await box1.add(categories);
-//  getAllCategories();
-//}
 
 Future<void> addCategory(CategoryModel category) async {
   final box1 = await Hive.openBox<CategoryModel>('product_db');
@@ -53,31 +47,33 @@ Future<void> addCategory(CategoryModel category) async {
   getAllCategories();
 } 
 
+
 Future<void> deleteCategory(int id) async {
   try {
     final box1 = await Hive.openBox<CategoryModel>('product_db');
-      await box1.delete(id);
-      print('Category with ID $id deleted successfully.');
-      categoryListNotifier.value.clear();
-      
-    await box1.close();
+    // Iterate through the box and delete entries with matching ID
+    final keys = box1.keys.toList();
+    for (var key in keys) {
+      final category = box1.get(key);
+      if (category != null && category.id == id) {
+        await box1.delete(key);
+      }
+    }
+    categoryListNotifier.value.clear();
   } catch (e) {
-    print('Error deleting category: $e');
+    print('Error deleting customers: $e');
   }
-  await getAllCategories();
-
+  await  getAllCategories();
 }
 
 
-//Product Controllers are given below
-
-
+// Product Controllers are given below //
 
 
 ValueNotifier<List<ProductModel>> productListNotifier = ValueNotifier([]);
 
 Future<void> getAllProducts() async {
-  final box1 = await Hive.openBox<ProductModel>('product_db');
+  final box1 = await Hive.openBox<ProductModel>('product_db2');
   productListNotifier.value.clear();
   productListNotifier.value.addAll(box1.values);
   // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
@@ -90,7 +86,7 @@ Future<void> getAllProducts() async {
 // Function to update a category in Hive
 Future<void> updateProducts(ProductModel updatedProduct) async {
   try {
-    var box1 = await Hive.openBox<ProductModel>('product_db');
+    var box1 = await Hive.openBox<ProductModel>('product_db2');
     int index =
         box1.values.toList().indexWhere((cat) => cat.id == updatedProduct.id);
     if (index != -1) {
@@ -108,26 +104,37 @@ Future<void> updateProducts(ProductModel updatedProduct) async {
 
 
 Future<void> addProducts(ProductModel product) async {
-  final box1 = await Hive.openBox<ProductModel>('product_db');
+  final box1 = await Hive.openBox<ProductModel>('product_db2');
   const uuid = Uuid();
   final uuidString = uuid.v4(); // Generate UUID as a string
   final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+
   product.id = id;
+
+  // Convert the image to a byte array
+  Uint8List? imageBytes = product.image;
+
+  product.image = imageBytes; // Assign the image byte array to the product model
+
   await box1.add(product);
 
   getAllProducts();
-} 
+}
 
 Future<void> deleteProducts(int id) async {
   try {
-    final box1 = await Hive.openBox<ProductModel>('product_db');
-      await box1.delete(id);
-      print('Product with ID $id deleted successfully.');
-      productListNotifier.value.clear();
-      
-    await box1.close();
+    final box1 = await Hive.openBox<ProductModel>('product_db2');
+    // Iterate through the box and delete entries with matching ID
+    final keys = box1.keys.toList();
+    for (var key in keys) {
+      final product = box1.get(key);
+      if (product != null && product.id == id) {
+        await box1.delete(key);
+      }
+    }
+    productListNotifier.value.clear();
   } catch (e) {
-    print('Error deleting Product: $e');
+    print('Error deleting customers: $e');
   }
-  await getAllProducts();
+  await  getAllProducts();
 }

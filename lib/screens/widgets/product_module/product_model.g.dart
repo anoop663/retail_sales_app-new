@@ -54,33 +54,36 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductModel(
-      name: fields[0] as String,
-      code: fields[1] as String,
-      stock: fields[3] as String,
-      price: fields[2] as String,
-      date: fields[4] as String,
-      image: fields[5] as String?,
-      id: fields[6] as int?,
+      category: fields[0] as String,
+      name: fields[1] as String,
+      code: fields[2] as String,
+      stock: fields[4] as String,
+      price: fields[3] as String,
+      date: fields[5] as String,
+      image: fields[6] as Uint8List?,
+      id: fields[7] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.category)
       ..writeByte(1)
-      ..write(obj.code)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.price)
+      ..write(obj.code)
       ..writeByte(3)
-      ..write(obj.stock)
+      ..write(obj.price)
       ..writeByte(4)
-      ..write(obj.date)
+      ..write(obj.stock)
       ..writeByte(5)
-      ..write(obj.image)
+      ..write(obj.date)
       ..writeByte(6)
+      ..write(obj.image)
+      ..writeByte(7)
       ..write(obj.id);
   }
 

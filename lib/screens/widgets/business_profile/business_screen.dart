@@ -240,6 +240,7 @@ class _BusinessProfileState extends State<BusinessProfile> {
                     widget.business!.phone = _phoneController.text;
                     widget.business!.address = _addressController.text;
                     await updateBusiness(widget.business!);
+                    await getAllBusines();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Business data updated successfully!'),

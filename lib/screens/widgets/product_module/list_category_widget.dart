@@ -38,11 +38,15 @@ class _ListCategoriesState extends State<ListCategories> {
             ),
             TextButton(
               onPressed: () {
-                print('The Product ID is:');
-                print(id);
                 deleteCategory(id);
-
                 Navigator.of(context).pop(true);
+                 Navigator.of(context).pop(true);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Category deleted successfully!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               },
               child: const Text("Yes"),
             ),
@@ -159,18 +163,10 @@ class _ListCategoriesState extends State<ListCategories> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 20),
                                     child: GestureDetector(
-                                      onTap: ()
-                                          // Show delete confirmation dialog
-                                          //showDeleteConfirmationDialog(
-                                          //  category.id);
-                                          async {
-                                        print('Id Generated is:');
-                                        print(category.id.toString());
-                                        await deleteCategory(category.id!);
-                                        setState(() {
-                                          // Remove the deleted category from the list
-                                          categories.remove(category);
-                                        });
+                                      onTap: () {
+                                        // Show delete confirmation dialog
+                                        showDeleteConfirmationDialog(
+                                            category.id!);
                                       },
                                       child: Container(
                                         width: 30,

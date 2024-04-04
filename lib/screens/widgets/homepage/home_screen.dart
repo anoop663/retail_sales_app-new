@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_card.dart';
 import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
-//import 'package:project_fourth/screens/widgets/business_profile/business_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 

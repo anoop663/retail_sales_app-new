@@ -16,19 +16,23 @@ Future<void> getAllBusines() async {
   print('All Categories are listed');
 }
 
-// Function to update a category in Hive
 Future<void> updateBusiness(RetailModel2 business) async {
-  final retailDB1 = await Hive.openBox<RetailModel2>('retail_db');
-  if (retailDB1.isNotEmpty && retailDB1.containsKey(business.id)) {
-    await retailDB1.put(business.id, business);
-    final keys = retailDB1.keys;
-    final id = keys.isNotEmpty ? keys.first : null;
-    if (id != null) {
-      await retailDB1.put(id, business);
-      getAllBusines();
-    }
+  try {
+    var retailDB1 = await Hive.openBox<RetailModel2>('retail_db');
+    int index =
+        retailDB1.values.toList().indexWhere((bus) => bus.id == business.id);
+    if (index != -1) {
+      retailDB1.putAt(index, business);
+    } else {
+      throw 'Category not found';
+    } // Notify listeners after updating
+  } catch (error) {
+    print('Failed to update busniss data: $error');
+    throw 'Failed to update busniss data: $error';
   }
+  getAllBusines();
 }
+
 
 Future<void> addBusiness(RetailModel2 business) async {
   final retailDB = await Hive.openBox<RetailModel2>('retail_db');
@@ -37,9 +41,5 @@ Future<void> addBusiness(RetailModel2 business) async {
   final id = uuidString.hashCode.abs(); // Convert UUID string to integer
   business.id = id;
   await retailDB.add(business);
-  print(business.id.toString());
-  print(business.name);
-  print(business.phone);
-  print(business.address);
   getAllBusines();
 }
