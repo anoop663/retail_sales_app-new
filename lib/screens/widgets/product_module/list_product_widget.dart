@@ -24,13 +24,13 @@ class _ListProductsState extends State<ListProducts> {
     initializeHive();
   }
 
-  Future<void> showDeleteConfirmationDialog(ProductModel pro) async {
+  Future<void> showDeleteConfirmationDialog(int id) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this category?"),
+          content: const Text("Are you sure you want to delete this product?"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -40,12 +40,14 @@ class _ListProductsState extends State<ListProducts> {
             ),
             TextButton(
               onPressed: () {
-                if (pro.id != null) {
-                  deleteProducts(pro.id!);
-                } else {
-                  const Text('Product ID is null, unable to delete');
-                }
+                deleteProducts(id);
                 Navigator.of(context).pop(true);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Product deleted successfully!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               },
               child: const Text("Yes"),
             ),
@@ -185,7 +187,7 @@ class _ListProductsState extends State<ListProducts> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: GestureDetector(
                                   onTap: () {
-                                    showDeleteConfirmationDialog(product);
+                                    showDeleteConfirmationDialog(product.id!);
                                   },
                                   child: Container(
                                     width: 30,

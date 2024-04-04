@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
@@ -13,6 +11,7 @@ class OutofStock extends StatefulWidget {
   const OutofStock({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _OutofStockState createState() => _OutofStockState();
 }
 
@@ -24,7 +23,7 @@ class _OutofStockState extends State<OutofStock> {
     initializeHive();
   }
 
-  Future<void> showDeleteConfirmationDialog(ProductModel pro) async {
+  Future<void> showDeleteConfirmationDialog(int id) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -40,12 +39,14 @@ class _OutofStockState extends State<OutofStock> {
             ),
             TextButton(
               onPressed: () {
-                if (pro.id != null) {
-                  deleteProducts(pro.id!);
-                } else {
-                  const Text('Product ID is null, unable to delete');
-                }
+                deleteProducts(id);
                 Navigator.of(context).pop(true);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Product deleted successfully!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               },
               child: const Text("Yes"),
             ),
@@ -94,7 +95,8 @@ class _OutofStockState extends State<OutofStock> {
         child: ValueListenableBuilder<List<ProductModel>>(
           valueListenable: productListNotifier,
           builder: (context, products, _) {
-            final outOfStockProducts = products.where((product) => product.stock == null || product.stock == "0").toList();
+            final outOfStockProducts =
+                products.where((product) => product.stock == "0").toList();
             if (outOfStockProducts.isEmpty) {
               return const Center(
                 child: Text(
@@ -186,7 +188,7 @@ class _OutofStockState extends State<OutofStock> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: GestureDetector(
                                   onTap: () {
-                                    showDeleteConfirmationDialog(product);
+                                    showDeleteConfirmationDialog(product.id!);
                                   },
                                   child: Container(
                                     width: 30,
@@ -212,14 +214,11 @@ class _OutofStockState extends State<OutofStock> {
                 separatorBuilder: (BuildContext context, int index) =>
                     const SizedBox(height: 14),
                 itemCount: outOfStockProducts.length,
-                
-
               );
             }
           },
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

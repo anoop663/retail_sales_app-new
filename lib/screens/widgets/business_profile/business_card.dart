@@ -159,14 +159,14 @@ class _BusinessCardState extends State<BusinessCard> {
                                               0XFF4B4B87), // Background color
                                         ),
                                         child: Container(
-                                          width: 60,
-                                          height: 20,
+                                          width: 40,
+                                          height: 16,
                                           alignment: Alignment.center,
                                           child: const Text(
                                             'Update',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 16,
+                                              fontSize: 12,
                                             ),
                                           ),
                                         ),
