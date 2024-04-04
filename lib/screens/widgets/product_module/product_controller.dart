@@ -134,3 +134,5 @@ Future<void> deleteProducts(int id) async {
     await Hive.openBox<ProductModel>('product_db2');
     getAllProducts(); // Fetch products from Hive
   }
+
+  

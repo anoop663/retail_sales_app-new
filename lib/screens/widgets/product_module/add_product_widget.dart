@@ -171,8 +171,6 @@ class _AddProductsState extends State<AddProducts> {
                       ),
                     ),
                   ),
-                  // Remaining widgets
-                  // Product Name, Code, Price, Stock, Expiry Date, Image Capture Button, Show Captured Image, Create/Update Button
                   const SizedBox(height: 20),
                   const Text(
                     'Product Name',
