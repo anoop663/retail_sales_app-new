@@ -9,6 +9,7 @@ class AddCategory extends StatefulWidget {
   const AddCategory({Key? key, this.category}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddCategoryState createState() => _AddCategoryState();
 }
 
@@ -124,6 +125,7 @@ class _AddCategoryState extends State<AddCategory> {
                   if (widget.category != null) {
                     widget.category!.name = _nameController.text;
                     await updateCategory( widget.category!);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Category updated successfully!'),
@@ -134,6 +136,7 @@ class _AddCategoryState extends State<AddCategory> {
                     CategoryModel category =
                         CategoryModel(name: _nameController.text);
                     await addCategory(category);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Category created successfully!'),
@@ -143,6 +146,7 @@ class _AddCategoryState extends State<AddCategory> {
                   }
                   
                   // Navigate back to the category list page and pass a flag to indicate refreshing
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop(true);
                 },
                 style: ElevatedButton.styleFrom(

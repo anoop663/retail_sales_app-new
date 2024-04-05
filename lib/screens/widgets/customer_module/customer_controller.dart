@@ -12,6 +12,7 @@ Future<void> getAllCustomers() async {
   customerListNotifier.value.addAll(box1.values);
   // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   customerListNotifier.notifyListeners();
+  // ignore: avoid_print
   print('All Categories are listed');
 }
 
@@ -29,6 +30,7 @@ Future<void> updateCustomers(CustomerModel updatedCategory) async {
       throw 'Category not found';
     } // Notify listeners after updating
   } catch (error) {
+    // ignore: avoid_print
     print('Failed to update category: $error');
     throw 'Failed to update category: $error';
   }
@@ -65,6 +67,7 @@ Future<void> deleteCustomers(int id) async {
     }
     customerListNotifier.value.clear();
   } catch (e) {
+    // ignore: avoid_print
     print('Error deleting customers: $e');
   }
   await getAllCustomers();

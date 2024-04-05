@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-//import 'package:project_fourth/db/models/data_model.dart';
 import 'package:project_fourth/screen_splash.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';

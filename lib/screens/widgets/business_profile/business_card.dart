@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_controller.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_screen.dart';
+import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
@@ -17,7 +18,6 @@ class _BusinessCardState extends State<BusinessCard> {
   @override
   void initState() {
     super.initState();
-    // Initialize customer list when the widget is first initialized
     getAllBusines();
   }
 
@@ -59,7 +59,6 @@ class _BusinessCardState extends State<BusinessCard> {
         child: ValueListenableBuilder<List<RetailModel2>>(
           valueListenable: businessListNotifier,
           builder: (context, business1, _) {
-            // Log the length of customers to verify if data exists
             // ignore: avoid_print
             print('Busniess length: ${business1.length}');
             return business1.isEmpty
@@ -74,7 +73,8 @@ class _BusinessCardState extends State<BusinessCard> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4B4B87), // Background color
+                        backgroundColor:
+                            const Color(0xFF4B4B87), // Background color
                         foregroundColor: Colors.white, // Text color
                       ),
                       child: const Text('Add your Business Profile'),
@@ -219,7 +219,8 @@ class _BusinessCardState extends State<BusinessCard> {
               ));
               break;
             case 1:
-              // Navigate to customers page
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const ListCustomer()));
               break;
             case 2:
               Navigator.of(context).pushReplacement(MaterialPageRoute(

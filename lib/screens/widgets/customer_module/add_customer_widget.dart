@@ -1,4 +1,3 @@
-// add_category_widget.dart
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
@@ -10,6 +9,7 @@ class AddCustomer extends StatefulWidget {
   const AddCustomer({Key? key, this.customer}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddCustomerState createState() => _AddCustomerState();
 }
 
@@ -241,6 +241,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     widget.customer!.phone = _phoneController.text;
                     widget.customer!.address = _addressController.text;
                     await updateCustomers( widget.customer!);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Customer data updated successfully!'),
@@ -251,6 +252,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     CustomerModel customer1 =
                         CustomerModel(name:  _nameController.text, phone:  _phoneController.text, address:  _addressController.text);
                     await addCustomers(customer1);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Customer created successfully!'),
@@ -260,6 +262,7 @@ class _AddCustomerState extends State<AddCustomer> {
                   }
                   
                   // Navigate back to the customer list page and pass a flag to indicate refreshing
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop(true);
                 },
                 style: ElevatedButton.styleFrom(

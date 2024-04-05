@@ -8,6 +8,7 @@ class BusinessProfile extends StatefulWidget {
   const BusinessProfile({Key? key, this.business}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _BusinessProfileState createState() => _BusinessProfileState();
 }
 
@@ -241,6 +242,7 @@ class _BusinessProfileState extends State<BusinessProfile> {
                     widget.business!.address = _addressController.text;
                     await updateBusiness(widget.business!);
                     await getAllBusines();
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Business data updated successfully!'),
@@ -253,6 +255,7 @@ class _BusinessProfileState extends State<BusinessProfile> {
                         phone: _phoneController.text,
                         address: _addressController.text);
                     await addBusiness(business1);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Business created successfully!'),
@@ -262,6 +265,7 @@ class _BusinessProfileState extends State<BusinessProfile> {
                   }
 
                   // Navigate back to the business list page and pass a flag to indicate refreshing
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop(true);
                 },
                 style: ElevatedButton.styleFrom(

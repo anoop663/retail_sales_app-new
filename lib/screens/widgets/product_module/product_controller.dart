@@ -13,6 +13,7 @@ Future<void> getAllCategories() async {
   categoryListNotifier.value.addAll(box1.values);
   // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   categoryListNotifier.notifyListeners();
+  // ignore: avoid_print
   print('All Categories are listed');
 }
 
@@ -28,6 +29,7 @@ Future<void> updateCategory(CategoryModel updatedCategory) async {
       throw 'Category not found';
     } // Notify listeners after updating
   } catch (error) {
+    // ignore: avoid_print
     print('Failed to update category: $error');
     throw 'Failed to update category: $error';
   }
@@ -60,6 +62,7 @@ Future<void> deleteCategory(int id) async {
     }
     categoryListNotifier.value.clear();
   } catch (e) {
+    // ignore: avoid_print
     print('Error deleting customers: $e');
   }
   await  getAllCategories();
@@ -77,6 +80,7 @@ Future<void> getAllProducts() async {
   productListNotifier.value.addAll(box1.values);
   // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   productListNotifier.notifyListeners();
+  // ignore: avoid_print
   print('All Categories are listed');
 }
 
@@ -94,6 +98,7 @@ Future<void> updateProducts(ProductModel updatedProduct) async {
       throw 'Product not found';
     } // Notify listeners after updating
   } catch (error) {
+    // ignore: avoid_print
     print('Failed to update product: $error');
     throw 'Failed to update product: $error';
   }
@@ -125,6 +130,7 @@ Future<void> deleteProducts(int id) async {
     }
     productListNotifier.value.clear();
   } catch (e) {
+    // ignore: avoid_print
     print('Error deleting customers: $e');
   }
   await  getAllProducts();

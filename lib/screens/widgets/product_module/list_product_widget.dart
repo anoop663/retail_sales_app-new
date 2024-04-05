@@ -13,10 +13,12 @@ class ListProducts extends StatefulWidget {
   const ListProducts({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ListProductsState createState() => _ListProductsState();
 }
 
 class _ListProductsState extends State<ListProducts> {
+  // ignore: prefer_final_fields
   TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
 

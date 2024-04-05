@@ -142,6 +142,7 @@ class _AddProductsState extends State<AddProducts> {
                       }).toList(),
                       onChanged: (CategoryModel? value) {
                         // Do something with the selected category
+                        // ignore: avoid_print
                         print('Selected category: ${value?.name}');
                       },
                       decoration: InputDecoration(
@@ -490,6 +491,7 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.image =
                               imagePath; // Update image path
                           await updateProducts(widget.product!);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product updated successfully!'),
@@ -507,6 +509,7 @@ class _AddProductsState extends State<AddProducts> {
                             image: imagePath, // Add image path
                           );
                           await addProducts(product);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product created successfully!'),
