@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart'; // Assuming SalesModel is imported from an external file
 
 class AddSales extends StatefulWidget {
@@ -56,6 +57,7 @@ class _AddSalesState extends State<AddSales> {
             builder: (context, AsyncSnapshot<Box<ProductModel>> snapshot1) {
               if (snapshot1.connectionState == ConnectionState.done) {
                 final productBox = snapshot1.data!;
+                // ignore: unused_local_variable
                 final products = productBox.values.toList();
 
                 return Scaffold(
@@ -332,8 +334,8 @@ class _AddSalesState extends State<AddSales> {
                           ),
                         ),
                         const SizedBox(height: 50),
-                        const Text(
-                          'Select Product',
+                         const Text(
+                          'Products',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -342,163 +344,7 @@ class _AddSalesState extends State<AddSales> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: DropdownButtonFormField<ProductModel>(
-                            items: products.map((product) {
-                              return DropdownMenuItem<ProductModel>(
-                                value: product,
-                                child: Text(product.name),
-                              );
-                            }).toList(),
-                            onChanged: (ProductModel? value) {
-                              // Do something with the selected category
-                              // ignore: avoid_print
-                              print('Selected Product: ${value?.name}');
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Select Product",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Nos',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            controller: _nosController,
-                            decoration: InputDecoration(
-                              hintText: "Nos",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Total',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            controller: _totalController,
-                            decoration: InputDecoration(
-                              hintText: "Total",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
+                        AddSalesDynamic(),
                         const SizedBox(height: 20),
                         const Text(
                           'Grand Total',
