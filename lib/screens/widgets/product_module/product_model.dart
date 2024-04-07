@@ -5,13 +5,11 @@ part 'product_model.g.dart';
 class CategoryModel {
   @HiveField(0)
   late String name;
-
   @HiveField(1)
-  int? id; // Change id to non-nullable int
-
+  int? id; 
   CategoryModel({
     required this.name,
-    this.id, // Update constructor to require id
+    this.id,
   });
 }
 
