@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
      // var categories;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
       );
     });
 

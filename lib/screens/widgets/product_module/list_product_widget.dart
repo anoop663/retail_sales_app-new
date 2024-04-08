@@ -285,7 +285,7 @@ class _ListProductsState extends State<ListProducts> {
         ],
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30.0),
+        padding: const EdgeInsets.only(left: 30.0,bottom: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -321,49 +321,6 @@ class _ListProductsState extends State<ListProducts> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Home1.png'),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Customers1.png'),
-            label: 'Customers',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Categories1.png'),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Product1.png'),
-            label: 'Products',
-          ),
-        ],
-        selectedItemColor: const Color(0xFF4B4B87),
-        unselectedItemColor: const Color.fromARGB(255, 121, 119, 119),
-        currentIndex: 3,
-        onTap: (int index) {
-          switch (index) {
-            case 0:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ));
-              break;
-            case 1:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const ListCustomer()));
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const ListCategories()));
-              break;
-            case 3:
-              // Navigate to products page
-              break;
-          }
-        },
       ),
     );
   }

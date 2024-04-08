@@ -197,61 +197,20 @@ class _ListCustomerState extends State<ListCustomer> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF4B4B87),
-        tooltip: 'New Customer',
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddCustomer()),
-          );
-        },
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Home1.png'),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Customers1.png'),
-            label: 'Customers',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Categories1.png'),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Product1.png'),
-            label: 'Products',
-          ),
-        ],
-        selectedItemColor: const Color(0xFF4B4B87),
-        unselectedItemColor: const Color.fromARGB(255, 121, 119, 119),
-        currentIndex: 1,
-        onTap: (int index) {
-          switch (index) {
-            case 0:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ));
-              break;
-            case 1:
-              // Navigate to customers page
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const ListCategories()));
-              break;
-            case 3:
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const ListProducts(),
-              ));
-              break;
-          }
-        },
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(left: 30.0,bottom: 50),
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xFF4B4B87),
+          tooltip: 'New Customer',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddCustomer()),
+            );
+          },
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add, color: Colors.white, size: 28),
+        ),
       ),
     );
   }

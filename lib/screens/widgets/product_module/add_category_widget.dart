@@ -135,6 +135,7 @@ class _AddCategoryState extends State<AddCategory> {
                   } else {
                     CategoryModel category =
                         CategoryModel(name: _nameController.text);
+                    
                     await addCategory(category);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(

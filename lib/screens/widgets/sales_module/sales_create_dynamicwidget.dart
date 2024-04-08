@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class AddSalesDynamic extends StatefulWidget {
   @override
@@ -24,7 +24,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   Future<void> loadProducts() async {
     final productBox = await Hive.openBox<ProductModel>('product_db2');
     setState(() {
-
       products.addAll(productBox.values);
     });
   }
@@ -67,11 +66,15 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          // Scan QR code
-                          Navigator.push(
+                          () async {
+                            var res = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>const BarcodeApp()));
+                                builder: (context) =>
+                                    const SimpleBarcodeScannerPage(),
+                              ),
+                            );
+                          };
                         },
                         child: Material(
                           color: Colors.white,
@@ -110,10 +113,12 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                           );
                         }).toList(),
                         onChanged: (ProductModel? value) {
+                          double price1 = double.parse(value!.price);
                           setState(() {
                             nosControllers[i].text = '1';
+                            int nos1 = int.parse(nosControllers[i].text);
                             totalControllers[i].text =
-                                (value!.price * int.parse(nosControllers[i].text));
+                                (nos1 * price1).toString();
                           });
                         },
                         decoration: InputDecoration(
@@ -191,10 +196,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         ),
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
-                          setState(() {
-                            totalControllers[i].text =
-                                (double.parse(value) * int.parse(nosControllers[i].text)).toStringAsFixed(2);
-                          });
+                          final int nos = int.parse(value);
+                          final double initialTotalPrice =
+                              double.parse(totalControllers[i].text);
+                          final double newTotalPrice = initialTotalPrice * nos;
+                          totalControllers[i].text = newTotalPrice.toString();
                         },
                       ),
                     ),

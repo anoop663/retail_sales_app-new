@@ -4,59 +4,72 @@ import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 
-class BottomNavigation extends StatelessWidget {
+class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key});
+
+  @override
+  _BottomNavigationState createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends State<BottomNavigation> {
+  int _currentIndex = 0; // Track the current index of the bottom navigation bar
+
+  final List<Widget> _pages = [
+    const HomePage(),
+    const ListCustomer(),
+    const ListCategories(),
+    const ListProducts(),
+  ]; // List of pages to switch between
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/home_notselec.png'),
-            activeIcon: Image.asset('lib/assets/Home1.png'), // Different icon for selected state
-            label: 'Home',
+      body: Stack(
+        children: [
+          // Display the current page based on the selected index
+          IndexedStack(
+            index: _currentIndex,
+            children: _pages,
           ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Customers1.png'),
-            activeIcon: Image.asset('lib/assets/cust_select.png'), // Different icon for selected state
-            label: 'Customers',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Categories1.png'),
-            activeIcon: Image.asset('lib/assets/cat_select.png'), // Different icon for selected state
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset('lib/assets/Product1.png'),
-            activeIcon: Image.asset('lib/assets/prod_select.png'), // Different icon for selected state
-            label: 'Products',
+          Positioned(
+            // Bottom navigation bar positioned at the bottom of the screen
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BottomNavigationBar(
+              items: [
+                BottomNavigationBarItem(
+                  icon: Image.asset('lib/assets/home_notselec.png'),
+                  activeIcon: Image.asset('lib/assets/Home1.png'),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset('lib/assets/Customers1.png'),
+                  activeIcon: Image.asset('lib/assets/cust_select.png'),
+                  label: 'Customers',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset('lib/assets/Categories1.png'),
+                  activeIcon: Image.asset('lib/assets/cat_select.png'),
+                  label: 'Categories',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset('lib/assets/Product1.png'),
+                  activeIcon: Image.asset('lib/assets/prod_select.png'),
+                  label: 'Products',
+                ),
+              ],
+              selectedItemColor: const Color(0xFF4B4B87),
+              unselectedItemColor: const Color.fromARGB(255, 121, 119, 119),
+              currentIndex: _currentIndex,
+              onTap: (int index) {
+                setState(() {
+                  _currentIndex = index; // Update the selected index
+                });
+              },
+            ),
           ),
         ],
-        selectedItemColor: const Color(0xFF4B4B87),
-        unselectedItemColor: const Color.fromARGB(255, 121, 119, 119),
-        currentIndex: 0, // Set the initial selected item index
-        onTap: (int index) {
-          // Handle navigation when items are tapped
-          switch (index) {
-            case 0:
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const HomePage()));
-              break;
-            case 1:
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ListCustomer()));
-              break;
-            case 2:
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ListCategories()));
-              break;
-            case 3:
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ListProducts()));
-              break;
-          }
-        },
       ),
     );
   }
