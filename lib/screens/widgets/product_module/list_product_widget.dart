@@ -1,33 +1,39 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+
+extension IterableExtension<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T) test) {
+    for (final element in this) {
+      if (test(element)) {
+        return element;
+      }
+    }
+    return null;
+  }
+}
 
 class ListProducts extends StatefulWidget {
   const ListProducts({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _ListProductsState createState() => _ListProductsState();
 }
 
 class _ListProductsState extends State<ListProducts> {
-  // ignore: prefer_final_fields
+  String result = '';
   TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize Hive when the widget is first initialized
     initializeHive();
-    _allProducts = productListNotifier.value; // Store all products initially
+    _allProducts = productListNotifier.value;
   }
 
   Future<void> showDeleteConfirmationDialog(int id) async {
@@ -142,7 +148,6 @@ class _ListProductsState extends State<ListProducts> {
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
-                  // Filter products based on the entered text
                   filterProducts(value);
                 },
               ),
@@ -190,11 +195,9 @@ class _ListProductsState extends State<ListProducts> {
                               child: CircleAvatar(
                                 radius: 26,
                                 backgroundImage: product.image != null
-                                    ? FileImage(File(product
-                                        .image!)) // Load image from file path
+                                    ? FileImage(File(product.image!))
                                     : const AssetImage(
-                                            'lib/assets/app_icon.png')
-                                        as ImageProvider<Object>?,
+                                        'lib/assets/app_icon.png') as ImageProvider<Object>?,
                               ),
                             ),
                             title: Row(
@@ -285,7 +288,7 @@ class _ListProductsState extends State<ListProducts> {
         ],
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30.0,bottom: 50),
+        padding: const EdgeInsets.only(left: 30.0, bottom: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -294,10 +297,19 @@ class _ListProductsState extends State<ListProducts> {
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'Scan Button',
               shape: const CircleBorder(),
-              onPressed: () {
-                //Add Product Scan page navigation here
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const BarcodeApp()));
+              onPressed: () async {
+                var res = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SimpleBarcodeScannerPage(),
+                  ),
+                );
+                if (res is String) {
+                  setState(() {
+                    result = res;
+                  });
+                  filterProducts(_searchController.text);
+                }
               },
               child: const ColorFiltered(
                 colorFilter: ColorFilter.mode(
@@ -307,13 +319,12 @@ class _ListProductsState extends State<ListProducts> {
                 child: ImageIcon(AssetImage('lib/assets/scan1.png')),
               ),
             ),
-            const SizedBox(width: 12), // Add space between the buttons
+            const SizedBox(width: 12),
             FloatingActionButton(
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'New Product',
               shape: const CircleBorder(),
               onPressed: () {
-                //Add Product page navigation
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));
               },
@@ -331,10 +342,25 @@ class _ListProductsState extends State<ListProducts> {
       productListNotifier.value = _allProducts;
       return;
     }
+
+    // Check if the scanned result matches any product code
+    ProductModel? scannedProduct;
+    if (result.isNotEmpty) {
+      scannedProduct = _allProducts.firstWhereOrNull(
+        (product) => product.code == result,
+      );
+    }
+
     // Filter products based on the entered text
     List<ProductModel> filteredProducts = _allProducts.where((product) {
       return product.name.toLowerCase().contains(value.toLowerCase());
     }).toList();
+
+    // If the scanned product is found, show only that product
+    if (scannedProduct != null) {
+      filteredProducts = [scannedProduct];
+    }
+
     // Update the ValueListenable with the filtered products
     productListNotifier.value = filteredProducts;
   }
