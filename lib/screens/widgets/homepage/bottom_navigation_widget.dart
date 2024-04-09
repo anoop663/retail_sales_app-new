@@ -3,6 +3,7 @@ import 'package:project_fourth/screens/widgets/customer_module/list_customer_wid
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int initialIndex; // Index to be initially selected
@@ -19,8 +20,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _pages = [
     const HomePage(),
     const ListCategories(),
-    const ListProducts(),
+     const ListProducts(),
     const ListCustomer(),
+    const ListSales(),
+    
+   
   ]; // List of pages to switch between
 
   @override

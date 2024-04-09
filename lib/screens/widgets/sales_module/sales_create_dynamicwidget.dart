@@ -13,6 +13,8 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
   final List<ProductModel?> selectedProducts = [];
+  double grandTotal = 0;
+  final TextEditingController grandTotalController = TextEditingController();
 
   @override
   void initState() {
@@ -30,19 +32,30 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
   void addRow() {
     setState(() {
-      nosControllers.add(TextEditingController());
-      totalControllers.add(TextEditingController());
+      final newNosController = TextEditingController();
+      final newTotalController = TextEditingController();
+      nosControllers.add(newNosController);
+      totalControllers.add(newTotalController);
       selectedProducts.add(null);
+      newTotalController.addListener(updateGrandTotal);
     });
   }
 
-  void removeRow(int index) {
-    setState(() {
-      nosControllers.removeAt(index);
-      totalControllers.removeAt(index);
-      selectedProducts.removeAt(index);
-    });
+void removeRow(int index) {
+  if (index == 0) {
+    // Clear text fields instead of removing controllers
+    nosControllers[index].clear();
+    totalControllers[index].clear();
+    selectedProducts[index] = null;
+  } else {
+    // Remove controllers from lists
+    nosControllers.removeAt(index);
+    totalControllers[index].removeListener(updateGrandTotal);
+    totalControllers.removeAt(index);
+    selectedProducts.removeAt(index);
   }
+  updateGrandTotal();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +69,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   Widget buildGrandTotalField() {
-    double grandTotal = 0;
-    for (int i = 0; i < totalControllers.length; i++) {
-      if (totalControllers[i].text.isNotEmpty) {
-        grandTotal += double.parse(totalControllers[i].text);
-      }
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Align(
+        const Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Grand Total',
@@ -78,7 +84,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -93,7 +99,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
           ),
           child: TextFormField(
             readOnly: true,
-            initialValue: grandTotal.toString(),
+            controller: grandTotalController,
             decoration: InputDecoration(
               hintText: "Grand Total",
               hintStyle: const TextStyle(
@@ -328,7 +334,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.none,
                   onChanged: (_) => updateGrandTotal(),
                 ),
               ),
@@ -383,12 +389,15 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   void updateGrandTotal() {
-    double grandTotal = 0;
+    double total = 0;
     for (int i = 0; i < totalControllers.length; i++) {
       if (totalControllers[i].text.isNotEmpty) {
-        grandTotal += double.parse(totalControllers[i].text);
+        total += double.parse(totalControllers[i].text);
       }
     }
-    setState(() {});
+    setState(() {
+      grandTotal = total;
+      grandTotalController.text = grandTotal.toString();
+    });
   }
 }

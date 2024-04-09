@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
+import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
@@ -44,728 +45,401 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      drawer:
-          const MyDrawer2(), // Use MyDrawer as the drawer
+      drawer: const MyDrawer2(), // Use MyDrawer as the drawer
 
       backgroundColor: const Color(0xFFF1F5F9),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                //Expanded model for cards
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigation(initialIndex: 1),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 120,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFF6968),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+        child: Column(children: [
+          Row(
+            children: [
+              //Expanded model for cards
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 1),
                         ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 16,
-                              top: 10,
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFF8280),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.asset('lib/assets/Vector2.png'),
-                              ),
-                            ),
-                            const Positioned(
-                              left:
-                                  80, // Adjust left position to align with circle
-                              top: 10, // Adjust top position for alignment
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Categories',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Add some spacing
-                                  Text(
-                                    '8',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 120,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFF6968),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigation(initialIndex: 2),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 16,
+                            top: 10,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFF8280),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset('lib/assets/Vector2.png'),
+                            ),
                           ),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 120,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF7A54FF),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 16,
-                              top: 10,
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF926AFF),
-                                  shape: BoxShape.circle,
+                          const Positioned(
+                            left:
+                                80, // Adjust left position to align with circle
+                            top: 10, // Adjust top position for alignment
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 15),
+                                Text(
+                                  'Categories',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: 'Montserrat',
+                                  ),
                                 ),
-                                child: Image.asset('lib/assets/Vector3.png'),
-                              ),
-                            ),
-                            const Positioned(
-                              left:
-                                  80, // Adjust left position to align with circle
-                              top: 10, // Adjust top position for alignment
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Total Products',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontFamily: 'Montserrat',
-                                    ),
+                                SizedBox(height: 20), // Add some spacing
+                                Text(
+                                  '8',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  SizedBox(height: 20), // Add some spacing
-                                  Text(
-                                    '25',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigation(initialIndex: 3),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 120,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFF8F61),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 16,
-                              top: 10,
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFEA776),
-                                  shape: BoxShape.circle,
                                 ),
-                                child: Image.asset('lib/assets/Vector4.png'),
-                              ),
+                              ],
                             ),
-                            const Positioned(
-                              left:
-                                  80, // Adjust left position to align with circle
-                              top: 10, // Adjust top position for alignment
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Customers',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Add some spacing
-                                  Text(
-                                    '100',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const OutofStock()));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 120,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFF61C0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 16,
-                              top: 10,
-                              child: Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFF8DDF),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.asset('lib/assets/Vector3.png'),
-                              ),
-                            ),
-                            const Positioned(
-                              left:
-                                  80, // Adjust left position to align with circle
-                              top: 10, // Adjust top position for alignment
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Out Of Stock',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Add some spacing
-                                  Text(
-                                    '3',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 30, // Set the desired height here
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: DropdownButton<String>(
-                  value: 'This Week',
-                  onChanged: (String? newValue) {
-                    // Implement onChanged function to handle dropdown value changes
-                    // You can navigate or update state based on the selected value
-                  },
-                  items: <String>['This Week', 'This Month']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          value,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 120,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ListSales()));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity, // Remove the height property here
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFF2AC3FF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 16,
-                          top: 10,
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF38D3FD),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.asset('lib/assets/Vector5.png'),
-                          ),
-                        ),
-                        const Positioned(
-                          left: 80, // Adjust left position to align with circle
-                          top: 10, // Adjust top position for alignment
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 15),
-                              Text(
-                                'Sales',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                              SizedBox(height: 20), // Add some spacing
-                              Text(
-                                '₹324',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 358,
-              height: 258,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    top: 128,
-                    child: Transform(
-                      transform: Matrix4.identity()
-                        ..translate(0.0, 0.0)
-                        ..rotateZ(-1.57),
-                      child: const Text(
-                        'Sales',
-                        style: TextStyle(
-                          color: Color(0xFF4B4B87),
-                          fontSize: 14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 2),
                         ),
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 140,
-                    top: 241,
-                    child: Text(
-                      'Customers',
-                      style: TextStyle(
-                        color: Color(0xFF4B4B87),
-                        fontSize: 14,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 27,
-                    top: 205,
-                    child: Text(
-                      '0',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 50,
-                    top: 223,
-                    child: Text(
-                      'Customer 1',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 130,
-                    top: 223,
-                    child: Text(
-                      'Customer 2',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 210,
-                    top: 223,
-                    child: Text(
-                      'Customer 3',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 290,
-                    top: 223,
-                    child: Text(
-                      'Customer 4',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 29,
-                    top: 164,
-                    child: Text(
-                      '1',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 28,
-                    top: 123,
-                    child: Text(
-                      '2',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 28,
-                    top: 82,
-                    child: Text(
-                      '3',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 27,
-                    top: 41,
-                    child: Text(
-                      '4',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 28,
-                    top: 0,
-                    child: Text(
-                      '5',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 8,
+                      );
+                    },
                     child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 49,
-                    child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 90,
-                    child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 131,
-                    child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 172,
-                    child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 40,
-                    top: 213,
-                    child: Container(
-                      width: 318,
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: Color(0xFFE2E2E2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 63,
-                    top: 7,
-                    child: Container(
-                      width: 30,
-                      height: 206,
+                      width: double.infinity,
+                      height: 120,
                       decoration: ShapeDecoration(
-                        color: const Color(0xFF6659FF),
+                        color: const Color(0xFF7A54FF),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 16,
+                            top: 10,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF926AFF),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset('lib/assets/Vector3.png'),
+                            ),
+                          ),
+                          const Positioned(
+                            left:
+                                80, // Adjust left position to align with circle
+                            top: 10, // Adjust top position for alignment
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 15),
+                                Text(
+                                  'Total Products',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
+                                SizedBox(height: 20), // Add some spacing
+                                Text(
+                                  '25',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 143,
-                    top: 48,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 3),
+                        ),
+                      );
+                    },
                     child: Container(
-                      width: 30,
-                      height: 165,
+                      width: double.infinity,
+                      height: 120,
                       decoration: ShapeDecoration(
-                        color: const Color(0xFFB9EAFF),
+                        color: const Color(0xFFFF8F61),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 16,
+                            top: 10,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFEA776),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset('lib/assets/Vector4.png'),
+                            ),
+                          ),
+                          const Positioned(
+                            left:
+                                80, // Adjust left position to align with circle
+                            top: 10, // Adjust top position for alignment
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 15),
+                                Text(
+                                  'Customers',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
+                                SizedBox(height: 20), // Add some spacing
+                                Text(
+                                  '100',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 223,
-                    top: 130,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const OutofStock()));
+                    },
                     child: Container(
-                      width: 30,
-                      height: 83,
+                      width: double.infinity,
+                      height: 120,
                       decoration: ShapeDecoration(
-                        color: const Color(0xFFBEADFF),
+                        color: const Color(0xFFFF61C0),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 16,
+                            top: 10,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFF8DDF),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset('lib/assets/Vector3.png'),
+                            ),
+                          ),
+                          const Positioned(
+                            left:
+                                80, // Adjust left position to align with circle
+                            top: 10, // Adjust top position for alignment
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 15),
+                                Text(
+                                  'Out Of Stock',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
+                                SizedBox(height: 20), // Add some spacing
+                                Text(
+                                  '3',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 303,
-                    top: 130,
-                    child: Container(
-                      width: 30,
-                      height: 83,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFEB77FF),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 30, // Set the desired height here
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButton<String>(
+                value: 'This Week',
+                onChanged: (String? newValue) {
+                  // Implement onChanged function to handle dropdown value changes
+                  // You can navigate or update state based on the selected value
+                },
+                items: <String>['This Week', 'This Month']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        value,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 120,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ListSales(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity, // Remove the height property here
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF2AC3FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 16,
+                        top: 10,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF38D3FD),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset('lib/assets/Vector5.png'),
+                        ),
+                      ),
+                      const Positioned(
+                        left: 80, // Adjust left position to align with circle
+                        top: 10, // Adjust top position for alignment
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 15),
+                            Text(
+                              'Sales',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                            SizedBox(height: 20), // Add some spacing
+                            Text(
+                              '₹324',
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          const SalesGraphWidget()
+        ]),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(left: 30.0, bottom: 50),
