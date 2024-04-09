@@ -41,21 +41,21 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
     });
   }
 
-void removeRow(int index) {
-  if (index == 0) {
-    // Clear text fields instead of removing controllers
-    nosControllers[index].clear();
-    totalControllers[index].clear();
-    selectedProducts[index] = null;
-  } else {
-    // Remove controllers from lists
-    nosControllers.removeAt(index);
-    totalControllers[index].removeListener(updateGrandTotal);
-    totalControllers.removeAt(index);
-    selectedProducts.removeAt(index);
+  void removeRow(int index) {
+    if (index == 0) {
+      // Clear text fields instead of removing controllers
+      nosControllers[index].clear();
+      totalControllers[index].clear();
+      selectedProducts[index] = null;
+    } else {
+      // Remove controllers from lists
+      nosControllers.removeAt(index);
+      totalControllers[index].removeListener(updateGrandTotal);
+      totalControllers.removeAt(index);
+      selectedProducts.removeAt(index);
+    }
+    updateGrandTotal();
   }
-  updateGrandTotal();
-}
 
   @override
   Widget build(BuildContext context) {
@@ -151,12 +151,29 @@ void removeRow(int index) {
                 ),
                 child: GestureDetector(
                   onTap: () async {
-                    var res = await Navigator.push(
+                    var scanResult = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const SimpleBarcodeScannerPage(),
                       ),
                     );
+                    if (scanResult != null) {
+                      // Find the product from ProductModel using product code
+                      ProductModel? scannedProduct = products.firstWhere(
+                        (product) => product.code == scanResult,
+                      );
+
+                      // Set the scanned product in the dropdown
+                      setState(() {
+                        selectedProducts[i] = scannedProduct;
+                        // Update other fields as necessary
+                        // For example, if you want to set the quantity to 1:
+                        nosControllers[i].text = '1';
+                        double price1 = double.parse(scannedProduct.price);
+                        totalControllers[i].text = price1.toString();
+                        updateGrandTotal();
+                      });
+                                        }
                   },
                   child: Material(
                     color: Colors.white,

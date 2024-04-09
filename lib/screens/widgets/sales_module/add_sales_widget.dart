@@ -26,7 +26,7 @@ class _AddSalesState extends State<AddSales> {
   final TextEditingController _productController = TextEditingController();
   final TextEditingController _nosController = TextEditingController();
   final TextEditingController _totalController = TextEditingController();
-  final TextEditingController _grandController = TextEditingController();
+  final TextEditingController _grandTotalController = TextEditingController();
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _AddSalesState extends State<AddSales> {
       _productController.text = widget.sales!.product;
       _nosController.text = widget.sales!.nos;
       _totalController.text = widget.sales!.total;
-      _grandController.text = widget.sales!.grand;
+      _grandTotalController.text = widget.sales!.grand;
     }
   }
 
@@ -361,7 +361,7 @@ class _AddSalesState extends State<AddSales> {
                                 widget.sales!.product = _productController.text;
                                 widget.sales!.nos = _nosController.text;
                                 widget.sales!.total = _totalController.text;
-                                widget.sales!.grand = _grandController.text;
+                                widget.sales!.grand = _grandTotalController.text;
 
                                 await updateSales(widget.sales!);
                                 // ignore: use_build_context_synchronously
@@ -381,7 +381,7 @@ class _AddSalesState extends State<AddSales> {
                                   product: _productController.text,
                                   nos: _nosController.text,
                                   total: _totalController.text,
-                                  grand: _grandController.text,
+                                  grand: _grandTotalController.text,
                                 );
                                 await createSales(sales);
                                 // ignore: use_build_context_synchronously
