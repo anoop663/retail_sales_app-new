@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/add_customer_widget.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 
 class ListCustomer extends StatefulWidget {
   const ListCustomer({Key? key}) : super(key: key);
@@ -72,7 +70,12 @@ class _ListCustomerState extends State<ListCustomer> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 0),
+                          ),
+                        );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),

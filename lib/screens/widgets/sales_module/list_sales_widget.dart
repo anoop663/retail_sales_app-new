@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
@@ -80,7 +78,10 @@ class _ListSalesState extends State<ListSales> {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const HomePage()));
+              MaterialPageRoute(
+                builder: (context) => const BottomNavigation(initialIndex: 0),
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),
@@ -184,12 +185,11 @@ class _ListSalesState extends State<ListSales> {
                             ],
                           ),
                           child: ListTile(
-                            leading:const Padding(
-                              padding:  EdgeInsets.only(
+                            leading: const Padding(
+                              padding: EdgeInsets.only(
                                   top: 10), // Adjust the top padding as needed
                               child: CircleAvatar(
                                 radius: 26,
-                                
                               ),
                             ),
                             title: Row(
@@ -218,8 +218,7 @@ class _ListSalesState extends State<ListSales> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AddSales(
-                                                        sales: sale),
+                                                    AddSales(sales: sale),
                                               ),
                                             );
                                           },
@@ -292,8 +291,8 @@ class _ListSalesState extends State<ListSales> {
               shape: const CircleBorder(),
               onPressed: () {
                 //Add sales page navigation
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const AddSales()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const AddSales()));
               },
               child: const Icon(Icons.percent_outlined,
                   color: Colors.white, size: 28),

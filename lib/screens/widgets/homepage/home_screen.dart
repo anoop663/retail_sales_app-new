@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
@@ -25,7 +23,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        leading: Builder( // Wrap leading with Builder
+        leading: Builder(
+          // Wrap leading with Builder
           builder: (context) => GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer(); // Open the drawer
@@ -45,8 +44,9 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      drawer:const MyDrawer2(), // Use MyDrawer as the drawe // Use MyDrawer as the drawer
-    
+      drawer:
+          const MyDrawer2(), // Use MyDrawer as the drawer
+
       backgroundColor: const Color(0xFFF1F5F9),
       body: SingleChildScrollView(
         child: Column(
@@ -59,8 +59,12 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ListCategories()));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 1),
+                          ),
+                        );
                       },
                       child: Container(
                         width: double.infinity,
@@ -125,8 +129,12 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ListProducts()));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 2),
+                          ),
+                        );
                       },
                       child: Container(
                         width: double.infinity,
@@ -196,8 +204,12 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ListCustomer()));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 3),
+                          ),
+                        );
                       },
                       child: Container(
                         width: double.infinity,
@@ -363,7 +375,7 @@ class HomePage extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ListSales()));
+                        builder: (context) => const ListSales()));
                   },
                   child: Container(
                     width: double.infinity,
@@ -756,7 +768,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30.0,bottom: 50),
+        padding: const EdgeInsets.only(left: 30.0, bottom: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -767,9 +779,8 @@ class HomePage extends StatelessWidget {
               shape: const CircleBorder(),
               onPressed: () {
                 //Need to Add Navigation to Sale create Page
-                Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const AddSales()
-              ));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const AddSales()));
               },
               child: const Icon(Icons.percent, color: Colors.white, size: 28),
             ),
@@ -788,6 +799,5 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }

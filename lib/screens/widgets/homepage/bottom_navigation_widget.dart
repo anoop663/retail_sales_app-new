@@ -5,21 +5,29 @@ import 'package:project_fourth/screens/widgets/product_module/list_category_widg
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key});
+  final int initialIndex; // Index to be initially selected
+
+  const BottomNavigation({Key? key, required this.initialIndex}) : super(key: key);
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int _currentIndex = 0; // Track the current index of the bottom navigation bar
+  late int _currentIndex; // Track the current index of the bottom navigation bar
 
   final List<Widget> _pages = [
     const HomePage(),
-    const ListCustomer(),
     const ListCategories(),
     const ListProducts(),
+    const ListCustomer(),
   ]; // List of pages to switch between
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex; // Set initial index
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<ProductModel> products = [];
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
-  final List<TextEditingController> productsaleController = [];
   final List<ProductModel?> selectedProducts = [];
 
   @override
@@ -49,13 +48,84 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (int i = 0; i < nosControllers.length; i++) productIncriment(i)
-        //const SizedBox(height: 1), // Add gap between columns
+        for (int i = 0; i < nosControllers.length; i++) productIncrement(i),
+        const SizedBox(height: 10), // Add gap between rows
+        buildGrandTotalField(), // Add grand total field
       ],
     );
   }
 
-  productIncriment(int i) {
+  Widget buildGrandTotalField() {
+    double grandTotal = 0;
+    for (int i = 0; i < totalControllers.length; i++) {
+      if (totalControllers[i].text.isNotEmpty) {
+        grandTotal += double.parse(totalControllers[i].text);
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Grand Total',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: TextFormField(
+            readOnly: true,
+            initialValue: grandTotal.toString(),
+            decoration: InputDecoration(
+              hintText: "Grand Total",
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w400,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            keyboardType: TextInputType.number,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget productIncrement(int i) {
     return Column(
       children: [
         Row(
@@ -97,6 +167,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                 ),
               ),
             ),
+            const SizedBox(width: 5),
             Expanded(
               flex: 2,
               child: Container(
@@ -119,13 +190,14 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                     double price1 = double.parse(value!.price);
-                       
+                    double price1 = double.parse(value!.price);
+
                     setState(() {
                       selectedProducts[i] = value;
                       nosControllers[i].text = '1';
                       int nos1 = int.parse(nosControllers[i].text);
                       totalControllers[i].text = (nos1 * price1).toString();
+                      updateGrandTotal();
                     });
                   },
                   decoration: InputDecoration(
@@ -204,10 +276,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     final ProductModel? selectedProduct = selectedProducts[i];
-                      int nos1 = int.parse(nosControllers[i].text);
-                      final double price1 = double.parse(selectedProduct!.price);
-                      final double newTotalPrice = price1 * nos1;
-                      totalControllers[i].text = newTotalPrice.toString();
+                    int nos1 = int.parse(nosControllers[i].text);
+                    final double price1 = double.parse(selectedProduct!.price);
+                    final double newTotalPrice = price1 * nos1;
+                    totalControllers[i].text = newTotalPrice.toString();
+                    updateGrandTotal();
                   },
                 ),
               ),
@@ -256,9 +329,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     ),
                   ),
                   keyboardType: TextInputType.number,
+                  onChanged: (_) => updateGrandTotal(),
                 ),
               ),
             ),
+            const SizedBox(width: 5),
             Expanded(
               flex: 1,
               child: GestureDetector(
@@ -284,6 +359,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
               child: GestureDetector(
                 onTap: () {
                   removeRow(i);
+                  updateGrandTotal();
                 },
                 child: Material(
                   color: const Color(0xFF4B4B87),
@@ -304,5 +380,15 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
         const SizedBox(height: 10), // Add gap between rows
       ],
     );
+  }
+
+  void updateGrandTotal() {
+    double grandTotal = 0;
+    for (int i = 0; i < totalControllers.length; i++) {
+      if (totalControllers[i].text.isNotEmpty) {
+        grandTotal += double.parse(totalControllers[i].text);
+      }
+    }
+    setState(() {});
   }
 }
