@@ -13,6 +13,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
   final List<TextEditingController> productsaleController = [];
+  final List<ProductModel?> selectedProducts = [];
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
     setState(() {
       nosControllers.add(TextEditingController());
       totalControllers.add(TextEditingController());
+      selectedProducts.add(null);
     });
   }
 
@@ -39,6 +41,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
     setState(() {
       nosControllers.removeAt(index);
       totalControllers.removeAt(index);
+      selectedProducts.removeAt(index);
     });
   }
 
@@ -53,7 +56,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   productIncriment(int i) {
-    double price2 = 0;
     return Column(
       children: [
         Row(
@@ -72,15 +74,13 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ],
                 ),
                 child: GestureDetector(
-                  onTap: () async  {
-                      var res = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const SimpleBarcodeScannerPage(),
-                        ),
-                      );
-                    
+                  onTap: () async {
+                    var res = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SimpleBarcodeScannerPage(),
+                      ),
+                    );
                   },
                   child: Material(
                     color: Colors.white,
@@ -119,9 +119,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                    double price1 = double.parse(value!.price);
-                    price2 = price1;
+                     double price1 = double.parse(value!.price);
+                       
                     setState(() {
+                      selectedProducts[i] = value;
                       nosControllers[i].text = '1';
                       int nos1 = int.parse(nosControllers[i].text);
                       totalControllers[i].text = (nos1 * price1).toString();
@@ -202,12 +203,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    final int nos = int.parse(value);
-
-                    final double initialTotalPrice =
-                        double.parse(totalControllers[i].text);
-                    final double newTotalPrice = price2 * nos;
-                    totalControllers[i].text = newTotalPrice.toString();
+                    final ProductModel? selectedProduct = selectedProducts[i];
+                      int nos1 = int.parse(nosControllers[i].text);
+                      final double price1 = double.parse(selectedProduct!.price);
+                      final double newTotalPrice = price1 * nos1;
+                      totalControllers[i].text = newTotalPrice.toString();
                   },
                 ),
               ),
