@@ -6,22 +6,32 @@ class SalesModel {
   @HiveField(0)
   late String customer;
   @HiveField(1)
-  late String product;
+  late List<ProductSale> products;
   @HiveField(2)
-  late String nos;
-  @HiveField(3)
-  late String total;
-  @HiveField(4)
   late String grand;
-  @HiveField(5)
+  @HiveField(3)
   int? id;
 
   SalesModel({
     required this.customer,
-    required this.product,
-    required this.nos,
-    required this.total,
+    required this.products,
     required this.grand,
     this.id,
+  });
+}
+
+@HiveType(typeId: 10)
+class ProductSale {
+  @HiveField(0)
+  late String name;
+  @HiveField(1)
+  late String nos;
+  @HiveField(2)
+  late String total;
+
+  ProductSale({
+    required this.name,
+    required this.nos,
+    required this.total,
   });
 }

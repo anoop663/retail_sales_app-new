@@ -18,29 +18,23 @@ class SalesModelAdapter extends TypeAdapter<SalesModel> {
     };
     return SalesModel(
       customer: fields[0] as String,
-      product: fields[1] as String,
-      nos: fields[2] as String,
-      total: fields[3] as String,
-      grand: fields[4] as String,
-      id: fields[5] as int?,
+      products: (fields[1] as List).cast<ProductSale>(),
+      grand: fields[2] as String,
+      id: fields[3] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SalesModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.customer)
       ..writeByte(1)
-      ..write(obj.product)
+      ..write(obj.products)
       ..writeByte(2)
-      ..write(obj.nos)
-      ..writeByte(3)
-      ..write(obj.total)
-      ..writeByte(4)
       ..write(obj.grand)
-      ..writeByte(5)
+      ..writeByte(3)
       ..write(obj.id);
   }
 
@@ -51,6 +45,46 @@ class SalesModelAdapter extends TypeAdapter<SalesModel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is SalesModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class ProductSaleAdapter extends TypeAdapter<ProductSale> {
+  @override
+  final int typeId = 10;
+
+  @override
+  ProductSale read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ProductSale(
+      name: fields[0] as String,
+      nos: fields[1] as String,
+      total: fields[2] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ProductSale obj) {
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.nos)
+      ..writeByte(2)
+      ..write(obj.total);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProductSaleAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
@@ -88,7 +89,7 @@ class _AddProductsState extends State<AddProducts> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ListProducts()));
+                          builder: (context) => const BottomNavigation(initialIndex: 2)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -521,9 +522,9 @@ class _AddProductsState extends State<AddProducts> {
                         // Navigate back to the product list page and pass a flag to indicate refreshing
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ListProducts()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavigation(initialIndex: 2)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

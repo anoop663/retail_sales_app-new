@@ -46,7 +46,7 @@ Future<void> createSales(SalesModel sales) async {
 
 Future<void> deleteSales(int id) async {
   try {
-    final box1 = await Hive.openBox<SalesModel>('product_db2');
+    final box1 = await Hive.openBox<SalesModel>('sales_db');
     // Iterate through the box and delete entries with matching ID
     final keys = box1.keys.toList();
     for (var key in keys) {

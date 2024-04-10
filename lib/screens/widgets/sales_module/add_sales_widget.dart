@@ -19,13 +19,13 @@ class AddSales extends StatefulWidget {
 
 class _AddSalesState extends State<AddSales> {
   final TextEditingController _customerController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _productController = TextEditingController();
-  final TextEditingController _nosController = TextEditingController();
-  final TextEditingController _totalController = TextEditingController();
   final TextEditingController _grandTotalController = TextEditingController();
+  final List<ProductModel> products = [];
+  final List<TextEditingController> nosControllers = [];
+  final List<TextEditingController> totalControllers = [];
+  final List<ProductModel?> selectedProducts = [];
+  double grandTotal = 0;
+  final TextEditingController grandTotalController = TextEditingController();
 
   @override
   void initState() {
@@ -35,9 +35,6 @@ class _AddSalesState extends State<AddSales> {
       // _nameController.text = widget.sales!.name;
       // _phoneController.text = widget.sales!.phone;
       // _addressController.text = widget.sales!.address;
-      _productController.text = widget.sales!.product;
-      _nosController.text = widget.sales!.nos;
-      _totalController.text = widget.sales!.total;
       _grandTotalController.text = widget.sales!.grand;
     }
   }
@@ -172,166 +169,8 @@ class _AddSalesState extends State<AddSales> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Customer Name',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              hintText: "Enter Customer Name",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Customer Phone',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              hintText: "Enter Customer Phone",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType.phone,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Customer Address',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            controller: _addressController,
-                            decoration: InputDecoration(
-                              hintText: "Enter Address",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            keyboardType: TextInputType
-                                .text, // Set keyboardType to number
-                          ),
-                        ),
+                        //New Customer creation part if the customer is not in Dropdown
+                        // AddcustomerSale(),
                         const SizedBox(height: 50),
                         const Text(
                           'Products',
@@ -342,6 +181,7 @@ class _AddSalesState extends State<AddSales> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
+
                         const SizedBox(height: 10),
                         AddSalesDynamic(),
                         const SizedBox(height: 20),
@@ -352,7 +192,7 @@ class _AddSalesState extends State<AddSales> {
                               if (widget.sales != null) {
                                 widget.sales!.customer =
                                     _customerController.text;
-                                widget.sales!.product = _productController.text;
+
                                 // Assuming other fields like nos, total, grand are managed in the dynamic widget
 
                                 await updateSales(widget.sales!);
@@ -367,10 +207,8 @@ class _AddSalesState extends State<AddSales> {
                               } else {
                                 SalesModel sales = SalesModel(
                                   customer: _customerController.text,
-                                  product: _productController.text,
-                                  nos: _nosController.text,
-                                  total: _totalController.text,
                                   grand: _grandTotalController.text,
+                                  products: [],
                                   // Assuming other fields like nos, total, grand are managed in the dynamic widget
                                 );
                                 await createSales(sales);

@@ -116,7 +116,7 @@ class _ListSalesState extends State<ListSales> {
               child: TextFormField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: "Search...",
+                  hintText: "Search with Cusomer Name",
                   hintStyle: const TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
@@ -184,84 +184,102 @@ class _ListSalesState extends State<ListSales> {
                             ],
                           ),
                           child: ListTile(
-                            leading: const Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10), // Adjust the top padding as needed
-                              child: CircleAvatar(
-                                radius: 26,
-                              ),
-                            ),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 18),
+                                  padding: const EdgeInsets.only(top: 15),
                                   child: Text(
-                                    sale.customer,
+                                    'Cust Name: ${sale.customer}',
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
                                   ),
                                 ),
+                                const SizedBox(
+                                    height:
+                                        4), // Add space between customer name and ID
                                 Row(
                                   children: [
-                                    Hero(
-                                      tag: 'edit_icon_${sale.id}',
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20, right: 8),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddSales(sales: sale),
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              color: const Color(0XFF98B5FF),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                              image: const DecorationImage(
-                                                image: AssetImage(
-                                                    'lib/assets/edit1.png'),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                    Text(
+                                      'ID: ${sale.id}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 20),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          showDeleteConfirmationDialog(
-                                              sale.id!);
-                                        },
-                                        child: Container(
-                                          width: 30,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0XFFFA3E3E),
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            image: const DecorationImage(
-                                              image: AssetImage(
-                                                  'lib/assets/delete1.png'),
-                                            ),
-                                          ),
-                                        ),
+                                    const SizedBox(width: 140),
+                                    Text(
+                                      '₹ ${sale.grand}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
                                       ),
                                     ),
                                   ],
                                 ),
                               ],
+                            ),
+                            trailing: Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Hero(
+                                    tag: 'edit_icon_${sale.id}',
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 0, right: 8),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddSales(sales: sale),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0XFF98B5FF),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'lib/assets/edit1.png'),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showDeleteConfirmationDialog(sale.id!);
+                                      },
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0XFFFA3E3E),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                                'lib/assets/delete1.png'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
