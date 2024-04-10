@@ -33,9 +33,9 @@ class _AddSalesState extends State<AddSales> {
     super.initState();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
-      _nameController.text = widget.sales!.name;
-      _phoneController.text = widget.sales!.phone;
-      _addressController.text = widget.sales!.address;
+      // _nameController.text = widget.sales!.name;
+      // _phoneController.text = widget.sales!.phone;
+      // _addressController.text = widget.sales!.address;
       _productController.text = widget.sales!.product;
       _nosController.text = widget.sales!.nos;
       _totalController.text = widget.sales!.total;
@@ -334,7 +334,7 @@ class _AddSalesState extends State<AddSales> {
                           ),
                         ),
                         const SizedBox(height: 50),
-                         const Text(
+                        const Text(
                           'Products',
                           style: TextStyle(
                             color: Colors.black,
@@ -345,8 +345,6 @@ class _AddSalesState extends State<AddSales> {
                         ),
                         const SizedBox(height: 10),
                         AddSalesDynamic(),
-                        
-                      
                         const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
@@ -355,16 +353,10 @@ class _AddSalesState extends State<AddSales> {
                               if (widget.sales != null) {
                                 widget.sales!.customer =
                                     _customerController.text;
-                                widget.sales!.name = _nameController.text;
-                                widget.sales!.phone = _phoneController.text;
-                                widget.sales!.address = _addressController.text;
                                 widget.sales!.product = _productController.text;
-                                widget.sales!.nos = _nosController.text;
-                                widget.sales!.total = _totalController.text;
-                                widget.sales!.grand = _grandTotalController.text;
+                                // Assuming other fields like nos, total, grand are managed in the dynamic widget
 
                                 await updateSales(widget.sales!);
-                                // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content:
@@ -375,16 +367,13 @@ class _AddSalesState extends State<AddSales> {
                               } else {
                                 SalesModel sales = SalesModel(
                                   customer: _customerController.text,
-                                  name: _nameController.text,
-                                  phone: _phoneController.text,
-                                  address: _addressController.text,
                                   product: _productController.text,
                                   nos: _nosController.text,
                                   total: _totalController.text,
                                   grand: _grandTotalController.text,
+                                  // Assuming other fields like nos, total, grand are managed in the dynamic widget
                                 );
                                 await createSales(sales);
-                                // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content:
@@ -393,12 +382,11 @@ class _AddSalesState extends State<AddSales> {
                                   ),
                                 );
                               }
-                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ListProducts()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ListSales()),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF4B4B87),

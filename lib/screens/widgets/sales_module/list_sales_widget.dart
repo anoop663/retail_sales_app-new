@@ -198,7 +198,7 @@ class _ListSalesState extends State<ListSales> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 18),
                                   child: Text(
-                                    sale.name,
+                                    sale.customer,
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
@@ -310,7 +310,7 @@ class _ListSalesState extends State<ListSales> {
     }
     // Filter Sales based on the entered text
     List<SalesModel> filteredSales = _allSales.where((sales) {
-      return sales.name.toLowerCase().contains(value.toLowerCase());
+      return sales.customer.toLowerCase().contains(value.toLowerCase());
     }).toList();
     // Update the ValueListenable with the filtered Sales
     salesListNotifier.value = filteredSales;
