@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
@@ -357,6 +356,7 @@ class _AddSalesState extends State<AddSales> {
                                 // Assuming other fields like nos, total, grand are managed in the dynamic widget
 
                                 await updateSales(widget.sales!);
+                                // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content:
@@ -374,6 +374,7 @@ class _AddSalesState extends State<AddSales> {
                                   // Assuming other fields like nos, total, grand are managed in the dynamic widget
                                 );
                                 await createSales(sales);
+                                // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content:
@@ -382,6 +383,7 @@ class _AddSalesState extends State<AddSales> {
                                   ),
                                 );
                               }
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
