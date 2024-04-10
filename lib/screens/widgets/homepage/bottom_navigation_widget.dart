@@ -8,23 +8,22 @@ import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.da
 class BottomNavigation extends StatefulWidget {
   final int initialIndex; // Index to be initially selected
 
-  const BottomNavigation({Key? key, required this.initialIndex}) : super(key: key);
+  const BottomNavigation({Key? key, required this.initialIndex})
+      : super(key: key);
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  late int _currentIndex; // Track the current index of the bottom navigation bar
+  late int
+      _currentIndex; // Track the current index of the bottom navigation bar
 
   final List<Widget> _pages = [
     const HomePage(),
     const ListCategories(),
-     const ListProducts(),
     const ListCustomer(),
-    const ListSales(),
-    
-   
+    const ListProducts(),
   ]; // List of pages to switch between
 
   @override

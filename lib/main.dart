@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screen_splash.dart';
+import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 
@@ -15,7 +17,16 @@ Future<void> main() async {
     Hive.registerAdapter(CustomerModelAdapter());
     Hive.registerAdapter(SalesModelAdapter());
 
-  runApp(MaterialApp(
+ runApp(MyApp());
+}
+
+// ignore: use_key_in_widget_constructors
+class MyApp extends StatelessWidget {
+ @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => CountProvider(), // Provide CountProvider
+      child: MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       textTheme: const TextTheme(
@@ -26,6 +37,9 @@ Future<void> main() async {
         // Add more text styles as needed
       ),
     ),
-    home: const SplashScreen(),
-  ));
+        home: const SplashScreen(),
+      ),
+    );
+  }
 }
+

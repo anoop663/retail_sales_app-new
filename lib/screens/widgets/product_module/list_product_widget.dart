@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 extension IterableExtension<T> on Iterable<T> {
@@ -71,6 +73,9 @@ class _ListProductsState extends State<ListProducts> {
 
   @override
   Widget build(BuildContext context) {
+
+         final proCount = Provider.of<CountProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -163,6 +168,10 @@ class _ListProductsState extends State<ListProducts> {
               child: ValueListenableBuilder<List<ProductModel>>(
                 valueListenable: productListNotifier,
                 builder: (context, products, _) {
+
+                   //Count provider Data passing
+              proCount.updateProductCount(products.length);
+
                   if (products.isEmpty) {
                     return const Center(
                       child: Text(
@@ -175,6 +184,10 @@ class _ListProductsState extends State<ListProducts> {
                       ),
                     );
                   } else {
+
+                    // Product Count Provider
+                    proCount.updateCategoryCount(products.length);
+
                     return ListView.separated(
                       itemBuilder: (ctx, index) {
                         final product = products[index];

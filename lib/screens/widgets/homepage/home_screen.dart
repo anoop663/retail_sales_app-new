@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final categoryCount = Provider.of<CountProvider>(context).catCount;
+    final productCount = Provider.of<CountProvider>(context).proCount;
+    final outofstockCount = Provider.of<CountProvider>(context).outCount;
+    final customerCount = Provider.of<CountProvider>(context).custCount;
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -89,15 +97,15 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector2.png'),
                             ),
                           ),
-                          const Positioned(
+                           Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 15),
-                                Text(
+                                const SizedBox(height: 15),
+                               const Text(
                                   'Categories',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -105,10 +113,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                                SizedBox(height: 20), // Add some spacing
+                               const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  '8',
-                                  style: TextStyle(
+                                  categoryCount.toString(),
+                                  style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -159,15 +167,15 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector3.png'),
                             ),
                           ),
-                          const Positioned(
+                           Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 15),
-                                Text(
+                                const SizedBox(height: 15),
+                                const Text(
                                   'Total Products',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -175,10 +183,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                                SizedBox(height: 20), // Add some spacing
+                               const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  '25',
-                                  style: TextStyle(
+                                  productCount.toString(),
+                                  style:const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -234,15 +242,15 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector4.png'),
                             ),
                           ),
-                          const Positioned(
+                           Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 15),
-                                Text(
+                               const SizedBox(height: 15),
+                                const Text(
                                   'Customers',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -250,10 +258,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                                SizedBox(height: 20), // Add some spacing
+                                const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  '100',
-                                  style: TextStyle(
+                                  customerCount.toString(),
+                                  style:const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -300,15 +308,15 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector3.png'),
                             ),
                           ),
-                          const Positioned(
+                           Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 15),
-                                Text(
+                               const SizedBox(height: 15),
+                               const Text(
                                   'Out Of Stock',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -316,10 +324,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                                SizedBox(height: 20), // Add some spacing
+                               const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  '3',
-                                  style: TextStyle(
+                                  outofstockCount.toString(),
+                                  style:const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

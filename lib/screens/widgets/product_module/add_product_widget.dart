@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -524,7 +523,7 @@ class _AddProductsState extends State<AddProducts> {
                         Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 2)));
+                          builder: (context) => const BottomNavigation(initialIndex: 3)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

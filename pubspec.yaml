@@ -36,6 +36,7 @@ dependencies:
   hive_flutter: ^1.1.0
   image_picker: ^1.0.7
   json_annotation: ^4.8.1
+  provider: ^6.1.2
   simple_barcode_scanner: ^0.1.1
   uuid: ^4.3.3
 
