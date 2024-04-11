@@ -103,9 +103,6 @@ class _ListCategoriesState extends State<ListCategories> {
           child: ValueListenableBuilder<List<CategoryModel>>(
             valueListenable: categoryListNotifier,
             builder: (context, categories, _) {
-              // Log the length of categories to verify if data exists
-              // ignore: avoid_print
-             // print('Categories length: ${categories.length}');
               
               //Count provider Data passing
               if (catCount != null) {

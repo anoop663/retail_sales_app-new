@@ -20,7 +20,7 @@ class _OutofStockState extends State<OutofStock> {
   void initState() {
     super.initState();
     // Initialize Hive when the widget is first initialized
-    initializeHive();
+    
   }
 
   Future<void> showDeleteConfirmationDialog(int id) async {

@@ -43,6 +43,7 @@ class _ListSalesState extends State<ListSales> {
             ),
             TextButton(
               onPressed: () {
+                print('The Sales id is: $id');
                 deleteProducts(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -19,7 +19,7 @@ Future<void> getAllSales() async {
 Future<void> updateSales(SalesModel updatedSales) async {
   try {
     var box1 = await Hive.openBox<SalesModel>('sales_db');
-    
+
     int index =
         box1.values.toList().indexWhere((cat) => cat.id == updatedSales.id);
     if (index != -1) {
@@ -35,14 +35,14 @@ Future<void> updateSales(SalesModel updatedSales) async {
   getAllSales();
 }
 
-Future<void> deleteSales(int id) async {
+Future<void> deleteSales1(int id) async {
   try {
     final box1 = await Hive.openBox<SalesModel>('sales_db');
     // Iterate through the box and delete entries with matching ID
     final keys = box1.keys.toList();
     for (var key in keys) {
-      final product = box1.get(key);
-      if (product != null && product.id == id) {
+      final sale = box1.get(key);
+      if (sale != null && sale.id == id) {
         await box1.delete(key);
       }
     }
@@ -58,8 +58,6 @@ Future<void> initializeHiveSales() async {
   await Hive.openBox<SalesModel>('sales_db');
   getAllSales(); // Fetch products from Hive
 }
-
-
 
 Future<void> createSales(
     String customerName, List<ProductSale> products, String grandTotal) async {
@@ -80,4 +78,38 @@ Future<void> createSales(
   } catch (error) {
     // Handle error
   }
+}
+
+
+Future<void> deleteSales(int id) async {
+  try {
+    final box1 = await Hive.openBox<SalesModel>('sales_db');
+    
+    // Iterate through the box and delete entries with matching ID
+    final keys = box1.keys.toList();
+    for (var key in keys) {
+      final sale = box1.get(key);
+      if (sale != null && sale.id == id) {
+        // Delete the sales entry
+        await box1.delete(key);
+        
+        // Delete associated ProductSale entries
+        for (var productSale in sale.products) {
+          final productBox = await Hive.openBox<ProductSale>('sales_db');
+          final productKeys = productBox.keys.toList();
+          for (var productKey in productKeys) {
+            final product = productBox.get(productKey);
+            if (product != null && product.name == productSale.name) {
+              await productBox.delete(productKey);
+            }
+          }
+        }
+      }
+    }
+    salesListNotifier.value.clear();
+  } catch (e) {
+    // Handle error
+    print('Error deleting sales: $e');
+  }
+  await getAllSales();
 }

@@ -19,7 +19,7 @@ Future<void> main() async {
 
  runApp(
     ChangeNotifierProvider(
-      create: (context) => CountProvider(),
+      create: (_) => CountProvider(),
       child: MyApp(),
     ),
   );

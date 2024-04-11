@@ -26,6 +26,7 @@ class _AddSalesState extends State<AddSales> {
   @override
   void initState() {
     super.initState();
+    initializeHiveSales();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
       selectedProducts.addAll(widget.sales!.products);
@@ -46,9 +47,7 @@ class _AddSalesState extends State<AddSales> {
             future: Hive.openBox<ProductModel>('product_db2'),
             builder: (context, AsyncSnapshot<Box<ProductModel>> snapshot1) {
               if (snapshot1.connectionState == ConnectionState.done) {
-                final productBox = snapshot1.data!;
-                final productsFromBox = productBox.values.toList();
-
+              
                 return Scaffold(
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
@@ -172,7 +171,6 @@ class _AddSalesState extends State<AddSales> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-
                         const SizedBox(height: 10),
                         AddSalesDynamic(),
                         const SizedBox(height: 20),

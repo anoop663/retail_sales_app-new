@@ -185,9 +185,6 @@ class _ListProductsState extends State<ListProducts> {
                     );
                   } else {
 
-                    // Product Count Provider
-                    proCount.updateCategoryCount(products.length);
-
                     return ListView.separated(
                       itemBuilder: (ctx, index) {
                         final product = products[index];

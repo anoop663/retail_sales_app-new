@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
-import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
-import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _HomePageState createState() => _HomePageState();
+}
 
-    final categoryCount = Provider.of<CountProvider>(context).catCount;
-    final productCount = Provider.of<CountProvider>(context).proCount;
-    final outofstockCount = Provider.of<CountProvider>(context).outCount;
-    final customerCount = Provider.of<CountProvider>(context).custCount;
-    
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    // Load counts from shared preferences when the home page is opened
+    Provider.of<CountProvider>(context, listen: false).loadCounts();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Obtain the counts from the CountProvider
+
+    final _catCount = Provider.of<CountProvider>(context).catCount;
+    final _productCount = Provider.of<CountProvider>(context).proCount;
+    final _outofstockCount = Provider.of<CountProvider>(context).outCount;
+    final _customerCount = Provider.of<CountProvider>(context).custCount;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -97,7 +110,7 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector2.png'),
                             ),
                           ),
-                           Positioned(
+                          Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
@@ -105,7 +118,7 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 15),
-                               const Text(
+                                const Text(
                                   'Categories',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -113,9 +126,9 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                               const SizedBox(height: 20), // Add some spacing
+                                const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  categoryCount.toString(),
+                                  _catCount.toString(),
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -139,7 +152,7 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) =>
-                              const BottomNavigation(initialIndex: 2),
+                              const BottomNavigation(initialIndex: 3),
                         ),
                       );
                     },
@@ -167,7 +180,7 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector3.png'),
                             ),
                           ),
-                           Positioned(
+                          Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
@@ -183,10 +196,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                               const SizedBox(height: 20), // Add some spacing
+                                const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  productCount.toString(),
-                                  style:const TextStyle(
+                                  _productCount.toString(),
+                                  style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -214,7 +227,7 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) =>
-                              const BottomNavigation(initialIndex: 3),
+                              const BottomNavigation(initialIndex: 2),
                         ),
                       );
                     },
@@ -242,14 +255,14 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector4.png'),
                             ),
                           ),
-                           Positioned(
+                          Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                               const SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 const Text(
                                   'Customers',
                                   style: TextStyle(
@@ -260,8 +273,8 @@ class HomePage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  customerCount.toString(),
-                                  style:const TextStyle(
+                                  _customerCount.toString(),
+                                  style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -308,15 +321,15 @@ class HomePage extends StatelessWidget {
                               child: Image.asset('lib/assets/Vector3.png'),
                             ),
                           ),
-                           Positioned(
+                          Positioned(
                             left:
                                 80, // Adjust left position to align with circle
                             top: 10, // Adjust top position for alignment
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                               const SizedBox(height: 15),
-                               const Text(
+                                const SizedBox(height: 15),
+                                const Text(
                                   'Out Of Stock',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -324,10 +337,10 @@ class HomePage extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                   ),
                                 ),
-                               const SizedBox(height: 20), // Add some spacing
+                                const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  outofstockCount.toString(),
-                                  style:const TextStyle(
+                                  _outofstockCount.toString(),
+                                  style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -383,8 +396,7 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const ListSales(),
+                      builder: (context) => const ListSales(),
                     ),
                   );
                 },
