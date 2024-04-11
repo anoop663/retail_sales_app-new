@@ -60,7 +60,7 @@ class _ListCategoriesState extends State<ListCategories> {
   @override
   Widget build(BuildContext context) {
 
-     final catCount = Provider.of<CountProvider>(context);
+     final catCount = Provider.of<CountProvider?>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -105,10 +105,12 @@ class _ListCategoriesState extends State<ListCategories> {
             builder: (context, categories, _) {
               // Log the length of categories to verify if data exists
               // ignore: avoid_print
-              print('Categories length: ${categories.length}');
+             // print('Categories length: ${categories.length}');
               
               //Count provider Data passing
-              catCount.updateCategoryCount(categories.length);
+              if (catCount != null) {
+          catCount.updateCategoryCount(categories.length);
+        }
 
               return categories.isEmpty
                   ? const Center(

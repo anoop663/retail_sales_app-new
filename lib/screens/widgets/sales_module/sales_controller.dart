@@ -15,10 +15,11 @@ Future<void> getAllSales() async {
   print('All Categories are listed');
 }
 
-// Function to update a category in Hive
+// Function to update a sales in Hive
 Future<void> updateSales(SalesModel updatedSales) async {
   try {
     var box1 = await Hive.openBox<SalesModel>('sales_db');
+    
     int index =
         box1.values.toList().indexWhere((cat) => cat.id == updatedSales.id);
     if (index != -1) {
@@ -31,16 +32,6 @@ Future<void> updateSales(SalesModel updatedSales) async {
     print('Failed to update product: $error');
     throw 'Failed to update product: $error';
   }
-  getAllSales();
-}
-
-Future<void> createSales(SalesModel sales) async {
-  final box1 = await Hive.openBox<SalesModel>('sales_db');
-  const uuid = Uuid();
-  final uuidString = uuid.v4(); // Generate UUID as a string
-  final id = uuidString.hashCode.abs(); // Convert UUID string to integer
-  sales.id = id;
-  await box1.add(sales);
   getAllSales();
 }
 
@@ -60,12 +51,33 @@ Future<void> deleteSales(int id) async {
     // ignore: avoid_print
     print('Error deleting customers: $e');
   }
-  await  getAllSales();
+  await getAllSales();
 }
 
-  Future<void> initializeHiveSales() async {
-    await Hive.openBox<SalesModel>('sales_db');
-    getAllSales(); // Fetch products from Hive
-  }
+Future<void> initializeHiveSales() async {
+  await Hive.openBox<SalesModel>('sales_db');
+  getAllSales(); // Fetch products from Hive
+}
 
-  
+
+
+Future<void> createSales(
+    String customerName, List<ProductSale> products, String grandTotal) async {
+  try {
+    final salesBox = await Hive.openBox<SalesModel>('sales_db');
+    const uuid = Uuid();
+    final uuidString = uuid.v4(); // Generate UUID as a string
+    final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+    final sales = SalesModel(
+      customer: customerName,
+      products: products,
+      grand: grandTotal,
+      id: id,
+    );
+    await salesBox.add(sales);
+
+    getAllSales();
+  } catch (error) {
+    // Handle error
+  }
+}

@@ -5,7 +5,7 @@ import 'package:project_fourth/screens/widgets/product_module/product_model.dart
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart'; // Assuming SalesModel is imported from an external file
+import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 
 class AddSales extends StatefulWidget {
   final SalesModel? sales;
@@ -13,17 +13,13 @@ class AddSales extends StatefulWidget {
   const AddSales({Key? key, this.sales}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _AddSalesState createState() => _AddSalesState();
 }
 
 class _AddSalesState extends State<AddSales> {
   final TextEditingController _customerController = TextEditingController();
   final TextEditingController _grandTotalController = TextEditingController();
-  final List<ProductModel> products = [];
-  final List<TextEditingController> nosControllers = [];
-  final List<TextEditingController> totalControllers = [];
-  final List<ProductModel?> selectedProducts = [];
+  final List<ProductSale> selectedProducts = [];
   double grandTotal = 0;
   final TextEditingController grandTotalController = TextEditingController();
 
@@ -32,9 +28,7 @@ class _AddSalesState extends State<AddSales> {
     super.initState();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
-      // _nameController.text = widget.sales!.name;
-      // _phoneController.text = widget.sales!.phone;
-      // _addressController.text = widget.sales!.address;
+      selectedProducts.addAll(widget.sales!.products);
       _grandTotalController.text = widget.sales!.grand;
     }
   }
@@ -53,8 +47,7 @@ class _AddSalesState extends State<AddSales> {
             builder: (context, AsyncSnapshot<Box<ProductModel>> snapshot1) {
               if (snapshot1.connectionState == ConnectionState.done) {
                 final productBox = snapshot1.data!;
-                // ignore: unused_local_variable
-                final products = productBox.values.toList();
+                final productsFromBox = productBox.values.toList();
 
                 return Scaffold(
                   appBar: AppBar(
@@ -169,8 +162,6 @@ class _AddSalesState extends State<AddSales> {
                             ),
                           ),
                         ),
-                        //New Customer creation part if the customer is not in Dropdown
-                        // AddcustomerSale(),
                         const SizedBox(height: 50),
                         const Text(
                           'Products',
@@ -195,7 +186,8 @@ class _AddSalesState extends State<AddSales> {
 
                                 // Assuming other fields like nos, total, grand are managed in the dynamic widget
 
-                                await updateSales(widget.sales!);
+                                // Update sales here
+                                // await updateSales(widget.sales!);
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -205,13 +197,12 @@ class _AddSalesState extends State<AddSales> {
                                   ),
                                 );
                               } else {
-                                SalesModel sales = SalesModel(
-                                  customer: _customerController.text,
-                                  grand: _grandTotalController.text,
-                                  products: [],
-                                  // Assuming other fields like nos, total, grand are managed in the dynamic widget
+                                await createSales(
+                                  _customerController.text,
+                                  selectedProducts,
+                                  _grandTotalController.text,
                                 );
-                                await createSales(sales);
+
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

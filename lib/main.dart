@@ -17,7 +17,12 @@ Future<void> main() async {
     Hive.registerAdapter(CustomerModelAdapter());
     Hive.registerAdapter(SalesModelAdapter());
 
- runApp(MyApp());
+ runApp(
+    ChangeNotifierProvider(
+      create: (context) => CountProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 // ignore: use_key_in_widget_constructors
