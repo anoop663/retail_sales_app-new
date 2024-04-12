@@ -3,9 +3,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
+import 'package:provider/provider.dart';
 
 class AddSales extends StatefulWidget {
   final SalesModel? sales;
@@ -17,22 +18,22 @@ class AddSales extends StatefulWidget {
 }
 
 class _AddSalesState extends State<AddSales> {
-  final TextEditingController _customerController = TextEditingController();
+  TextEditingController _customerController = TextEditingController();
   double grandTotal = 0;
-  final List<ProductSale> selectedProducts = [];
 
   @override
   void initState() {
     super.initState();
-
+    Provider.of<SalesControllerState>(context, listen: false).addRow();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
-      selectedProducts.addAll(widget.sales!.products);
+      // selectedProducts.addAll(widget.sales!.products);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final salesState = Provider.of<SalesControllerState>(context);
     return FutureBuilder(
       future: Hive.openBox<CustomerModel>('customer_db'),
       builder: (context, AsyncSnapshot<Box<CustomerModel>> snapshot) {
@@ -114,9 +115,8 @@ class _AddSalesState extends State<AddSales> {
                               );
                             }).toList(),
                             onChanged: (CustomerModel? value) {
-                              setState(() {
-                                _customerController.text = value!.name;
-                              });
+                              _customerController =
+                                  TextEditingController(text: value!.name);
                             },
                             decoration: InputDecoration(
                               hintText: "Select Customer",
@@ -168,34 +168,14 @@ class _AddSalesState extends State<AddSales> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        AddSalesDynamic(
-                          getSelectedProducts: (selectedProducts) {
-                            setState(() {
-                              this.selectedProducts.clear();
-                              this.selectedProducts.addAll(selectedProducts);
-                            });
-                          },
-                          getTotal: (index, getTotal) {
-                            // Handle total of each product here
-                          },
-                          getGrandTotal: (grandTotal) {
-                            setState(() {
-                              this.grandTotal = grandTotal;
-                            });
-                          },
-                          getNos: (index, nos) {
-                            // Handle Nos data here
-                          },
-                        ),
+                        const AddSalesDynamic(),
                         const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () async {
-                              await createSales(
+                              await salesState.createSales(
                                 _customerController.text,
-                                selectedProducts.cast<ProductSale>(),
-                                grandTotal.toString(),
                               );
                               Navigator.pushReplacement(
                                 context,
