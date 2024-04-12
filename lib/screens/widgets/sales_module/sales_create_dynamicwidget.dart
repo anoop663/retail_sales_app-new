@@ -4,6 +4,19 @@ import 'package:project_fourth/screens/widgets/product_module/product_model.dart
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class AddSalesDynamic extends StatefulWidget {
+  final Function(List<ProductModel?>) getSelectedProducts;
+  final Function(int, double) getTotal;
+  final Function(double) getGrandTotal;
+  final Function(int, int) getNos;
+
+  const AddSalesDynamic({
+    Key? key,
+    required this.getSelectedProducts,
+    required this.getTotal,
+    required this.getGrandTotal,
+    required this.getNos,
+  }) : super(key: key);
+
   @override
   _AddSalesDynamicState createState() => _AddSalesDynamicState();
 }
@@ -224,11 +237,16 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                           price: value.price,
                           code: value.code,
                           date: value.date);
+                      widget.getSelectedProducts(selectedProducts1);
                       print(selectedProducts1);
                       nosControllers[i].text = '1';
+                      widget.getNos(i, 1);
                       int nos1 = int.parse(nosControllers[i].text);
                       totalControllers[i].text = (nos1 * price1).toString();
+                      double price2 = double.parse(totalControllers[i].text);
+                      widget.getTotal(i, price2);
                       updateGrandTotal();
+                      widget.getGrandTotal(grandTotal);
                     });
                   },
                   decoration: InputDecoration(
@@ -311,7 +329,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     final double price1 = double.parse(selectedProduct!.price);
                     final double newTotalPrice = price1 * nos1;
                     totalControllers[i].text = newTotalPrice.toString();
+                    widget.getNos(i, nos1);
+                    widget.getTotal(i, newTotalPrice);
                     updateGrandTotal();
+                    widget.getGrandTotal(grandTotal);
                   },
                 ),
               ),

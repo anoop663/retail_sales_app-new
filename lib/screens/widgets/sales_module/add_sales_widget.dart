@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
@@ -18,10 +18,8 @@ class AddSales extends StatefulWidget {
 
 class _AddSalesState extends State<AddSales> {
   final TextEditingController _customerController = TextEditingController();
-  final TextEditingController _grandTotalController = TextEditingController();
-  
   double grandTotal = 0;
-  //final TextEditingController grandTotalController = TextEditingController();
+  final List<ProductSale> selectedProducts = [];
 
   @override
   void initState() {
@@ -30,7 +28,6 @@ class _AddSalesState extends State<AddSales> {
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
       selectedProducts.addAll(widget.sales!.products);
-      _grandTotalController.text = widget.sales!.grand;
     }
   }
 
@@ -117,10 +114,9 @@ class _AddSalesState extends State<AddSales> {
                               );
                             }).toList(),
                             onChanged: (CustomerModel? value) {
-                              // Do something with the selected category
-                              // ignore: avoid_print
-                              _customerController.text = value!.name;
-                              print('Selected Customer: ${value?.name}');
+                              setState(() {
+                                _customerController.text = value!.name;
+                              });
                             },
                             decoration: InputDecoration(
                               hintText: "Select Customer",
@@ -172,7 +168,25 @@ class _AddSalesState extends State<AddSales> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        AddSalesDynamic(),
+                        AddSalesDynamic(
+                          getSelectedProducts: (selectedProducts) {
+                            setState(() {
+                              this.selectedProducts.clear();
+                              this.selectedProducts.addAll(selectedProducts);
+                            });
+                          },
+                          getTotal: (index, getTotal) {
+                            // Handle total of each product here
+                          },
+                          getGrandTotal: (grandTotal) {
+                            setState(() {
+                              this.grandTotal = grandTotal;
+                            });
+                          },
+                          getNos: (index, nos) {
+                            // Handle Nos data here
+                          },
+                        ),
                         const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
@@ -180,43 +194,9 @@ class _AddSalesState extends State<AddSales> {
                             onPressed: () async {
                               await createSales(
                                 _customerController.text,
-                                selectedProducts,
-                                _grandTotalController.text,
+                                selectedProducts.cast<ProductSale>(),
+                                grandTotal.toString(),
                               );
-                              //if (widget.sales != null) {
-                              //  widget.sales!.customer =
-                              //      _customerController.text;
-
-                              // Assuming other fields like nos, total, grand are managed in the dynamic widget
-
-                              // Update sales here
-                              // await updateSales(widget.sales!);
-                              // ignore: use_build_context_synchronously
-                              //  ScaffoldMessenger.of(context).showSnackBar(
-                              //    const SnackBar(
-                              //      content:
-                              //          Text('Sales updated successfully!'),
-                              //      backgroundColor: Colors.green,
-                              //    ),
-                              //  );
-                              //} else {
-                              //  print('Beak point');
-                              //  await createSales(
-                              //    _customerController.text,
-                              //    selectedProducts,
-                              //    _grandTotalController.text,
-                              //  );
-
-                              //  // ignore: use_build_context_synchronously
-                              //  ScaffoldMessenger.of(context).showSnackBar(
-                              //    const SnackBar(
-                              //      content:
-                              //          Text('Sales created successfully!'),
-                              //      backgroundColor: Colors.green,
-                              //    ),
-                              //  );
-                              // }
-                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
