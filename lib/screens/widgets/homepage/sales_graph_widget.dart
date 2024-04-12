@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 
-class SalesGraphWidget extends StatefulWidget {
-  const SalesGraphWidget({Key? key}) : super(key: key);
+class SalesData {
+  final String customerName;
+  final double salesValue;
 
-  @override
-  _SalesGraphWidgetState createState() => _SalesGraphWidgetState();
+  SalesData(this.customerName, this.salesValue);
 }
 
-class _SalesGraphWidgetState extends State<SalesGraphWidget> {
+class SalesGraphWidget extends StatelessWidget {
+  final List<SalesData> salesDataList;
+
+  const SalesGraphWidget({Key? key, required this.salesDataList})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    double maxValue = 0;
+    salesDataList.forEach((data) {
+      if (data.salesValue > maxValue) {
+        maxValue = data.salesValue;
+      }
+    });
+
     return SizedBox(
       width: 358,
       height: 258,
@@ -34,7 +46,7 @@ class _SalesGraphWidgetState extends State<SalesGraphWidget> {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 140,
             top: 241,
             child: Text(
@@ -48,298 +60,72 @@ class _SalesGraphWidgetState extends State<SalesGraphWidget> {
               ),
             ),
           ),
-          const Positioned(
-            left: 27,
-            top: 205,
-            child: Text(
-              '0',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
+          // Render customer names dynamically
+          for (int i = 0; i < salesDataList.length; i++)
+            Positioned(
+              left: 27 + 80 * i.toDouble(), // Adjust position dynamically
+              top: 223,
+              child: Text(
+                salesDataList[i].customerName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 10,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                ),
               ),
             ),
-          ),
-          const Positioned(
-            left: 50,
-            top: 223,
-            child: Text(
-              'Customer 1',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
+          // Render sales values dynamically
+          for (int i = 0; i < salesDataList.length; i++)
+            Positioned(
+              left: 27 + 80 * i.toDouble(), // Adjust position dynamically
+              top: 205 - (180 * salesDataList[i].salesValue / maxValue),
+              child: Text(
+                salesDataList[i].salesValue.toStringAsFixed(0),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                ),
               ),
             ),
-          ),
-          const Positioned(
-            left: 130,
-            top: 223,
-            child: Text(
-              'Customer 2',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 210,
-            top: 223,
-            child: Text(
-              'Customer 3',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 290,
-            top: 223,
-            child: Text(
-              'Customer 4',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 29,
-            top: 164,
-            child: Text(
-              '1',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 123,
-            child: Text(
-              '2',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 82,
-            child: Text(
-              '3',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 27,
-            top: 41,
-            child: Text(
-              '4',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 0,
-            child: Text(
-              '5',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 8,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
+          // Render horizontal lines
+          for (int i = 0; i < 6; i++)
+            Positioned(
+              left: 40,
+              top: 8 + 41 * i.toDouble(),
+              child: Container(
+                width: 318,
+                decoration: const ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignCenter,
+                      color: Color(0xFFE2E2E2),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            left: 40,
-            top: 49,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
+          // Render colored bars
+          for (int i = 0; i < salesDataList.length; i++)
+            Positioned(
+              left: 63 + 80 * i.toDouble(), // Adjust position dynamically
+              top: 7,
+              child: Container(
+                width: 30,
+                height: 206 * salesDataList[i].salesValue / maxValue,
+                decoration: ShapeDecoration(
+                  color: Color(0xFF6659FF), // You can use different colors here
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            left: 40,
-            top: 90,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 131,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 172,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 213,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 63,
-            top: 7,
-            child: Container(
-              width: 30,
-              height: 206,
-              decoration: ShapeDecoration(
-                color: const Color(0xFF6659FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 143,
-            top: 48,
-            child: Container(
-              width: 30,
-              height: 165,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFB9EAFF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 223,
-            top: 130,
-            child: Container(
-              width: 30,
-              height: 83,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFBEADFF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 303,
-            top: 130,
-            child: Container(
-              width: 30,
-              height: 83,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFEB77FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

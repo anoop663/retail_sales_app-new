@@ -4,6 +4,7 @@ import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
 
 ValueNotifier<List<SalesModel>> salesListNotifier = ValueNotifier([]);
+final List<ProductSale> selectedProducts = [];
 
 Future<void> getAllSales() async {
   final box1 = await Hive.openBox<SalesModel>('sales_db');

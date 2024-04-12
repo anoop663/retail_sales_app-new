@@ -12,7 +12,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<ProductModel> products = [];
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
-  final List<ProductModel?> selectedProducts = [];
+  final List<ProductModel?> selectedProducts1 = [];
   double grandTotal = 0;
   final TextEditingController grandTotalController = TextEditingController();
 
@@ -36,7 +36,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
       final newTotalController = TextEditingController();
       nosControllers.add(newNosController);
       totalControllers.add(newTotalController);
-      selectedProducts.add(null);
+      selectedProducts1.add(null);
       newTotalController.addListener(updateGrandTotal);
     });
   }
@@ -46,13 +46,13 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
       // Clear text fields instead of removing controllers
       nosControllers[index].clear();
       totalControllers[index].clear();
-      selectedProducts[index] = null;
+      selectedProducts1[index] = null;
     } else {
       // Remove controllers from lists
       nosControllers.removeAt(index);
       totalControllers[index].removeListener(updateGrandTotal);
       totalControllers.removeAt(index);
-      selectedProducts.removeAt(index);
+      selectedProducts1.removeAt(index);
     }
     updateGrandTotal();
   }
@@ -110,7 +110,8 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
@@ -165,7 +166,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
                       // Set the scanned product in the dropdown
                       setState(() {
-                        selectedProducts[i] = scannedProduct;
+                        selectedProducts1[i] = scannedProduct;
                         // Update other fields as necessary
                         // For example, if you want to set the quantity to 1:
                         nosControllers[i].text = '1';
@@ -173,7 +174,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         totalControllers[i].text = price1.toString();
                         updateGrandTotal();
                       });
-                                        }
+                    }
                   },
                   child: Material(
                     color: Colors.white,
@@ -216,7 +217,14 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     double price1 = double.parse(value!.price);
 
                     setState(() {
-                      selectedProducts[i] = value;
+                      selectedProducts1[i] = ProductModel(
+                          category: value.category,
+                          name: value.name,
+                          stock: value.stock,
+                          price: value.price,
+                          code: value.code,
+                          date: value.date);
+                      print(selectedProducts1);
                       nosControllers[i].text = '1';
                       int nos1 = int.parse(nosControllers[i].text);
                       totalControllers[i].text = (nos1 * price1).toString();
@@ -298,7 +306,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    final ProductModel? selectedProduct = selectedProducts[i];
+                    final ProductModel? selectedProduct = selectedProducts1[i];
                     int nos1 = int.parse(nosControllers[i].text);
                     final double price1 = double.parse(selectedProduct!.price);
                     final double newTotalPrice = price1 * nos1;

@@ -170,7 +170,7 @@ class _ListProductsState extends State<ListProducts> {
                 builder: (context, products, _) {
 
                    //Count provider Data passing
-              proCount.updateProductCount(products.length);
+              //proCount.updateProductCount(products.length);
 
                   if (products.isEmpty) {
                     return const Center(

@@ -23,7 +23,7 @@ class CountProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCategoryCount(int count1) async {
+  void updateCategoryCount2(int count1) async {
     _catCount = count1;
     notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();

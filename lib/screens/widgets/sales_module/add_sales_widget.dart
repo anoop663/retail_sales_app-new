@@ -19,14 +19,14 @@ class AddSales extends StatefulWidget {
 class _AddSalesState extends State<AddSales> {
   final TextEditingController _customerController = TextEditingController();
   final TextEditingController _grandTotalController = TextEditingController();
-  final List<ProductSale> selectedProducts = [];
+  
   double grandTotal = 0;
-  final TextEditingController grandTotalController = TextEditingController();
+  //final TextEditingController grandTotalController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    initializeHiveSales();
+
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
       selectedProducts.addAll(widget.sales!.products);
@@ -47,7 +47,6 @@ class _AddSalesState extends State<AddSales> {
             future: Hive.openBox<ProductModel>('product_db2'),
             builder: (context, AsyncSnapshot<Box<ProductModel>> snapshot1) {
               if (snapshot1.connectionState == ConnectionState.done) {
-              
                 return Scaffold(
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
@@ -120,6 +119,7 @@ class _AddSalesState extends State<AddSales> {
                             onChanged: (CustomerModel? value) {
                               // Do something with the selected category
                               // ignore: avoid_print
+                              _customerController.text = value!.name;
                               print('Selected Customer: ${value?.name}');
                             },
                             decoration: InputDecoration(
@@ -178,38 +178,44 @@ class _AddSalesState extends State<AddSales> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () async {
-                              if (widget.sales != null) {
-                                widget.sales!.customer =
-                                    _customerController.text;
+                              await createSales(
+                                _customerController.text,
+                                selectedProducts,
+                                _grandTotalController.text,
+                              );
+                              //if (widget.sales != null) {
+                              //  widget.sales!.customer =
+                              //      _customerController.text;
 
-                                // Assuming other fields like nos, total, grand are managed in the dynamic widget
+                              // Assuming other fields like nos, total, grand are managed in the dynamic widget
 
-                                // Update sales here
-                                // await updateSales(widget.sales!);
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Sales updated successfully!'),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                              } else {
-                                await createSales(
-                                  _customerController.text,
-                                  selectedProducts,
-                                  _grandTotalController.text,
-                                );
+                              // Update sales here
+                              // await updateSales(widget.sales!);
+                              // ignore: use_build_context_synchronously
+                              //  ScaffoldMessenger.of(context).showSnackBar(
+                              //    const SnackBar(
+                              //      content:
+                              //          Text('Sales updated successfully!'),
+                              //      backgroundColor: Colors.green,
+                              //    ),
+                              //  );
+                              //} else {
+                              //  print('Beak point');
+                              //  await createSales(
+                              //    _customerController.text,
+                              //    selectedProducts,
+                              //    _grandTotalController.text,
+                              //  );
 
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Sales created successfully!'),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                              }
+                              //  // ignore: use_build_context_synchronously
+                              //  ScaffoldMessenger.of(context).showSnackBar(
+                              //    const SnackBar(
+                              //      content:
+                              //          Text('Sales created successfully!'),
+                              //      backgroundColor: Colors.green,
+                              //    ),
+                              //  );
+                              // }
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
                                 context,

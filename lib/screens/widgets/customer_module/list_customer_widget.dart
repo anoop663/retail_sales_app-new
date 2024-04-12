@@ -58,7 +58,6 @@ class _ListCustomerState extends State<ListCustomer> {
 
   @override
   Widget build(BuildContext context) {
-
     final cusCount = Provider.of<CountProvider>(context);
 
     return Scaffold(
@@ -76,11 +75,10 @@ class _ListCustomerState extends State<ListCustomer> {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigation(initialIndex: 0),
-                          ),
-                        );
+              MaterialPageRoute(
+                builder: (context) => const BottomNavigation(initialIndex: 0),
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),
@@ -107,7 +105,7 @@ class _ListCustomerState extends State<ListCustomer> {
             print('Customers length: ${customers.length}');
 
             //Count provider Data passing
-              cusCount.updateCustomerCount(customers.length);
+            // cusCount.updateCustomerCount(customers.length);
 
             return customers.isEmpty
                 ? const Center(
@@ -210,7 +208,7 @@ class _ListCustomerState extends State<ListCustomer> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(left: 30.0,bottom: 50),
+        padding: const EdgeInsets.only(left: 30.0, bottom: 50),
         child: FloatingActionButton(
           backgroundColor: const Color(0xFF4B4B87),
           tooltip: 'New Customer',

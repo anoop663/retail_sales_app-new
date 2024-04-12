@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // Load counts from shared preferences when the home page is opened
-    Provider.of<CountProvider>(context, listen: false).loadCounts();
+   // Provider.of<CountProvider>(context, listen: false).loadCounts();
   }
 
   @override
@@ -458,7 +459,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 20),
-          const SalesGraphWidget()
+          const SalesGraphWidgetBackup(),
         ]),
       ),
       floatingActionButton: Padding(

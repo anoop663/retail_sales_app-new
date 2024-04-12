@@ -106,7 +106,7 @@ class _ListCategoriesState extends State<ListCategories> {
               
               //Count provider Data passing
               if (catCount != null) {
-          catCount.updateCategoryCount(categories.length);
+         // catCount.updateCategoryCount(categories.length);
         }
 
               return categories.isEmpty
