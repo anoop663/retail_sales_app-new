@@ -7,17 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class AddSalesDynamic extends StatefulWidget {
-  //final Function(List<ProductModel?>) getSelectedProducts;
-  //final Function(int, double) getTotal;
-  //final Function(double) getGrandTotal;
-  //final Function(int, int) getNos;
-
   const AddSalesDynamic({
     Key? key,
-    // required this.getSelectedProducts,
-    // required this.getTotal,
-    // required this.getGrandTotal,
-    // required this.getNos,
   }) : super(key: key);
 
   @override
@@ -28,9 +19,7 @@ class AddSalesDynamic extends StatefulWidget {
 class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<ProductModel> products = [];
 
-  // final List<ProductModel?> selectedProducts1 = [];
   double grandTotal = 0;
-  final TextEditingController grandTotalController = TextEditingController();
 
   @override
   void initState() {
@@ -46,33 +35,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
     });
   }
 
-  void addRow() {
-    // setState(() {
-    //   final newNosController = TextEditingController();
-    //   final newTotalController = TextEditingController();
-    //   nosControllers.add(newNosController);
-    //   totalControllers.add(newTotalController);
-    //   //selectedProducts1.add(null);
-    //   newTotalController.addListener(updateGrandTotal);
-    // });
-  }
-
-  void removeRow(int index) {
-    // if (index == 0) {
-    //   // Clear text fields instead of removing controllers
-    //   nosControllers[index].clear();
-    //   totalControllers[index].clear();
-    //   //selectedProducts1[index] = null;
-    // } else {
-    //   // Remove controllers from lists
-    //   nosControllers.removeAt(index);
-    //   totalControllers[index].removeListener(updateGrandTotal);
-    //   totalControllers.removeAt(index);
-    //   // selectedProducts1.removeAt(index);
-    // }
-    // updateGrandTotal();
-  }
-
   @override
   Widget build(BuildContext context) {
     final salesState = Provider.of<SalesControllerState>(context);
@@ -80,7 +42,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
       children: [
         ListView.builder(
             shrinkWrap: true,
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             itemCount: salesState.selectedProducts.length,
             itemBuilder: (b, i) {
               return productIncrement(i, salesState);
@@ -89,12 +51,12 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
         // for (int i = 0; i < salesState.selectedProducts.length; i++)
         //   productIncrement(i, salesState),
         const SizedBox(height: 10), // Add gap between rows
-        buildGrandTotalField(), // Add grand total field
+        buildGrandTotalField(salesState), // Add grand total field
       ],
     );
   }
 
-  Widget buildGrandTotalField() {
+  Widget buildGrandTotalField(SalesControllerState salesState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -125,7 +87,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
           ),
           child: TextFormField(
             readOnly: true,
-            controller: grandTotalController,
+            controller: salesState.grandTotalController,
             decoration: InputDecoration(
               hintText: "Grand Total",
               hintStyle: const TextStyle(
@@ -198,7 +160,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         state.nosControllers[i].text = '1';
                         double price1 = double.parse(scannedProduct.price);
                         state.totalControllers[i].text = price1.toString();
-                        updateGrandTotal();
+                        // updateGrandTotal();
                       });
                     }
                   },
@@ -244,17 +206,12 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
                     state.selectedProducts[i] = ProductSale(
                         name: value.name, nos: '1', total: value.price);
-                    // widget.getSelectedProducts(selectedProducts1);
-                    // print(selectedProducts1);
+
                     state.nosControllers[i].text = '1';
-                    // widget.getNos(i, 1);
+
                     int nos1 = int.parse(state.nosControllers[i].text);
                     state.totalControllers[i].text = (nos1 * price1).toString();
-                    //double price2 = double.parse(totalControllers[i].text);
-                    // widget.getTotal(i, price2);
-                    // updateGrandTotal();
-                    // widget.getGrandTotal(grandTotal);
-                    //  });
+                    state.updateGrandTotal();
                   },
                   decoration: InputDecoration(
                     hintText: "Products",
@@ -339,7 +296,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     state.totalControllers[i].text = newTotalPrice.toString();
                     //  widget.getNos(i, nos1);
                     //  widget.getTotal(i, newTotalPrice);
-                    updateGrandTotal();
+                    state.updateGrandTotal();
                     // widget.getGrandTotal(grandTotal);
                   },
                 ),
@@ -389,7 +346,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     ),
                   ),
                   keyboardType: TextInputType.none,
-                  onChanged: (_) => updateGrandTotal(),
+                  onChanged: (_) => state.updateGrandTotal(),
                 ),
               ),
             ),
@@ -418,8 +375,8 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
               flex: 0,
               child: GestureDetector(
                 onTap: () {
-                  removeRow(i);
-                  updateGrandTotal();
+                  state.removeRow(i);
+                  // updateGrandTotal();
                 },
                 child: Material(
                   color: const Color(0xFF4B4B87),
@@ -440,18 +397,5 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
         const SizedBox(height: 10), // Add gap between rows
       ],
     );
-  }
-
-  void updateGrandTotal() {
-    double total = 0;
-    // for (int i = 0; i <   .totalControllers.length; i++) {
-    //   if (totalControllers[i].text.isNotEmpty) {
-    //     total += double.parse(totalControllers[i].text);
-    //   }
-    // }
-    setState(() {
-      grandTotal = total;
-      grandTotalController.text = grandTotal.toString();
-    });
   }
 }

@@ -19,12 +19,12 @@ class AddSales extends StatefulWidget {
 
 class _AddSalesState extends State<AddSales> {
   TextEditingController _customerController = TextEditingController();
-  double grandTotal = 0;
+  // double grandTo tal = 0;
 
   @override
   void initState() {
     super.initState();
-    Provider.of<SalesControllerState>(context, listen: false).addRow();
+    // Provider.of<SalesControllerState>(context, listen: false).addRow();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
       // selectedProducts.addAll(widget.sales!.products);
