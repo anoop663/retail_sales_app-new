@@ -74,7 +74,8 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (int i = 0; i < nosControllers.length; i++) productIncrement(i),
+        for (int i = 0; i < nosControllers.length; i++) 
+        productIncrement(i),
         const SizedBox(height: 10), // Add gap between rows
         buildGrandTotalField(), // Add grand total field
       ],

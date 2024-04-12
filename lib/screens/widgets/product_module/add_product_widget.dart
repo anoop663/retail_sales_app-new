@@ -88,7 +88,8 @@ class _AddProductsState extends State<AddProducts> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 2)));
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 2)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -143,7 +144,8 @@ class _AddProductsState extends State<AddProducts> {
                       onChanged: (CategoryModel? value) {
                         // Do something with the selected category
                         // ignore: avoid_print
-                        print('Selected category: ${value?.name}');
+                        _categoryController.text = value!.name;
+                        print('Selected category: ${value.name}');
                       },
                       decoration: InputDecoration(
                         hintText: "Select Category",
@@ -521,9 +523,10 @@ class _AddProductsState extends State<AddProducts> {
                         // Navigate back to the product list page and pass a flag to indicate refreshing
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 3)));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const BottomNavigation(initialIndex: 3)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

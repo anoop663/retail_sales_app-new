@@ -172,7 +172,7 @@ class _AddSalesState extends State<AddSales> {
                           getSelectedProducts: (selectedProducts) {
                             setState(() {
                               this.selectedProducts.clear();
-                              this.selectedProducts.addAll(selectedProducts);
+                              //this.selectedProducts.addAll(selectedProducts);
                             });
                           },
                           getTotal: (index, getTotal) {

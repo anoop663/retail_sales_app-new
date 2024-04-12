@@ -311,7 +311,7 @@ class _ListSalesState extends State<ListSales> {
               onPressed: () {
                 //Add sales page navigation
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const AddSales()));
+                    MaterialPageRoute(builder: (context) => const AddSales1()));
               },
               child: const Icon(Icons.percent_outlined,
                   color: Colors.white, size: 28),
