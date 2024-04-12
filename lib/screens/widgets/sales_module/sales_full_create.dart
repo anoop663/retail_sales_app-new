@@ -23,10 +23,10 @@ class _AddSalesState1 extends State<AddSales1> {
   double grandTotal = 0;
 
   final List<ProductModel> products = [];
+  final List<TextEditingController> productnameControllers = [];
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
   final List<ProductModel?> selectedProducts = [];
-  
 
   @override
   void initState() {
@@ -56,27 +56,26 @@ class _AddSalesState1 extends State<AddSales1> {
       totalControllers.add(newTotalController);
       selectedProducts.add(null);
       newTotalController.addListener(() => updateGrandTotal());
-      
     });
   }
 
- void removeRow(int index) {
-  setState(() {
-    if (index == 0) {
-      // Clear text fields instead of removing controllers
-      nosControllers[index].clear();
-      totalControllers[index].clear();
-      selectedProducts[index] = null;
-    } else {
-      // Remove controllers from lists
-      nosControllers.removeAt(index);
-      totalControllers[index].removeListener(() => updateTotal(index));
-      totalControllers.removeAt(index);
-      selectedProducts.removeAt(index);
-    }
-    updateGrandTotal();
-  });
-}
+  void removeRow(int index) {
+    setState(() {
+      if (index == 0) {
+        // Clear text fields instead of removing controllers
+        nosControllers[index].clear();
+        totalControllers[index].clear();
+        selectedProducts[index] = null;
+      } else {
+        // Remove controllers from lists
+        nosControllers.removeAt(index);
+        totalControllers[index].removeListener(() => updateTotal(index));
+        totalControllers.removeAt(index);
+        selectedProducts.removeAt(index);
+      }
+      updateGrandTotal();
+    });
+  }
 
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -223,11 +222,11 @@ class _AddSalesState1 extends State<AddSales1> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                         await createSales(
-                                _customerController.text,
-                                selectedProducts.cast<ProductSale>(),
-                                grandTotal.toString(),
-                              );
+                        await createSales(
+                          _customerController.text,
+                          selectedProducts.cast<ProductSale>(),
+                          grandTotal.toString(),
+                        );
 
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
@@ -415,21 +414,15 @@ class _AddSalesState1 extends State<AddSales1> {
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                    double price1 = double.parse(value!.price);
-
                     setState(() {
-                      selectedProducts[index] = ProductModel(
-                        category: value.category,
-                        name: value.name,
-                        stock: value.stock,
-                        price: value.price,
-                        code: value.code,
-                        date: value.date,
-                      );
+                      selectedProducts[index] = value;
+                      
+                      // Assuming you want to set the quantity to 1 and calculate total based on that
                       nosControllers[index].text = '1';
-                      int nos1 = int.parse(nosControllers[index].text);
-                      totalControllers[index].text = (nos1 * price1).toString();
-                      updateTotal(index);
+                      double price = double.parse(value!.price);
+                      totalControllers[index].text =
+                          (1 * price).toStringAsFixed(2);
+                      updateGrandTotal();
                     });
                   },
                   decoration: InputDecoration(

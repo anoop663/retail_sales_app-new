@@ -16,6 +16,7 @@ Future<void> main() async {
     Hive.registerAdapter(ProductModelAdapter());
     Hive.registerAdapter(CustomerModelAdapter());
     Hive.registerAdapter(SalesModelAdapter());
+    Hive.registerAdapter(ProductSaleAdapter());
 
  runApp(
     ChangeNotifierProvider(

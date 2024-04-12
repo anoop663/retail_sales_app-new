@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
@@ -25,12 +26,13 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   final List<ProductModel> products = [];
   final List<TextEditingController> nosControllers = [];
   final List<TextEditingController> totalControllers = [];
-  final List<ProductModel?> selectedProducts1 = [];
+  final List<ProductModel?> selectedProducts = [];
   double grandTotal = 0;
   final TextEditingController grandTotalController = TextEditingController();
 
   @override
   void initState() {
+    initializeHive();
     super.initState();
     loadProducts();
     addRow();
@@ -49,7 +51,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
       final newTotalController = TextEditingController();
       nosControllers.add(newNosController);
       totalControllers.add(newTotalController);
-      selectedProducts1.add(null);
+      selectedProducts.add(null);
       newTotalController.addListener(updateGrandTotal);
     });
   }
@@ -59,13 +61,13 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
       // Clear text fields instead of removing controllers
       nosControllers[index].clear();
       totalControllers[index].clear();
-      selectedProducts1[index] = null;
+      selectedProducts[index] = null;
     } else {
       // Remove controllers from lists
       nosControllers.removeAt(index);
       totalControllers[index].removeListener(updateGrandTotal);
       totalControllers.removeAt(index);
-      selectedProducts1.removeAt(index);
+      selectedProducts.removeAt(index);
     }
     updateGrandTotal();
   }
@@ -74,8 +76,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (int i = 0; i < nosControllers.length; i++) 
-        productIncrement(i),
+        for (int i = 0; i < nosControllers.length; i++) productIncrement(i),
         const SizedBox(height: 10), // Add gap between rows
         buildGrandTotalField(), // Add grand total field
       ],
@@ -117,7 +118,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             decoration: InputDecoration(
               hintText: "Grand Total",
               hintStyle: const TextStyle(
-                color: Colors.grey,
+                color: Colors.black,
                 fontSize: 14,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w400,
@@ -180,7 +181,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
                       // Set the scanned product in the dropdown
                       setState(() {
-                        selectedProducts1[i] = scannedProduct;
+                        selectedProducts[i] = scannedProduct;
                         // Update other fields as necessary
                         // For example, if you want to set the quantity to 1:
                         nosControllers[i].text = '1';
@@ -228,32 +229,36 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                    double price1 = double.parse(value!.price);
-
-                    setState(() {
-                      selectedProducts1[i] = ProductModel(
-                          category: value.category,
-                          name: value.name,
-                          stock: value.stock,
-                          price: value.price,
-                          code: value.code,
-                          date: value.date);
-                      widget.getSelectedProducts(selectedProducts1);
-                      print(selectedProducts1);
-                      nosControllers[i].text = '1';
-                      widget.getNos(i, 1);
-                      int nos1 = int.parse(nosControllers[i].text);
-                      totalControllers[i].text = (nos1 * price1).toString();
-                      double price2 = double.parse(totalControllers[i].text);
-                      widget.getTotal(i, price2);
-                      updateGrandTotal();
-                      widget.getGrandTotal(grandTotal);
-                    });
+                    if (value != null) {
+                      double price = double.parse(value!.price);
+                      
+                      setState(() {
+                        selectedProducts[i] = ProductModel(
+                            category: value.category,
+                            name: value.name,
+                            stock: value.stock,
+                            price: value.price,
+                            code: value.code,
+                            date: value.date);
+                        widget.getSelectedProducts(selectedProducts);
+                        // ignore: avoid_print
+                        print(selectedProducts);
+                        nosControllers[i].text = '1';
+                        widget.getNos(i, 1);
+                        int nos1 = int.parse(nosControllers[i].text);
+                        nosControllers[i].text = totalControllers[i].text =
+                            (nos1 * price).toString();
+                        double total = double.parse(totalControllers[i].text);
+                        widget.getTotal(i, total);
+                        updateGrandTotal();
+                        widget.getGrandTotal(grandTotal);
+                      });
+                    }
                   },
                   decoration: InputDecoration(
                     hintText: "Products",
                     hintStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Colors.black,
                       fontSize: 14,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w400,
@@ -325,7 +330,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    final ProductModel? selectedProduct = selectedProducts1[i];
+                    final ProductModel? selectedProduct = selectedProducts[i];
                     int nos1 = int.parse(nosControllers[i].text);
                     final double price1 = double.parse(selectedProduct!.price);
                     final double newTotalPrice = price1 * nos1;
