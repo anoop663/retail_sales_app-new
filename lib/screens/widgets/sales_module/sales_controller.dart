@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
-import 'package:uuid/uuid.dart';
+//import 'package:uuid/uuid.dart';
 
 ValueNotifier<List<SalesModel>> salesListNotifier = ValueNotifier([]);
-final List<ProductSale> selectedProducts = [];
+//final List<ProductSale> selectedProducts = [];
 
 Future<void> getAllSales() async {
   final box1 = await Hive.openBox<SalesModel>('sales_db');
@@ -60,32 +60,31 @@ Future<void> initializeHiveSales() async {
   getAllSales(); // Fetch products from Hive
 }
 
-Future<void> createSales(
-    String customerName, List<ProductSale> products, String grandTotal) async {
-  try {
-    final salesBox = await Hive.openBox<SalesModel>('sales_db');
-    const uuid = Uuid();
-    final uuidString = uuid.v4(); // Generate UUID as a string
-    final id = uuidString.hashCode.abs(); // Convert UUID string to integer
-    final sales = SalesModel(
-      customer: customerName,
-      products: products,
-      grand: grandTotal,
-      id: id,
-    );
-    await salesBox.add(sales);
+// Future<void> createSales(
+//     String customerName, List<ProductSale> products, String grandTotal) async {
+//   try {
+//     final salesBox = await Hive.openBox<SalesModel>('sales_db');
+//     const uuid = Uuid();
+//     final uuidString = uuid.v4(); // Generate UUID as a string
+//     final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+//     final sales = SalesModel(
+//       customer: customerName,
+//       products: products,
+//       grand: grandTotal,
+//       id: id,
+//     );
+//     await salesBox.add(sales);
 
-    getAllSales();
-  } catch (error) {
-    // Handle error
-  }
-}
-
+//     getAllSales();
+//   } catch (error) {
+//     // Handle error
+//   }
+// }
 
 Future<void> deleteSales(int id) async {
   try {
     final box1 = await Hive.openBox<SalesModel>('sales_db');
-    
+
     // Iterate through the box and delete entries with matching ID
     final keys = box1.keys.toList();
     for (var key in keys) {
@@ -93,7 +92,7 @@ Future<void> deleteSales(int id) async {
       if (sale != null && sale.id == id) {
         // Delete the sales entry
         await box1.delete(key);
-        
+
         // Delete associated ProductSale entries
         for (var productSale in sale.products) {
           final productBox = await Hive.openBox<ProductSale>('sales_db');

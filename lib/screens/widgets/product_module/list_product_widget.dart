@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
@@ -338,9 +340,13 @@ class _ListProductsState extends State<ListProducts> {
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'New Product',
               shape: const CircleBorder(),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));
+
+                  //  final productListLength = productListNotifier.value.length.toString();
+            //await addproLength(LengthModel(catlength: productListLength));
+            
               },
               child: const Icon(Icons.add, color: Colors.white, size: 28),
             ),

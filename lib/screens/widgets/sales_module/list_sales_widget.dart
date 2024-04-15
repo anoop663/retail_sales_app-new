@@ -3,8 +3,9 @@ import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_full_create.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
+import 'package:provider/provider.dart';
 
 class ListSales extends StatefulWidget {
   const ListSales({Key? key}) : super(key: key);
@@ -64,6 +65,7 @@ class _ListSalesState extends State<ListSales> {
 
   @override
   Widget build(BuildContext context) {
+    final salesState = Provider.of<SalesControllerState>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -210,11 +212,11 @@ class _ListSalesState extends State<ListSales> {
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    const SizedBox(width: 140),
+                                    const SizedBox(width: 120),
                                     Text(
                                       '₹ ${sale.grand}',
                                       style: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey,
                                       ),
@@ -310,8 +312,12 @@ class _ListSalesState extends State<ListSales> {
               shape: const CircleBorder(),
               onPressed: () {
                 //Add sales page navigation
+                salesState.selectedProducts.clear();
+                salesState.nosControllers.clear();
+                salesState.totalControllers.clear();
+                salesState.addRow();
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const AddSales1()));
+                    MaterialPageRoute(builder: (context) => const AddSales()));
               },
               child: const Icon(Icons.percent_outlined,
                   color: Colors.white, size: 28),
