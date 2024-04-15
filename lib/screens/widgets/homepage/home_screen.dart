@@ -7,6 +7,7 @@ import 'package:project_fourth/screens/widgets/product_module/add_product_widget
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_full_create.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -469,7 +470,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 //Need to Add Navigation to Sale create Page
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const AddSales()));
+                    MaterialPageRoute(builder: (context) => const AddSales1()));
               },
               child: const Icon(Icons.percent, color: Colors.white, size: 28),
             ),
