@@ -58,6 +58,7 @@ class _ListCustomerState extends State<ListCustomer> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final cusCount = Provider.of<CountProvider>(context);
 
     return Scaffold(

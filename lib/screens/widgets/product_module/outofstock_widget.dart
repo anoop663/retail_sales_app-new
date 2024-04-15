@@ -59,6 +59,7 @@ class _OutofStockState extends State<OutofStock> {
   @override
   Widget build(BuildContext context) {
 
+    // ignore: unused_local_variable
     final outCount = Provider.of<CountProvider>(context);
 
     return Scaffold(

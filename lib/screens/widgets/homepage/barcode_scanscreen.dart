@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
+//Not using it anywhere, just kept for reference
+
 class BarcodeApp extends StatefulWidget {
   const BarcodeApp({Key? key}) : super(key: key);
 

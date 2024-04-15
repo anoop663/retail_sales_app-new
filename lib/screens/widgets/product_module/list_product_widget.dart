@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
@@ -25,11 +23,13 @@ class ListProducts extends StatefulWidget {
   const ListProducts({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ListProductsState createState() => _ListProductsState();
 }
 
 class _ListProductsState extends State<ListProducts> {
   String result = '';
+  // ignore: prefer_final_fields
   TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
 
@@ -76,6 +76,7 @@ class _ListProductsState extends State<ListProducts> {
   @override
   Widget build(BuildContext context) {
 
+         // ignore: unused_local_variable
          final proCount = Provider.of<CountProvider>(context);
 
     return Scaffold(

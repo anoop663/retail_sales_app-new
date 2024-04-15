@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
-import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
-import 'package:provider/provider.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/sales_graphbackup.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
@@ -14,6 +12,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -21,18 +20,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Load counts from shared preferences when the home page is opened
-   // Provider.of<CountProvider>(context, listen: false).loadCounts();
+    loadLengthModel();
   }
 
   @override
   Widget build(BuildContext context) {
     // Obtain the counts from the CountProvider
 
-    final _catCount = Provider.of<CountProvider>(context).catCount;
-    final _productCount = Provider.of<CountProvider>(context).proCount;
-    final _outofstockCount = Provider.of<CountProvider>(context).outCount;
-    final _customerCount = Provider.of<CountProvider>(context).custCount;
 
     return Scaffold(
       appBar: AppBar(
@@ -129,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _catCount.toString(),
+                                  lengthModel?.catlength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -199,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _productCount.toString(),
+                                  lengthModel?.prolength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -274,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _customerCount.toString(),
+                                  lengthModel?.custlength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -340,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _outofstockCount.toString(),
+                                  lengthModel?.outoflength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,

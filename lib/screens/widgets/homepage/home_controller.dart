@@ -1,347 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:uuid/uuid.dart';
 
-class SalesGraphWidgetBackup extends StatefulWidget {
-  const SalesGraphWidgetBackup({Key? key}) : super(key: key);
+ValueNotifier<List<LengthModel>> countListNotifier = ValueNotifier([]);
 
-  @override
-  _SalesGraphWidgetBackupState createState() => _SalesGraphWidgetBackupState();
+LengthModel? lengthModel;
+
+Future<void> getAllCount() async {
+  final box1 = await Hive.openBox<LengthModel>('count_db');
+  countListNotifier.value.clear();
+  countListNotifier.value.addAll(box1.values);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+  countListNotifier.notifyListeners();
+  // ignore: avoid_print
+  print('All Counts are listed');
 }
 
-class _SalesGraphWidgetBackupState extends State<SalesGraphWidgetBackup> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 358,
-      height: 258,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            top: 128,
-            child: Transform(
-              transform: Matrix4.identity()
-                ..translate(0.0, 0.0)
-                ..rotateZ(-1.57),
-              child: const Text(
-                'Sales',
-                style: TextStyle(
-                  color: Color(0xFF4B4B87),
-                  fontSize: 14,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                  height: 0,
-                ),
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 140,
-            top: 241,
-            child: Text(
-              'Customers',
-              style: TextStyle(
-                color: Color(0xFF4B4B87),
-                fontSize: 14,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 27,
-            top: 205,
-            child: Text(
-              '0',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 50,
-            top: 223,
-            child: Text(
-              'Customer 1',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 130,
-            top: 223,
-            child: Text(
-              'Customer 2',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 210,
-            top: 223,
-            child: Text(
-              'Customer 3',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 290,
-            top: 223,
-            child: Text(
-              'Customer 4',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 29,
-            top: 164,
-            child: Text(
-              '1',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 123,
-            child: Text(
-              '2',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 82,
-            child: Text(
-              '3',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 27,
-            top: 41,
-            child: Text(
-              '4',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          const Positioned(
-            left: 28,
-            top: 0,
-            child: Text(
-              '5',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 8,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 49,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 90,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 131,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 172,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            top: 213,
-            child: Container(
-              width: 318,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFE2E2E2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 63,
-            top: 7,
-            child: Container(
-              width: 30,
-              height: 206,
-              decoration: ShapeDecoration(
-                color: const Color(0xFF6659FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 143,
-            top: 48,
-            child: Container(
-              width: 30,
-              height: 165,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFB9EAFF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 223,
-            top: 130,
-            child: Container(
-              width: 30,
-              height: 83,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFBEADFF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 303,
-            top: 130,
-            child: Container(
-              width: 30,
-              height: 83,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFEB77FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+// Function to update a category in Hive
+Future<void> updateCatCount(LengthModel count) async {
+  try {
+    var box1 = await Hive.openBox<LengthModel>('count_db');
+    int index = box1.values.toList().indexWhere((cat) => cat.id == count.id);
+    if (index != -1) {
+      box1.putAt(index, count);
+    } else {
+      throw 'Category not found';
+    } // Notify listeners after updating
+  } catch (error) {
+    // ignore: avoid_print
+    print('Failed to update category: $error');
+    throw 'Failed to update category: $error';
+  }
+  getAllCount();
+}
+
+Future<void> addCatCount(catCount) async {
+  // Get the current category count
+  
+
+  // Get the existing LengthModel from Hive
+  final box = Hive.box<LengthModel>('count_db');
+  final lengthModel = box.get(0);
+
+  if (lengthModel != null) {
+    // Update the category count in LengthModel
+    lengthModel.catlength = catCount.toString();
+    box.put(0, lengthModel);
+    getAllCount();
+  } else {
+    // If LengthModel doesn't exist, create a new one and add it to Hive
+    final newLengthModel = LengthModel(catlength: catCount.toString());
+    await box.add(newLengthModel);
+    getAllCount();
+  }
+}
+
+Future<void> deleteCatCount(int id) async {
+  try {
+    final box1 = await Hive.openBox<LengthModel>('count_db');
+    // Iterate through the box and delete entries with matching ID
+    final keys = box1.keys.toList();
+    for (var key in keys) {
+      final category = box1.get(key);
+      if (category != null && category.id == id) {
+        await box1.delete(key);
+      }
+    }
+    countListNotifier.value.clear();
+  } catch (e) {
+    // ignore: avoid_print
+    print('Error deleting count: $e');
+  }
+  await getAllCount();
+}
+
+Future<void> loadLengthModel() async {
+  final box = await Hive.openBox<LengthModel>('count_db');
+  if (box.isNotEmpty) {
+    lengthModel = box.getAt(0); // Assuming there's only one item in the box
   }
 }

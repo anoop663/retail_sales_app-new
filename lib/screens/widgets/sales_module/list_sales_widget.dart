@@ -45,6 +45,7 @@ class _ListSalesState extends State<ListSales> {
             ),
             TextButton(
               onPressed: () {
+                // ignore: avoid_print
                 print('The Sales id is: $id');
                 deleteProducts(id);
                 Navigator.of(context).pop(true);
