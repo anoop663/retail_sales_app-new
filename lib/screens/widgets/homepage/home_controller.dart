@@ -13,14 +13,11 @@ Future<void> getAllCount() async {
   try {
     final box = await Hive.openBox<LengthModel>('count_db');
     final countList = box.values.toList(); // Convert values to a list
-
     // Clear the existing list and add all counts from the box
     countListNotifier.value.clear();
     countListNotifier.value.addAll(countList);
-
     // Notify listeners after updating the list
     countListNotifier.notifyListeners();
-    
     // Print a message indicating that all counts are listed
     print('All counts are listed');
   } catch (e) {
@@ -49,7 +46,7 @@ Future<void> updateCatCount(LengthModel count) async {
 
 Future<void> addCatCount(catCount) async {
   // Get the current category count
-//var box = await Hive.openBox<LengthModel>('count_db');
+initializeHiveHome();
   // Get the existing LengthModel from Hive
   final box = Hive.box<LengthModel>('count_db');
   final lengthModel1 = box.get(0);
@@ -98,7 +95,7 @@ Future<void> loadLengthModel() async {
 
 Future<void> addProCount(proCount) async {
   // Get the current category count
-
+initializeHiveHome();
   // Get the existing LengthModel from Hive
   final box = Hive.box<LengthModel>('count_db');
   final lengthModel2 = box.get(1);
@@ -118,7 +115,7 @@ Future<void> addProCount(proCount) async {
 
 Future<void> addCustCount(custCount) async {
   // Get the current category count
-
+  initializeHiveHome();
   // Get the existing LengthModel from Hive
   final box = Hive.box<LengthModel>('count_db');
   final lengthModel3 = box.get(2);
@@ -138,7 +135,7 @@ Future<void> addCustCount(custCount) async {
 
 Future<void> addOutCount(outCount) async {
   // Get the current category count
-
+initializeHiveHome();
   // Get the existing LengthModel from Hive
   final box = Hive.box<LengthModel>('count_db');
   final lengthModel4 = box.get(3);
