@@ -106,6 +106,7 @@ class _OutofStockState extends State<OutofStock> {
             final outOfStockProducts =
                 products.where((product) => product.stock == "0").toList();
 
+                // ignore: unnecessary_null_comparison
                 if (outOfStockProducts.length != null) {
               addOutCount(outOfStockProducts.length);
             }

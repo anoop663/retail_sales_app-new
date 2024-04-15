@@ -17,11 +17,13 @@ Future<void> getAllCount() async {
     countListNotifier.value.clear();
     countListNotifier.value.addAll(countList);
     // Notify listeners after updating the list
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     countListNotifier.notifyListeners();
     // Print a message indicating that all counts are listed
-    print('All counts are listed');
+    //print('All counts are listed');
   } catch (e) {
     // Handle any errors that occur during the process
+    // ignore: avoid_print
     print('Error getting counts from Hive: $e');
   }
 }

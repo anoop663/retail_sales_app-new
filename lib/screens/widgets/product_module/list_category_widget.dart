@@ -100,6 +100,7 @@ class _ListCategoriesState extends State<ListCategories> {
           valueListenable: categoryListNotifier,
           builder: (context, categories, _) {
             //Count provider Data passing
+            // ignore: unnecessary_null_comparison
             if (categories.length != null) {
               addCatCount(categories.length);
             }

@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 extension IterableExtension<T> on Iterable<T> {
@@ -167,6 +165,7 @@ class _ListProductsState extends State<ListProducts> {
               child: ValueListenableBuilder<List<ProductModel>>(
                 valueListenable: productListNotifier,
                 builder: (context, products, _) {
+                  // ignore: unnecessary_null_comparison
                   if (products.length != null) {
                     addProCount(products.length);
                   }

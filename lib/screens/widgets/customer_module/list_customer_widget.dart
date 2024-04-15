@@ -100,6 +100,7 @@ class _ListCustomerState extends State<ListCustomer> {
         child: ValueListenableBuilder<List<CustomerModel>>(
           valueListenable: customerListNotifier,
           builder: (context, customers, _) {
+            // ignore: unnecessary_null_comparison
             if (customers.length != null) {
               addCustCount(customers.length);
             }
