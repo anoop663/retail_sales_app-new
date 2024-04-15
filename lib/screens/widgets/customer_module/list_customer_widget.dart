@@ -4,6 +4,7 @@ import 'package:project_fourth/screens/widgets/customer_module/customer_controll
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:provider/provider.dart';
 
 class ListCustomer extends StatefulWidget {
@@ -101,12 +102,12 @@ class _ListCustomerState extends State<ListCustomer> {
         child: ValueListenableBuilder<List<CustomerModel>>(
           valueListenable: customerListNotifier,
           builder: (context, customers, _) {
-            // Log the length of customers to verify if data exists
+            if (customers.length != null) {
+              addCustCount(customers.length);
+            }
+
             // ignore: avoid_print
             print('Customers length: ${customers.length}');
-
-            //Count provider Data passing
-            // cusCount.updateCustomerCount(customers.length);
 
             return customers.isEmpty
                 ? const Center(

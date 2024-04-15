@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
@@ -105,8 +106,10 @@ class _OutofStockState extends State<OutofStock> {
             final outOfStockProducts =
                 products.where((product) => product.stock == "0").toList();
 
-                // Product Count Provider
-                 //   outCount.updateOutofStcokCount(outOfStockProducts.length);
+                if (outOfStockProducts.length != null) {
+              addOutCount(outOfStockProducts.length);
+            }
+
             if (outOfStockProducts.isEmpty) {
               return const Center(
                 child: Text(

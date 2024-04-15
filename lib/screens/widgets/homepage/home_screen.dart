@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  lengthModel?.catlength ?? '0',
+                                  lengthModel1?.catlength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  lengthModel?.prolength ?? '0',
+                                  lengthModel2?.prolength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -268,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  lengthModel?.custlength ?? '0',
+                                  lengthModel3?.custlength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -334,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  lengthModel?.outoflength ?? '0',
+                                  lengthModel4?.outoflength ?? '0',
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,

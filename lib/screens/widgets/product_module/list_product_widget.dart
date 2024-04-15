@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
@@ -75,10 +76,6 @@ class _ListProductsState extends State<ListProducts> {
 
   @override
   Widget build(BuildContext context) {
-
-         // ignore: unused_local_variable
-         final proCount = Provider.of<CountProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -94,11 +91,10 @@ class _ListProductsState extends State<ListProducts> {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const BottomNavigation(initialIndex: 0),
-                          ),
-                        );
+              MaterialPageRoute(
+                builder: (context) => const BottomNavigation(initialIndex: 0),
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),
@@ -171,9 +167,9 @@ class _ListProductsState extends State<ListProducts> {
               child: ValueListenableBuilder<List<ProductModel>>(
                 valueListenable: productListNotifier,
                 builder: (context, products, _) {
-
-                   //Count provider Data passing
-              //proCount.updateProductCount(products.length);
+                  if (products.length != null) {
+                    addProCount(products.length);
+                  }
 
                   if (products.isEmpty) {
                     return const Center(
@@ -187,7 +183,6 @@ class _ListProductsState extends State<ListProducts> {
                       ),
                     );
                   } else {
-
                     return ListView.separated(
                       itemBuilder: (ctx, index) {
                         final product = products[index];
@@ -214,7 +209,8 @@ class _ListProductsState extends State<ListProducts> {
                                 backgroundImage: product.image != null
                                     ? FileImage(File(product.image!))
                                     : const AssetImage(
-                                        'lib/assets/app_icon.png') as ImageProvider<Object>?,
+                                            'lib/assets/app_icon.png')
+                                        as ImageProvider<Object>?,
                               ),
                             ),
                             title: Row(
@@ -345,9 +341,8 @@ class _ListProductsState extends State<ListProducts> {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));
 
-                  //  final productListLength = productListNotifier.value.length.toString();
-            //await addproLength(LengthModel(catlength: productListLength));
-            
+                //  final productListLength = productListNotifier.value.length.toString();
+                //await addproLength(LengthModel(catlength: productListLength));
               },
               child: const Icon(Icons.add, color: Colors.white, size: 28),
             ),
