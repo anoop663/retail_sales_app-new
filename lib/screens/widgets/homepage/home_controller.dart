@@ -10,13 +10,23 @@ LengthModel? lengthModel3;
 LengthModel? lengthModel4;
 
 Future<void> getAllCount() async {
-  final box1 = await Hive.openBox<LengthModel>('count_db');
-  countListNotifier.value.clear();
-  countListNotifier.value.addAll(box1.values);
-  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-  countListNotifier.notifyListeners();
-  // ignore: avoid_print
-  print('All Counts are listed');
+  try {
+    final box = await Hive.openBox<LengthModel>('count_db');
+    final countList = box.values.toList(); // Convert values to a list
+
+    // Clear the existing list and add all counts from the box
+    countListNotifier.value.clear();
+    countListNotifier.value.addAll(countList);
+
+    // Notify listeners after updating the list
+    countListNotifier.notifyListeners();
+    
+    // Print a message indicating that all counts are listed
+    print('All counts are listed');
+  } catch (e) {
+    // Handle any errors that occur during the process
+    print('Error getting counts from Hive: $e');
+  }
 }
 
 // Function to update a category in Hive
@@ -144,4 +154,9 @@ Future<void> addOutCount(outCount) async {
     await box.add(newLengthModel);
     getAllCount();
   }
+}
+
+Future<void> initializeHiveHome() async {
+  await Hive.openBox<LengthModel>('count_db');
+  getAllCount(); // Fetch products from Hive
 }

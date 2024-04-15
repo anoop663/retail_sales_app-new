@@ -20,13 +20,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    initializeHiveHome();
     loadLengthModel();
   }
 
   @override
   Widget build(BuildContext context) {
     // Obtain the counts from the CountProvider
-
 
     return Scaffold(
       appBar: AppBar(
