@@ -5,8 +5,8 @@ import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget
 import 'package:project_fourth/screens/widgets/homepage/sales_graphbackup.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_full_create.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,11 +18,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var totalGrandFuture;
+
   @override
   void initState() {
     super.initState();
     initializeHiveHome();
     loadLengthModel();
+    calculateTotalGrandHive().then((value) {
+      setState(() {
+        totalGrandFuture = value;
+      });
+    });
   }
 
   @override
@@ -420,14 +427,14 @@ class _HomePageState extends State<HomePage> {
                           child: Image.asset('lib/assets/Vector5.png'),
                         ),
                       ),
-                      const Positioned(
+                      Positioned(
                         left: 80, // Adjust left position to align with circle
                         top: 10, // Adjust top position for alignment
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 15),
-                            Text(
+                            const SizedBox(height: 15),
+                            const Text(
                               'Sales',
                               style: TextStyle(
                                 fontSize: 14,
@@ -435,10 +442,11 @@ class _HomePageState extends State<HomePage> {
                                 fontFamily: 'Montserrat',
                               ),
                             ),
-                            SizedBox(height: 20), // Add some spacing
+                            const SizedBox(height: 20),
+                            // Add some spacing
                             Text(
-                              '₹324',
-                              style: TextStyle(
+                              '₹ ${totalGrandFuture.toString()}',
+                              style: const TextStyle(
                                 fontSize: 30,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

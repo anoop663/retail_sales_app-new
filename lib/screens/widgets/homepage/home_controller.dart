@@ -49,7 +49,7 @@ Future<void> updateCatCount(LengthModel count) async {
 
 Future<void> addCatCount(catCount) async {
   // Get the current category count
-
+//var box = await Hive.openBox<LengthModel>('count_db');
   // Get the existing LengthModel from Hive
   final box = Hive.box<LengthModel>('count_db');
   final lengthModel1 = box.get(0);

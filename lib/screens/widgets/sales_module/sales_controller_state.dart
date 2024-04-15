@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
@@ -100,4 +99,21 @@ class SalesControllerState extends ChangeNotifier {
       // Handle error
     }
   }
+}
+
+Future<int> calculateTotalGrandHive() async {
+  final box = await Hive.openBox<SalesModel>('sales_db');
+  int totalGrand = 0;
+
+  try {
+    for (int i = 0; i < box.length; i++) {
+      final salesModel = box.getAt(i);
+      totalGrand += int.parse(salesModel?.grand ?? '0');
+    }
+    print('Total grand value: $totalGrand');
+  } catch (e) {
+    print('Error calculating total grand: $e');
+  }
+
+  return totalGrand;
 }
