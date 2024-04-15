@@ -10,6 +10,8 @@ import 'package:project_fourth/screens/widgets/product_module/product_controller
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart'; // Add this import statement
+
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -26,7 +28,8 @@ class _AddProductsState extends State<AddProducts> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
-  final TextEditingController _expiryDateController = TextEditingController();
+  final TextEditingController _expiryDateController =
+      TextEditingController(); // Use TextEditingController for expiry date
   File? _image;
 
   final ImagePicker _picker = ImagePicker();
@@ -145,6 +148,7 @@ class _AddProductsState extends State<AddProducts> {
                         // Do something with the selected category
                         // ignore: avoid_print
                         _categoryController.text = value!.name;
+                        // ignore: avoid_print
                         print('Selected category: ${value.name}');
                       },
                       decoration: InputDecoration(
@@ -407,46 +411,55 @@ class _AddProductsState extends State<AddProducts> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+                  GestureDetector(
+                    onTap: () {
+                      _selectExpiryDate(context); // Open date picker
+                    },
+                    child: AbsorbPointer(
+                      // AbsorbPointer to disable editing
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: _expiryDateController,
-                      decoration: InputDecoration(
-                        hintText: "Enter Expiry Date",
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 16),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                        child: TextFormField(
+                          controller:
+                              _expiryDateController, // Use expiry date controller
+                          decoration: InputDecoration(
+                            hintText: "Select Expiry Date",
+                            hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          keyboardType: TextInputType.datetime,
                         ),
                       ),
-                      keyboardType: TextInputType.text,
                     ),
                   ),
                   // Add other text form fields here
@@ -560,5 +573,23 @@ class _AddProductsState extends State<AddProducts> {
         }
       },
     );
+  }
+
+  Future<void> _selectExpiryDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 50),
+      initialDatePickerMode: DatePickerMode.day, // Show only date picker
+    );
+    if (picked != null) {
+      setState(() {
+        // Format the picked date to display in the text field
+        final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        _expiryDateController.text =
+            formattedDate; // Update expiry date controller with picked date
+      });
+    }
   }
 }
