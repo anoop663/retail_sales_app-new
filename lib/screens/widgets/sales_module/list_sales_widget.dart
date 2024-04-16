@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
@@ -205,6 +206,8 @@ class _ListSalesState extends State<ListSales> {
                                     height:
                                         4), // Add space between customer name and ID
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'ID: ${sale.id}',
@@ -213,7 +216,6 @@ class _ListSalesState extends State<ListSales> {
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    const SizedBox(width: 140),
                                     Text(
                                       '₹ ${sale.grand}',
                                       style: const TextStyle(
@@ -310,6 +312,7 @@ class _ListSalesState extends State<ListSales> {
             FloatingActionButton(
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'New Sales',
+              heroTag: generateRandomString(6),
               shape: const CircleBorder(),
               onPressed: () {
                 //Add sales page navigation

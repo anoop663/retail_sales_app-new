@@ -198,7 +198,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   items: products.map((product) {
                     return DropdownMenuItem<ProductModel>(
                       value: product,
-                      child: Text(product.name),
+                      child: Text(
+                        product.name,
+                        textScaleFactor: .7,
+                        overflow: TextOverflow.clip,
+                      ),
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {

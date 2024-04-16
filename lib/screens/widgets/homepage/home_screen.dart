@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
+import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
@@ -468,6 +469,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FloatingActionButton(
+              heroTag: generateRandomString(1),
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'Sales Button',
               shape: const CircleBorder(),
@@ -480,6 +482,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(width: 12), // Add space between the buttons
             FloatingActionButton(
+              heroTag: generateRandomString(2),
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'New Product',
               shape: const CircleBorder(),
