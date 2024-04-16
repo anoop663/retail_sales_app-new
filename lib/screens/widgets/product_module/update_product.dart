@@ -11,19 +11,21 @@ import 'package:project_fourth/screens/widgets/product_module/product_model.dart
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart'; // Add this import statement
+import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart'; // Add this import statement
 
-class AddProducts extends StatefulWidget {
+class UpdateProducts extends StatefulWidget {
   final ProductModel? product;
 
-  const AddProducts({Key? key, this.product}) : super(key: key);
+  const UpdateProducts({Key? key, this.product}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _AddProductsState createState() => _AddProductsState();
+  _UpdateProductsState createState() => _UpdateProductsState();
+  
 }
 
-class _AddProductsState extends State<AddProducts> {
+class _UpdateProductsState extends State<UpdateProducts> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
@@ -70,16 +72,16 @@ class _AddProductsState extends State<AddProducts> {
 
   @override
   Widget build(BuildContext context) {
-    final salesState2 = Provider.of<SalesControllerState2>(context);
+  final salesState2 = Provider.of<SalesControllerState2>(context);
 
-    return FutureBuilder(
-      future: salesState2.openCategoryBox(),
-      builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final categoryBox = snapshot.data!;
-          final categories = categoryBox.values.toList();
+  return FutureBuilder(
+    future: salesState2.openCategoryBox(),
+    builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        final categoryBox = snapshot.data!;
+        final categories = categoryBox.values.toList();
 
-          return Scaffold(
+        return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -143,6 +145,11 @@ class _AddProductsState extends State<AddProducts> {
                       ],
                     ),
                     child: DropdownButtonFormField<CategoryModel>(
+                      value: categories.firstWhere(
+                        (category) => category.name == _categoryController.text,
+                        orElse: () =>
+                            CategoryModel(name: ''), // Default CategoryModel
+                      ),
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -150,11 +157,13 @@ class _AddProductsState extends State<AddProducts> {
                         );
                       }).toList(),
                       onChanged: (CategoryModel? value) {
-                        // Do something with the selected category
-                        // ignore: avoid_print
-                        _categoryController.text = value!.name;
-                        // ignore: avoid_print
-                        print('Selected category: ${value.name}');
+                        if (value != null) {
+                          _categoryController.text = value.name;
+                          // You can update the selected category here if needed
+                          // selectedCategory = value;
+                          // ignore: avoid_print
+                          print('Selected category: ${value.name}');
+                        }
                       },
                       decoration: InputDecoration(
                         hintText: "Select Category",
@@ -480,12 +489,15 @@ class _AddProductsState extends State<AddProducts> {
                     label: const Text('Upload Image'),
                   ),
                   // Show Captured Image
-                  if (_image != null) ...[
+                  if (_image != null || widget.product?.image != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
                       height: 200,
                       width: 200,
-                      child: Image.file(_image!),
+                      child: _image != null
+                      ? Image.file(_image!)
+                        : Image.file(File(widget.product!.image!)), 
+
                     ),
                   ],
                   // Create/Update Button

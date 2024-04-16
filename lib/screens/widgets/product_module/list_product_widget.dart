@@ -1,10 +1,11 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:project_fourth/screens/widgets/product_module/update_product.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 extension IterableExtension<T> on Iterable<T> {
@@ -28,15 +29,24 @@ class ListProducts extends StatefulWidget {
 
 class _ListProductsState extends State<ListProducts> {
   String result = '';
-  // ignore: prefer_final_fields
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
+  List<String> _categories = [];
 
   @override
   void initState() {
     super.initState();
     initializeHive();
     _allProducts = productListNotifier.value;
+    _categories = _getAllCategories();
+  }
+
+  List<String> _getAllCategories() {
+    Set<String> categories = Set();
+    for (var product in _allProducts) {
+      categories.add(product.category);
+    }
+    return categories.toList();
   }
 
   Future<void> showDeleteConfirmationDialog(int id) async {
@@ -107,6 +117,15 @@ class _ListProductsState extends State<ListProducts> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: _showCategoryFilterDialog,
+            icon: const Icon(
+              Icons.filter_list,
+              color: Color(0xFF4B4B87), // Set icon color here
+            ),
+          ),
+        ],
       ),
       backgroundColor: const Color(0xFFF1F5F9),
       body: Column(
@@ -165,11 +184,6 @@ class _ListProductsState extends State<ListProducts> {
               child: ValueListenableBuilder<List<ProductModel>>(
                 valueListenable: productListNotifier,
                 builder: (context, products, _) {
-                  // ignore: unnecessary_null_comparison
-                  if (products.length != null) {
-                    addProCount(products.length);
-                  }
-
                   if (products.isEmpty) {
                     return const Center(
                       child: Text(
@@ -202,7 +216,8 @@ class _ListProductsState extends State<ListProducts> {
                           child: ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(
-                                  bottom: 10), // Adjust the top padding as needed
+                                  bottom:
+                                      10), // Adjust the top padding as needed
                               child: CircleAvatar(
                                 radius: 26,
                                 backgroundImage: product.image != null
@@ -212,11 +227,11 @@ class _ListProductsState extends State<ListProducts> {
                                         as ImageProvider<Object>?,
                               ),
                             ),
-                            
                             title: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
@@ -228,7 +243,6 @@ class _ListProductsState extends State<ListProducts> {
                                         ),
                                       ),
                                     ),
-                                    
                                     Row(
                                       children: [
                                         Hero(
@@ -242,7 +256,7 @@ class _ListProductsState extends State<ListProducts> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        AddProducts(
+                                                        UpdateProducts(
                                                             product: product),
                                                   ),
                                                 );
@@ -251,7 +265,8 @@ class _ListProductsState extends State<ListProducts> {
                                                 width: 30,
                                                 height: 30,
                                                 decoration: BoxDecoration(
-                                                  color: const Color(0XFF98B5FF),
+                                                  color:
+                                                      const Color(0XFF98B5FF),
                                                   borderRadius:
                                                       BorderRadius.circular(6),
                                                   image: const DecorationImage(
@@ -264,7 +279,8 @@ class _ListProductsState extends State<ListProducts> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 20),
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
                                           child: GestureDetector(
                                             onTap: () {
                                               showDeleteConfirmationDialog(
@@ -289,27 +305,28 @@ class _ListProductsState extends State<ListProducts> {
                                     ),
                                   ],
                                 ),
-                                Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    'Price: ${product.price}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        'Price: ${product.price}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    'Stock: ${product.stock}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                    const SizedBox(width: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        'Stock: ${product.stock}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ],
+                                  ],
                                 ),
                               ],
                             ),
@@ -367,9 +384,6 @@ class _ListProductsState extends State<ListProducts> {
               onPressed: () async {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));
-
-                //  final productListLength = productListNotifier.value.length.toString();
-                //await addproLength(LengthModel(catlength: productListLength));
               },
               child: const Icon(Icons.add, color: Colors.white, size: 28),
             ),
@@ -405,6 +419,47 @@ class _ListProductsState extends State<ListProducts> {
     }
 
     // Update the ValueListenable with the filtered products
+    productListNotifier.value = filteredProducts;
+  }
+
+  void _showCategoryFilterDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFF1F5F9), // Set background color here
+          title: const Text('Filter by Category'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: const Text('Clear All'),
+                  onTap: () {
+                    productListNotifier.value = _allProducts;
+                    Navigator.pop(context);
+                  },
+                ),
+                ..._categories.map(
+                  (category) => ListTile(
+                    title: Text(category),
+                    onTap: () {
+                      filterProductsByCategory(category);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void filterProductsByCategory(String category) {
+    List<ProductModel> filteredProducts =
+        _allProducts.where((product) => product.category == category).toList();
     productListNotifier.value = filteredProducts;
   }
 }
