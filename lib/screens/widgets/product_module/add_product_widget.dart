@@ -10,8 +10,8 @@ import 'package:project_fourth/screens/widgets/product_module/product_controller
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart'; // Add this import statement
-
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart'; // Add this import statement
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -19,6 +19,7 @@ class AddProducts extends StatefulWidget {
   const AddProducts({Key? key, this.product}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddProductsState createState() => _AddProductsState();
 }
 
@@ -41,6 +42,7 @@ class _AddProductsState extends State<AddProducts> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
+        // ignore: avoid_print
         print('No image selected.');
       }
     });
@@ -67,8 +69,10 @@ class _AddProductsState extends State<AddProducts> {
 
   @override
   Widget build(BuildContext context) {
+    final salesState2 = Provider.of<SalesControllerState2>(context);
+
     return FutureBuilder(
-      future: Hive.openBox<CategoryModel>('product_db'),
+      future: salesState2.openCategoryBox(),
       builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           final categoryBox = snapshot.data!;

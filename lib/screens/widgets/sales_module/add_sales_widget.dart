@@ -35,15 +35,17 @@ class _AddSalesState extends State<AddSales> {
   @override
   Widget build(BuildContext context) {
     final salesState = Provider.of<SalesControllerState>(context);
+    final salesState1 = Provider.of<SalesControllerState1>(context);
+
     return FutureBuilder(
-      future: Hive.openBox<CustomerModel>('customer_db'),
+      future: salesState1.openCustomerBox(),
       builder: (context, AsyncSnapshot<Box<CustomerModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           final customerBox = snapshot.data!;
           final customers = customerBox.values.toList();
 
           return FutureBuilder(
-            future: Hive.openBox<ProductModel>('product_db2'),
+            future: salesState1.openProductBox(),
             builder: (context, AsyncSnapshot<Box<ProductModel>> snapshot1) {
               if (snapshot1.connectionState == ConnectionState.done) {
                 return Scaffold(

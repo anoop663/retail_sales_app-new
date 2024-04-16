@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
@@ -116,4 +118,14 @@ Future<double> calculateTotalGrandHive() async {
   }
 
   return totalGrand;
+}
+
+class SalesControllerState1 extends ChangeNotifier {
+  Future<Box<CustomerModel>> openCustomerBox() {
+    return Hive.openBox<CustomerModel>('customer_db');
+  }
+
+  Future<Box<ProductModel>> openProductBox() {
+    return Hive.openBox<ProductModel>('product_db2');
+  }
 }

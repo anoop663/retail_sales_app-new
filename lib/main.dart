@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screen_splash.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
         // ),
         ChangeNotifierProvider(create: (_) => CountProvider()),
         ChangeNotifierProvider(create: (_) => SalesControllerState()),
+        ChangeNotifierProvider(create: (_) => SalesControllerState1()),
+        ChangeNotifierProvider(create: (_) => SalesControllerState2()),
       ],
 
       // Provide CountProvider

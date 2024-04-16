@@ -136,3 +136,8 @@ Future<void> initializeHive() async {
 }
 
 
+class SalesControllerState2 extends ChangeNotifier {
+  Future<Box<CategoryModel>> openCategoryBox() {
+    return Hive.openBox<CategoryModel>('product_db');
+  }
+}
