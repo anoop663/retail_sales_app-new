@@ -99,4 +99,11 @@ class SalesControllerState extends ChangeNotifier {
       // Handle error
     }
   }
+
+  deleteSale(int index) async {
+    final box1 = await Hive.openBox<SalesModel>('sales_db');
+
+    box1.deleteAt(index);
+    initializeHiveSales();
+  }
 }

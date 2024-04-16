@@ -29,10 +29,12 @@ class _ListSalesState extends State<ListSales> {
     _allSales = salesListNotifier.value; // Store all products initially
   }
 
-  Future<void> showDeleteConfirmationDialog(int id) async {
+  Future<void> showDeleteConfirmationDialog(int index) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
+        final salesState = Provider.of<SalesControllerState>(context);
+
         return AlertDialog(
           title: const Text("Confirm Delete"),
           content:
@@ -46,8 +48,8 @@ class _ListSalesState extends State<ListSales> {
             ),
             TextButton(
               onPressed: () {
-                print('The Sales id is: $id');
-                deleteProducts(id);
+                print('The Sales id is: $index');
+                salesState.deleteSale(index);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -266,7 +268,7 @@ class _ListSalesState extends State<ListSales> {
                                     padding: const EdgeInsets.only(top: 0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        showDeleteConfirmationDialog(sale.id!);
+                                        showDeleteConfirmationDialog(index);
                                       },
                                       child: Container(
                                         width: 30,

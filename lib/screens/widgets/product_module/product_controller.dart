@@ -36,7 +36,6 @@ Future<void> updateCategory(CategoryModel updatedCategory) async {
   getAllCategories();
 }
 
-
 Future<void> addCategory(CategoryModel category) async {
   final box1 = await Hive.openBox<CategoryModel>('product_db');
   const uuid = Uuid();
@@ -46,8 +45,7 @@ Future<void> addCategory(CategoryModel category) async {
   await box1.add(category);
 
   getAllCategories();
-} 
-
+}
 
 Future<void> deleteCategory(int id) async {
   try {
@@ -65,7 +63,7 @@ Future<void> deleteCategory(int id) async {
     // ignore: avoid_print
     print('Error deleting customers: $e');
   }
-  await  getAllCategories();
+  await getAllCategories();
 }
 
 //////////////////////////////////////////
@@ -83,8 +81,6 @@ Future<void> getAllProducts() async {
   // ignore: avoid_print
   print('All Categories are listed');
 }
-
-
 
 // Function to update a category in Hive
 Future<void> updateProducts(ProductModel updatedProduct) async {
@@ -104,8 +100,6 @@ Future<void> updateProducts(ProductModel updatedProduct) async {
   }
   getAllProducts();
 }
-
-
 
 Future<void> addProducts(ProductModel product) async {
   final box1 = await Hive.openBox<ProductModel>('product_db2');
@@ -133,12 +127,10 @@ Future<void> deleteProducts(int id) async {
     // ignore: avoid_print
     print('Error deleting customers: $e');
   }
-  await  getAllProducts();
+  await getAllProducts();
 }
 
-  Future<void> initializeHive() async {
-    await Hive.openBox<ProductModel>('product_db2');
-    getAllProducts(); // Fetch products from Hive
-  }
-
-  
+Future<void> initializeHive() async {
+  await Hive.openBox<ProductModel>('product_db2');
+  getAllProducts(); // Fetch products from Hive
+}
