@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final countProvider = Provider.of<CountProvider>(context);
     Future.delayed(const Duration(seconds: 2), () {
       // var categories;
+      countProvider.loadCounts();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const BottomNavigation(initialIndex: 0),
-          
         ),
       );
     });

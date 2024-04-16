@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CountProvider extends ChangeNotifier {
@@ -16,10 +19,13 @@ class CountProvider extends ChangeNotifier {
   Future<void> loadCounts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    _catCount = prefs.getInt('catCount') ?? 0;
-    _proCount = prefs.getInt('proCount') ?? 0;
+    final box1 = await Hive.openBox<ProductModel>('product_db2');
+    final box2 = await Hive.openBox<CustomerModel>('customer_db');
+    final box3 = await Hive.openBox<CategoryModel>('product_db');
+    _catCount = box3.length;
+    _proCount = box1.length;
     _outCount1 = prefs.getInt('outCount') ?? 0;
-    _custCount = prefs.getInt('custCount') ?? 0;
+    _custCount = box2.length;
     notifyListeners();
   }
 

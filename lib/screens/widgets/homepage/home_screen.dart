@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // Obtain the counts from the CountProvider
 
-    final _catCount = Provider.of<CountProvider>(context).catCount;
-    final _productCount = Provider.of<CountProvider>(context).proCount;
-    final _outofstockCount = Provider.of<CountProvider>(context).outCount;
-    final _customerCount = Provider.of<CountProvider>(context).custCount;
+    final catCount = Provider.of<CountProvider>(context).catCount;
+    final productCount = Provider.of<CountProvider>(context).proCount;
+    final outofstockCount = Provider.of<CountProvider>(context).outCount;
+    final customerCount = Provider.of<CountProvider>(context).custCount;
 
     return Scaffold(
       appBar: AppBar(
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _catCount.toString(),
+                                  catCount.toString(),
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _productCount.toString(),
+                                  productCount.toString(),
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _customerCount.toString(),
+                                  customerCount.toString(),
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
@@ -339,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 20), // Add some spacing
                                 Text(
-                                  _outofstockCount.toString(),
+                                  outofstockCount.toString(),
                                   style: const TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,

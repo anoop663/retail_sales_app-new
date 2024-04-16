@@ -16,11 +16,11 @@ class SalesGraphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double maxValue = 0;
-    salesDataList.forEach((data) {
+    for (var data in salesDataList) {
       if (data.salesValue > maxValue) {
         maxValue = data.salesValue;
       }
-    });
+    }
 
     return SizedBox(
       width: 358,
@@ -67,7 +67,7 @@ class SalesGraphWidget extends StatelessWidget {
               top: 223,
               child: Text(
                 salesDataList[i].customerName,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 10,
                   fontFamily: 'Montserrat',
@@ -83,7 +83,7 @@ class SalesGraphWidget extends StatelessWidget {
               top: 205 - (180 * salesDataList[i].salesValue / maxValue),
               child: Text(
                 salesDataList[i].salesValue.toStringAsFixed(0),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
                   fontFamily: 'Montserrat',
