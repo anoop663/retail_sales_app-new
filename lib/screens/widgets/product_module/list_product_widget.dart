@@ -186,7 +186,7 @@ class _ListProductsState extends State<ListProducts> {
                       itemBuilder: (ctx, index) {
                         final product = products[index];
                         return Container(
-                          height: 85,
+                          height: 90,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
@@ -202,7 +202,7 @@ class _ListProductsState extends State<ListProducts> {
                           child: ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(
-                                  top: 10), // Adjust the top padding as needed
+                                  bottom: 10), // Adjust the top padding as needed
                               child: CircleAvatar(
                                 radius: 26,
                                 backgroundImage: product.image != null
@@ -212,76 +212,104 @@ class _ListProductsState extends State<ListProducts> {
                                         as ImageProvider<Object>?,
                               ),
                             ),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            
+                            title: Column(
                               children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 18),
+                                      child: Text(
+                                        product.name,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    Row(
+                                      children: [
+                                        Hero(
+                                          tag: 'edit_icon_${product.id}',
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20, right: 8),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddProducts(
+                                                            product: product),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: const Color(0XFF98B5FF),
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  image: const DecorationImage(
+                                                    image: AssetImage(
+                                                        'lib/assets/edit1.png'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 20),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              showDeleteConfirmationDialog(
+                                                  product.id!);
+                                            },
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0XFFFA3E3E),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                image: const DecorationImage(
+                                                  image: AssetImage(
+                                                      'lib/assets/delete1.png'),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 18),
+                                  padding: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    product.name,
+                                    'Price: ${product.price}',
                                     style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Hero(
-                                      tag: 'edit_icon_${product.id}',
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20, right: 8),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddProducts(
-                                                        product: product),
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            width: 30,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              color: const Color(0XFF98B5FF),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                              image: const DecorationImage(
-                                                image: AssetImage(
-                                                    'lib/assets/edit1.png'),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                const SizedBox(width: 20),
+                                 Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    'Stock: ${product.stock}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 20),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          showDeleteConfirmationDialog(
-                                              product.id!);
-                                        },
-                                        child: Container(
-                                          width: 30,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0XFFFA3E3E),
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            image: const DecorationImage(
-                                              image: AssetImage(
-                                                  'lib/assets/delete1.png'),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                ],
                                 ),
                               ],
                             ),
