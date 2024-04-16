@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
@@ -105,5 +106,27 @@ class SalesControllerState extends ChangeNotifier {
 
     box1.deleteAt(index);
     initializeHiveSales();
+  }
+
+  //////////////////////////////////////////////////////////////
+  // customer list
+
+  final List<CustomerModel> _customers = [];
+
+  //////////////////////////////////////////////////////////////
+  List<CustomerModel> get customers => _customers;
+
+  set addCustomers(CustomerModel value) {
+    _customers.add(value);
+    notifyListeners();
+  }
+
+  void getCustomers() async {
+    final box1 = await Hive.openBox<CustomerModel>('customer_db');
+    _customers.clear();
+
+    for (var element in box1.values) {
+      addCustomers = (element);
+    }
   }
 }

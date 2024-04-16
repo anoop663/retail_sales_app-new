@@ -58,7 +58,7 @@ class _ListCustomerState extends State<ListCustomer> {
 
   @override
   Widget build(BuildContext context) {
-    final cusCount = Provider.of<CountProvider>(context);
+    Provider.of<CountProvider>(context);
 
     return Scaffold(
       appBar: AppBar(

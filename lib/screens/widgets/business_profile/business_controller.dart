@@ -27,12 +27,11 @@ Future<void> updateBusiness(RetailModel2 business) async {
       throw 'Category not found';
     } // Notify listeners after updating
   } catch (error) {
-    print('Failed to update busniss data: $error');
+    debugPrint('Failed to update busniss data: $error');
     throw 'Failed to update busniss data: $error';
   }
   getAllBusines();
 }
-
 
 Future<void> addBusiness(RetailModel2 business) async {
   final retailDB = await Hive.openBox<RetailModel2>('retail_db');

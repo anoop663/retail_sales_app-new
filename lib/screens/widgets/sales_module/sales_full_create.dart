@@ -3,7 +3,6 @@ import 'package:hive/hive.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 
 class AddSales1 extends StatefulWidget {
@@ -33,7 +32,7 @@ class _AddSalesState1 extends State<AddSales1> {
 
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
-     // selectedProducts.addAll(widget.sales!.products);
+      // selectedProducts.addAll(widget.sales!.products);
       _grandTotalController.text = widget.sales!.grand;
     }
 
@@ -222,10 +221,10 @@ class _AddSalesState1 extends State<AddSales1> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () async {
-                            //  await createSales(
-                                //  _customerController.text,
-                                 // selectedProducts,
-                               //   grandTotalController.text);
+                              //  await createSales(
+                              //  _customerController.text,
+                              // selectedProducts,
+                              //   grandTotalController.text);
 
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(

@@ -46,7 +46,7 @@ class SalesGraphWidget extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             left: 140,
             top: 241,
             child: Text(

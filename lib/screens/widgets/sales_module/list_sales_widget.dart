@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_full_create.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +46,7 @@ class _ListSalesState extends State<ListSales> {
             ),
             TextButton(
               onPressed: () {
-                print('The Sales id is: $index');
+                debugPrint('The Sales id is: $index');
                 salesState.deleteSale(index);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -319,6 +317,7 @@ class _ListSalesState extends State<ListSales> {
                 salesState.nosControllers.clear();
                 salesState.totalControllers.clear();
                 salesState.addRow();
+                salesState.getCustomers();
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const AddSales()));
               },
