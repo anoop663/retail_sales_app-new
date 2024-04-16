@@ -59,6 +59,7 @@ class _AddProductsState extends State<AddProducts> {
   void initState() {
     super.initState();
     if (widget.product != null) {
+      _categoryController.text = widget.product!.category;
       _nameController.text = widget.product!.name;
       _codeController.text = widget.product!.code;
       _priceController.text = widget.product!.price;
@@ -96,7 +97,7 @@ class _AddProductsState extends State<AddProducts> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const BottomNavigation(initialIndex: 3)));
+                              const BottomNavigation(initialIndex: 2)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -153,7 +154,7 @@ class _AddProductsState extends State<AddProducts> {
                         // ignore: avoid_print
                         _categoryController.text = value!.name;
                         // ignore: avoid_print
-                        print('Selected category: ${value.name}');
+                        //  print('Selected category: ${value.name}');
                       },
                       decoration: InputDecoration(
                         hintText: "Select Category",
@@ -501,7 +502,7 @@ class _AddProductsState extends State<AddProducts> {
                         }
 
                         if (widget.product != null) {
-                          widget.product!.category = _categoryController.text;
+                          // widget.product!.category = _categoryController.text;
                           widget.product!.name = _nameController.text;
                           widget.product!.code = _codeController.text;
                           widget.product!.price = _priceController.text;
@@ -519,6 +520,7 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         } else {
                           ProductModel product = ProductModel(
+                            // category: _categoryController.text,
                             category: _categoryController.text,
                             name: _nameController.text,
                             code: _codeController.text,
@@ -543,7 +545,7 @@ class _AddProductsState extends State<AddProducts> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigation(initialIndex: 2)));
+                                    const BottomNavigation(initialIndex: 3)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

@@ -5,6 +5,7 @@ import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:project_fourth/screens/widgets/product_module/update_product.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 extension IterableExtension<T> on Iterable<T> {

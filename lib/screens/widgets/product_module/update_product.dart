@@ -72,16 +72,16 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   @override
   Widget build(BuildContext context) {
-  final salesState2 = Provider.of<SalesControllerState2>(context);
+    final salesState2 = Provider.of<SalesControllerState2>(context);
 
-  return FutureBuilder(
-    future: salesState2.openCategoryBox(),
-    builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        final categoryBox = snapshot.data!;
-        final categories = categoryBox.values.toList();
+    return FutureBuilder(
+      future: salesState2.openCategoryBox(),
+      builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final categoryBox = snapshot.data!;
+          final categories = categoryBox.values.toList();
 
-        return Scaffold(
+          return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -489,15 +489,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
                     label: const Text('Upload Image'),
                   ),
                   // Show Captured Image
-                  if (_image != null || widget.product?.image != null) ...[
+                  if (_image != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
                       height: 200,
                       width: 200,
-                      child: _image != null
-                      ? Image.file(_image!)
-                        : Image.file(File(widget.product!.image!)), 
-
+                      child: Image.file(_image!),
                     ),
                   ],
                   // Create/Update Button
