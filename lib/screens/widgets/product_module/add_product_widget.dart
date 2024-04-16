@@ -59,7 +59,6 @@ class _AddProductsState extends State<AddProducts> {
   void initState() {
     super.initState();
     if (widget.product != null) {
-      _categoryController.text = widget.product!.category;
       _nameController.text = widget.product!.name;
       _codeController.text = widget.product!.code;
       _priceController.text = widget.product!.price;
@@ -544,7 +543,7 @@ class _AddProductsState extends State<AddProducts> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigation(initialIndex: 3)));
+                                    const BottomNavigation(initialIndex: 2)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

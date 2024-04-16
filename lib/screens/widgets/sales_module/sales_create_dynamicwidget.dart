@@ -17,7 +17,6 @@ class AddSalesDynamic extends StatefulWidget {
 }
 
 class _AddSalesDynamicState extends State<AddSalesDynamic> {
-  List<TextEditingController> productnameControllers = [];
   final List<ProductModel> products = [];
 
   double grandTotal = 0;
@@ -26,6 +25,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   void initState() {
     super.initState();
     loadProducts();
+    //addRow();
   }
 
   Future<void> loadProducts() async {
@@ -198,14 +198,14 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   items: products.map((product) {
                     return DropdownMenuItem<ProductModel>(
                       value: product,
-                      child: Text(product.name),
+                      child: Text(
+                        product.name,
+                        textScaleFactor: .7,
+                        overflow: TextOverflow.clip,
+                      ),
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                  //  productnameControllers =
-                    //    TextEditingController(text: value!.name)
-                      //      as List<TextEditingController>;
-
                     double price1 = double.parse(value!.price);
 
                     state.selectedProducts[i] = ProductSale(

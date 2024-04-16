@@ -160,6 +160,7 @@ class _AddSalesState extends State<AddSales> {
                             ),
                           ),
                         ),
+                        
                         const SizedBox(height: 50),
                         const Text(
                           'Products',
