@@ -17,6 +17,7 @@ class AddProducts extends StatefulWidget {
   const AddProducts({Key? key, this.product}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddProductsState createState() => _AddProductsState();
 }
 
@@ -38,6 +39,7 @@ class _AddProductsState extends State<AddProducts> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
+        // ignore: avoid_print
         print('No image selected.');
       }
     });
@@ -88,7 +90,7 @@ class _AddProductsState extends State<AddProducts> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 2)));
+                          builder: (context) => const BottomNavigation(initialIndex: 3)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
