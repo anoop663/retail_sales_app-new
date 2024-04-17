@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
@@ -16,6 +18,7 @@ class UpdateProducts extends StatefulWidget {
   const UpdateProducts({Key? key, this.product}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateproductsState createState() => _UpdateproductsState();
 }
 
@@ -30,7 +33,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _getImage() async {
+ Future<void> _getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
@@ -53,7 +56,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
   void initState() {
     super.initState();
     if (widget.product != null) {
-       _categoryController.text = widget.product!.category;
+      _categoryController.text = widget.product!.category;
       _nameController.text = widget.product!.name;
       _codeController.text = widget.product!.code;
       _priceController.text = widget.product!.price;
@@ -88,7 +91,8 @@ class _UpdateproductsState extends State<UpdateProducts> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 3)));
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 3)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -134,6 +138,10 @@ class _UpdateproductsState extends State<UpdateProducts> {
                       ],
                     ),
                     child: DropdownButtonFormField<CategoryModel>(
+                      value: categories.firstWhere(
+                        (category) => category == widget.product!.category,
+                        orElse: () => categories.first,
+                      ),
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -142,6 +150,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                       }).toList(),
                       onChanged: (CategoryModel? value) {
                         // Do something with the selected category
+                        // ignore: avoid_print
                         print('Selected category: ${value?.name}');
                       },
                       decoration: InputDecoration(
@@ -517,7 +526,8 @@ class _UpdateproductsState extends State<UpdateProducts> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BottomNavigation(initialIndex: 3)),
+                              builder: (context) =>
+                                  const BottomNavigation(initialIndex: 3)),
                         );
                       },
                       style: ElevatedButton.styleFrom(

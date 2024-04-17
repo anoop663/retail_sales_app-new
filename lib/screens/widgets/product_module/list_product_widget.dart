@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/update_product_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 extension IterableExtension<T> on Iterable<T> {
@@ -30,14 +28,17 @@ class ListProducts extends StatefulWidget {
 
 class _ListProductsState extends State<ListProducts> {
   String result = '';
+  // ignore: prefer_final_fields
   TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
+  String? _selectedCategory;
 
   @override
   void initState() {
     super.initState();
     initializeHive();
     _allProducts = productListNotifier.value;
+    print(_allProducts.map((product) => product.category).toSet().toList());
   }
 
   Future<void> showDeleteConfirmationDialog(int id) async {
@@ -75,7 +76,7 @@ class _ListProductsState extends State<ListProducts> {
 
   @override
   Widget build(BuildContext context) {
-    final proCount = Provider.of<CountProvider>(context);
+    // final proCount = Provider.of<CountProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -110,6 +111,17 @@ class _ListProductsState extends State<ListProducts> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _showFilterDialog(context);
+            },
+            icon: const Icon(
+              Icons.filter_list,
+              color: Color(0xFF4B4B87),
+            ),
+          )
+        ],
       ),
       backgroundColor: const Color(0xFFF1F5F9),
       body: Column(
@@ -286,6 +298,29 @@ class _ListProductsState extends State<ListProducts> {
                                 ),
                               ],
                             ),
+                            subtitle: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    'Price: ${product.price}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    'Stock: ${product.stock}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -378,5 +413,56 @@ class _ListProductsState extends State<ListProducts> {
 
     // Update the ValueListenable with the filtered products
     productListNotifier.value = filteredProducts;
+  }
+
+  void _showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFF1F5F9),
+          title: const Text("Filter Products"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButton<String>(
+                value: _selectedCategory,
+                hint: const Text('Select Category'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCategory = newValue;
+                    filterProducts(_searchController.text);
+                    Navigator.of(context).pop(); // Close the dialog
+                  });
+                },
+                items: _allProducts
+                    .map((product) => product.category)
+                    .toSet()
+                    .toList()
+                    .map<DropdownMenuItem<String>>((String value) {
+                  print('Dropdown item: $value');
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedCategory = null;
+                    filterProducts(_searchController.text);
+                    Navigator.of(context).pop(); // Close the dialog
+                  });
+                },
+                child: const Text('Clear Filter'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

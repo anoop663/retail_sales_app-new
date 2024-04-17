@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         // ),
         ChangeNotifierProvider(create: (_) => CountProvider()),
         ChangeNotifierProvider(create: (_) => SalesControllerState()),
+         
       ],
 
       // Provide CountProvider
