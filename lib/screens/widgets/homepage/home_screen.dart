@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: GestureDetector(
+                  child: InkWell(
                     onTap: () {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
