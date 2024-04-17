@@ -10,16 +10,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class AddProducts extends StatefulWidget {
+class UpdateProducts extends StatefulWidget {
   final ProductModel? product;
 
-  const AddProducts({Key? key, this.product}) : super(key: key);
+  const UpdateProducts({Key? key, this.product}) : super(key: key);
 
   @override
-  _AddProductsState createState() => _AddProductsState();
+  _UpdateproductsState createState() => _UpdateproductsState();
 }
 
-class _AddProductsState extends State<AddProducts> {
+class _UpdateproductsState extends State<UpdateProducts> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
@@ -53,7 +53,7 @@ class _AddProductsState extends State<AddProducts> {
   void initState() {
     super.initState();
     if (widget.product != null) {
-      _categoryController.text = widget.product!.category;
+       _categoryController.text = widget.product!.category;
       _nameController.text = widget.product!.name;
       _codeController.text = widget.product!.code;
       _priceController.text = widget.product!.price;

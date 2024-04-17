@@ -6,6 +6,7 @@ import 'package:project_fourth/screens/widgets/product_module/add_product_widget
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:project_fourth/screens/widgets/product_module/update_product_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
@@ -238,7 +239,7 @@ class _ListProductsState extends State<ListProducts> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AddProducts(
+                                                    UpdateProducts(
                                                         product: product),
                                               ),
                                             );
