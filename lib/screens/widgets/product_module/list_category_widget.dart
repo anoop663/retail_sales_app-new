@@ -1,12 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
-import 'package:provider/provider.dart';
 
 class ListCategories extends StatefulWidget {
   const ListCategories({Key? key}) : super(key: key);
@@ -61,7 +58,7 @@ class _ListCategoriesState extends State<ListCategories> {
 
   @override
   Widget build(BuildContext context) {
-    final catCount = Provider.of<CountProvider?>(context);
+   // final catCount = Provider.of<CountProvider?>(context);
 
     return Scaffold(
       appBar: AppBar(

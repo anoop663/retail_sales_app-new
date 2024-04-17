@@ -498,6 +498,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                           widget.product!.date = _expiryDateController.text;
                           widget.product!.image = imagePath;
                           await updateProducts(widget.product!);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product updated successfully!'),
@@ -515,6 +516,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                             image: imagePath,
                           );
                           await addProducts(product);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product created successfully!'),
@@ -523,6 +525,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                           );
                         }
 
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -548,7 +551,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                         ),
                       ),
                     ),
-                  ),
+                  ),const SizedBox(height: 10),
                 ],
               ),
             ),
