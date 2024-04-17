@@ -31,45 +31,13 @@ class _ListProductsState extends State<ListProducts> {
   // ignore: prefer_final_fields
   TextEditingController _searchController = TextEditingController();
   List<ProductModel> _allProducts = [];
+  String? _selectedCategory;
 
   @override
   void initState() {
     super.initState();
     initializeHive();
     _allProducts = productListNotifier.value;
-  }
-
-  Future<void> showDeleteConfirmationDialog(int id) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this product?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false); // No
-              },
-              child: const Text("No"),
-            ),
-            TextButton(
-              onPressed: () {
-                deleteProducts(id);
-                Navigator.of(context).pop(true);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Product deleted successfully!'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              },
-              child: const Text("Yes"),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -107,6 +75,17 @@ class _ListProductsState extends State<ListProducts> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _showFilterDialog(context);
+            },
+            icon:const Icon(
+              Icons.filter_list,
+              color: Color(0xFF4B4B87),
+            ),
+          )
+        ],
       ),
       backgroundColor: const Color(0xFFF1F5F9),
       body: Column(
@@ -201,8 +180,7 @@ class _ListProductsState extends State<ListProducts> {
                           ),
                           child: ListTile(
                             leading: Padding(
-                              padding: const EdgeInsets.only(
-                                  bottom: 10), // Adjust the top padding as needed
+                              padding: const EdgeInsets.only(bottom: 10),
                               child: CircleAvatar(
                                 radius: 26,
                                 backgroundImage: product.image != null
@@ -212,11 +190,11 @@ class _ListProductsState extends State<ListProducts> {
                                         as ImageProvider<Object>?,
                               ),
                             ),
-                            
                             title: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
@@ -228,7 +206,6 @@ class _ListProductsState extends State<ListProducts> {
                                         ),
                                       ),
                                     ),
-                                    
                                     Row(
                                       children: [
                                         Hero(
@@ -251,7 +228,8 @@ class _ListProductsState extends State<ListProducts> {
                                                 width: 30,
                                                 height: 30,
                                                 decoration: BoxDecoration(
-                                                  color: const Color(0XFF98B5FF),
+                                                  color:
+                                                      const Color(0XFF98B5FF),
                                                   borderRadius:
                                                       BorderRadius.circular(6),
                                                   image: const DecorationImage(
@@ -264,7 +242,8 @@ class _ListProductsState extends State<ListProducts> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 20),
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
                                           child: GestureDetector(
                                             onTap: () {
                                               showDeleteConfirmationDialog(
@@ -289,27 +268,28 @@ class _ListProductsState extends State<ListProducts> {
                                     ),
                                   ],
                                 ),
-                                Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    'Price: ${product.price}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        'Price: ${product.price}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    'Stock: ${product.stock}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                    const SizedBox(width: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        'Stock: ${product.stock}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ],
+                                  ],
                                 ),
                               ],
                             ),
@@ -367,9 +347,6 @@ class _ListProductsState extends State<ListProducts> {
               onPressed: () async {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));
-
-                //  final productListLength = productListNotifier.value.length.toString();
-                //await addproLength(LengthModel(catlength: productListLength));
               },
               child: const Icon(Icons.add, color: Colors.white, size: 28),
             ),
@@ -380,31 +357,104 @@ class _ListProductsState extends State<ListProducts> {
   }
 
   void filterProducts(String value) {
-    if (value.isEmpty) {
-      // If search text is empty, restore all products
-      productListNotifier.value = _allProducts;
-      return;
+    List<ProductModel> filteredProducts = _allProducts;
+
+    if (value.isNotEmpty) {
+      filteredProducts = filteredProducts
+          .where((product) =>
+              product.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
     }
 
-    // Check if the scanned result matches any product code
-    ProductModel? scannedProduct;
-    if (result.isNotEmpty) {
-      scannedProduct = _allProducts.firstWhereOrNull(
-        (product) => product.code == result,
-      );
+    if (_selectedCategory != null) {
+      filteredProducts = filteredProducts
+          .where((product) => product.category == _selectedCategory)
+          .toList();
     }
 
-    // Filter products based on the entered text
-    List<ProductModel> filteredProducts = _allProducts.where((product) {
-      return product.name.toLowerCase().contains(value.toLowerCase());
-    }).toList();
-
-    // If the scanned product is found, show only that product
-    if (scannedProduct != null) {
-      filteredProducts = [scannedProduct];
-    }
-
-    // Update the ValueListenable with the filtered products
     productListNotifier.value = filteredProducts;
+  }
+
+  void showDeleteConfirmationDialog(int id) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Delete"),
+          content: const Text("Are you sure you want to delete this product?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                deleteProducts(id);
+                Navigator.of(context).pop(true);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Product deleted successfully!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFF1F5F9),
+          title: const Text("Filter Products"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButton<String>(
+                value: _selectedCategory,
+                hint: const Text('Select Category'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCategory = newValue;
+                    filterProducts(_searchController.text);
+                    Navigator.of(context).pop(); // Close the dialog
+                  });
+                },
+                items: _allProducts
+                    .map((product) => product.category)
+                    .toSet()
+                    .toList()
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedCategory = null;
+                    filterProducts(_searchController.text);
+                    Navigator.of(context).pop(); // Close the dialog
+                  });
+                },
+                child: const Text('Clear Filter'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
