@@ -81,7 +81,7 @@ class _ListProductsState extends State<ListProducts> {
             onPressed: () {
               _showFilterDialog(context);
             },
-            icon:const Icon(
+            icon: const Icon(
               Icons.filter_list,
               color: Color(0xFF4B4B87),
             ),
@@ -371,6 +371,12 @@ class _ListProductsState extends State<ListProducts> {
       filteredProducts = filteredProducts
           .where((product) => product.category == _selectedCategory)
           .toList();
+    }
+
+    // Filter by barcode result
+    if (result.isNotEmpty) {
+      filteredProducts =
+          filteredProducts.where((product) => product.code == result).toList();
     }
 
     productListNotifier.value = filteredProducts;
