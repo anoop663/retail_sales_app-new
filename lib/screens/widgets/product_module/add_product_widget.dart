@@ -97,7 +97,7 @@ class _AddProductsState extends State<AddProducts> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const BottomNavigation(initialIndex: 2)));
+                              const BottomNavigation(initialIndex: 3)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
