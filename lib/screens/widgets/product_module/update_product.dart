@@ -12,7 +12,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/cupertino.dart'; // Add this import statement
 
 class UpdateProducts extends StatefulWidget {
   final ProductModel? product;
@@ -22,7 +21,6 @@ class UpdateProducts extends StatefulWidget {
   @override
   // ignore: library_private_types_in_public_api
   _UpdateProductsState createState() => _UpdateProductsState();
-  
 }
 
 class _UpdateProductsState extends State<UpdateProducts> {
@@ -34,6 +32,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
   final TextEditingController _expiryDateController =
       TextEditingController(); // Use TextEditingController for expiry date
   File? _image;
+  String? _imagePath;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -44,18 +43,18 @@ class _UpdateProductsState extends State<UpdateProducts> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        // ignore: avoid_print
         print('No image selected.');
       }
     });
   }
 
-  Future<String> _saveImage(File image) async {
-    final appDir = await getApplicationDocumentsDirectory();
-    final imageName = path.basename(image.path);
-    final savedImage = await image.copy('${appDir.path}/$imageName');
-    return savedImage.path;
-  }
+  // ignore: unused_element
+Future<String> _saveImage(File image) async {
+  final appDir = await getApplicationDocumentsDirectory();
+  final imageName = path.basename(image.path);
+  final savedImage = await image.copy('${appDir.path}/$imageName');
+  return savedImage.path; // This line is fine because it returns a String
+}
 
   @override
   void initState() {
@@ -67,6 +66,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
       _priceController.text = widget.product!.price;
       _stockController.text = widget.product!.stock;
       _expiryDateController.text = widget.product!.date;
+      _imagePath = widget.product!.image; // Update image path
     }
   }
 
@@ -145,11 +145,13 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ],
                     ),
                     child: DropdownButtonFormField<CategoryModel>(
-                      value: categories.firstWhere(
-                        (category) => category.name == _categoryController.text,
-                        orElse: () =>
-                            CategoryModel(name: ''), // Default CategoryModel
-                      ),
+                      value: widget.product != null
+                          ? categories.firstWhere(
+                              (category) =>
+                                  category.name == widget.product!.category,
+                              orElse: () => CategoryModel(name: ''),
+                            )
+                          : null,
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -176,7 +178,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         filled: true,
                         fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 16),
+                          horizontal: 12,
+                          vertical: 16,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
@@ -489,12 +493,14 @@ class _UpdateProductsState extends State<UpdateProducts> {
                     label: const Text('Upload Image'),
                   ),
                   // Show Captured Image
-                  if (_image != null) ...[
+                  if (_image != null || _imagePath != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
                       height: 200,
                       width: 200,
-                      child: Image.file(_image!),
+                      child: _image != null
+                          ? Image.file(_image!)
+                          : Image.file(File(_imagePath!)),
                     ),
                   ],
                   // Create/Update Button
@@ -507,7 +513,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       onPressed: () async {
                         String? imagePath;
                         if (_image != null) {
-                          imagePath = await _saveImage(_image!);
+                           imagePath = await _saveImage(_image!);
+                        } else {
+                          imagePath = _imagePath;
                         }
 
                         if (widget.product != null) {
