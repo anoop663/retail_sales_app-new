@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -17,7 +16,6 @@ class AddProducts extends StatefulWidget {
   const AddProducts({Key? key, this.product}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _AddProductsState createState() => _AddProductsState();
 }
 
@@ -39,7 +37,6 @@ class _AddProductsState extends State<AddProducts> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        // ignore: avoid_print
         print('No image selected.');
       }
     });
@@ -144,7 +141,6 @@ class _AddProductsState extends State<AddProducts> {
                       }).toList(),
                       onChanged: (CategoryModel? value) {
                         // Do something with the selected category
-                        // ignore: avoid_print
                         print('Selected category: ${value?.name}');
                       },
                       decoration: InputDecoration(
@@ -330,11 +326,9 @@ class _AddProductsState extends State<AddProducts> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      keyboardType:
-                          TextInputType.number, // Set keyboardType to number
+                      keyboardType: TextInputType.number,
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only digits
+                        FilteringTextInputFormatter.digitsOnly,
                       ],
                     ),
                   ),
@@ -388,11 +382,9 @@ class _AddProductsState extends State<AddProducts> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      keyboardType:
-                          TextInputType.number, // Set keyboardType to number
+                      keyboardType: TextInputType.number,
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Allow only digits
+                        FilteringTextInputFormatter.digitsOnly,
                       ],
                     ),
                   ),
@@ -407,50 +399,56 @@ class _AddProductsState extends State<AddProducts> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+                  GestureDetector(
+                    onTap: () {
+                      _selectExpiryDate(context);
+                    },
+                    child: AbsorbPointer(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: _expiryDateController,
-                      decoration: InputDecoration(
-                        hintText: "Enter Expiry Date",
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 16),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                        child: TextFormField(
+                          controller: _expiryDateController,
+                          decoration: InputDecoration(
+                            hintText: "Enter Expiry Date",
+                            hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          keyboardType: TextInputType.datetime,
                         ),
                       ),
-                      keyboardType: TextInputType.text,
                     ),
                   ),
-                  // Add other text form fields here
-                  // Image Capture Button
+                  //Image Capture button
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: _getImage,
@@ -461,7 +459,6 @@ class _AddProductsState extends State<AddProducts> {
                     icon: const Icon(Icons.file_upload_outlined),
                     label: const Text('Upload Image'),
                   ),
-                  // Show Captured Image
                   if (_image != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
@@ -470,7 +467,6 @@ class _AddProductsState extends State<AddProducts> {
                       child: Image.file(_image!),
                     ),
                   ],
-                  // Create/Update Button
                   const SizedBox(
                     height: 30,
                   ),
@@ -490,10 +486,8 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.price = _priceController.text;
                           widget.product!.stock = _stockController.text;
                           widget.product!.date = _expiryDateController.text;
-                          widget.product!.image =
-                              imagePath; // Update image path
+                          widget.product!.image = imagePath;
                           await updateProducts(widget.product!);
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product updated successfully!'),
@@ -508,10 +502,9 @@ class _AddProductsState extends State<AddProducts> {
                             price: _priceController.text,
                             stock: _stockController.text,
                             date: _expiryDateController.text,
-                            image: imagePath, // Add image path
+                            image: imagePath,
                           );
                           await addProducts(product);
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product created successfully!'),
@@ -520,12 +513,11 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         }
 
-                        // Navigate back to the product list page and pass a flag to indicate refreshing
-                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 3)));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomNavigation(initialIndex: 3)),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),
@@ -559,5 +551,21 @@ class _AddProductsState extends State<AddProducts> {
         }
       },
     );
+  }
+
+  Future<void> _selectExpiryDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 50),
+      initialDatePickerMode: DatePickerMode.day,
+    );
+    if (picked != null) {
+      setState(() {
+        final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        _expiryDateController.text = formattedDate;
+      });
+    }
   }
 }

@@ -104,9 +104,9 @@ class _ListCategoriesState extends State<ListCategories> {
           valueListenable: categoryListNotifier,
           builder: (context, categories, _) {
             //Count provider Data passing
-            if (catCount != null) {
+           // if (catCount != null) {
               // catCount.updateCategoryCount(categories.length);
-            }
+           // }
 
             return categories.isEmpty
                 ? const Center(

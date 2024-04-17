@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
@@ -18,16 +19,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var totalGrandFuture;
+
   @override
   void initState() {
     super.initState();
+    calculateTotalGrandHive().then((value) {
+      setState(() {
+        totalGrandFuture = value;
+      });
+    });
     // Load counts from shared preferences when the home page is opened
     // Provider.of<CountProvider>(context, listen: false).loadCounts();
   }
 
   @override
   Widget build(BuildContext context) {
+    final countProvider = Provider.of<CountProvider>(context);
     // Obtain the counts from the CountProvider
+    countProvider.loadCounts();
 
     final catCount = Provider.of<CountProvider>(context).catCount;
     final productCount = Provider.of<CountProvider>(context).proCount;
@@ -425,14 +435,14 @@ class _HomePageState extends State<HomePage> {
                           child: Image.asset('lib/assets/Vector5.png'),
                         ),
                       ),
-                      const Positioned(
+                       Positioned(
                         left: 80, // Adjust left position to align with circle
                         top: 10, // Adjust top position for alignment
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 15),
-                            Text(
+                           const SizedBox(height: 15),
+                           const Text(
                               'Sales',
                               style: TextStyle(
                                 fontSize: 14,
@@ -440,10 +450,10 @@ class _HomePageState extends State<HomePage> {
                                 fontFamily: 'Montserrat',
                               ),
                             ),
-                            SizedBox(height: 20), // Add some spacing
+                            const SizedBox(height: 20), // Add some spacing
                             Text(
-                              '₹324',
-                              style: TextStyle(
+                              '₹ ${totalGrandFuture.toString()}',
+                              style:const TextStyle(
                                 fontSize: 30,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

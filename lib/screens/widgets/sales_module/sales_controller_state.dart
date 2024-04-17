@@ -130,3 +130,22 @@ class SalesControllerState extends ChangeNotifier {
     }
   }
 }
+
+Future<double> calculateTotalGrandHive() async {
+  final box = await Hive.openBox<SalesModel>('sales_db');
+  double totalGrand = 0;
+
+  try {
+    for (int i = 0; i < box.length; i++) {
+      final salesModel = box.getAt(i);
+      totalGrand += double.parse(salesModel?.grand ?? '0');
+    }
+    // ignore: avoid_print
+    print('Total grand value: $totalGrand');
+  } catch (e) {
+    // ignore: avoid_print
+    print('Error calculating total grand: $e');
+  }
+
+  return totalGrand;
+}
