@@ -432,7 +432,7 @@ class _ListProductsState extends State<ListProducts> {
                 onChanged: (String? newValue) {
                   setState(() {
                     _selectedCategory = newValue;
-                    filterProducts1(
+                    filterProductsCategory(
                       _searchController.text,
                       _selectedCategory,
                     );
@@ -455,7 +455,7 @@ class _ListProductsState extends State<ListProducts> {
                 onPressed: () {
                   setState(() {
                     _selectedCategory = null;
-                    filterProducts1(
+                    filterProductsCategory(
                       _searchController.text,
                        _selectedCategory,
                      
@@ -472,7 +472,7 @@ class _ListProductsState extends State<ListProducts> {
     );
   }
 
-  void filterProducts1(String searchText, String? selectedCategory) {
+  void filterProductsCategory(String searchText, String? selectedCategory) {
     if (searchText.isEmpty && selectedCategory == null) {
       // If both search text and selected category are empty, restore all products
       productListNotifier.value = _allProducts;
