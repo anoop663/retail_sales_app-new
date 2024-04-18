@@ -67,7 +67,7 @@ class _AddProductsState extends State<AddProducts> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Hive.openBox<CategoryModel>('product_db'),
+      future: CategoryController.openCategoryDatabase(),
       builder: (context, AsyncSnapshot<Box<CategoryModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           final categoryBox = snapshot.data!;
@@ -144,6 +144,7 @@ class _AddProductsState extends State<AddProducts> {
                         );
                       }).toList(),
                       onChanged: (CategoryModel? value) {
+                        _categoryController.text = value!.name;
                         // Do something with the selected category
                         print('Selected category: ${value?.name}');
                       },
@@ -575,6 +576,7 @@ class _AddProductsState extends State<AddProducts> {
       setState(() {
         final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         _expiryDateController.text = formattedDate;
+         // Update category controller text with selected category
       });
     }
   }

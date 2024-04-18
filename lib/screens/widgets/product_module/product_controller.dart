@@ -134,3 +134,9 @@ Future<void> initializeHive() async {
   await Hive.openBox<ProductModel>('product_db2');
   getAllProducts(); // Fetch products from Hive
 }
+
+class CategoryController {
+  static Future<Box<CategoryModel>> openCategoryDatabase() async {
+    return await Hive.openBox<CategoryModel>('product_db');
+  }
+}

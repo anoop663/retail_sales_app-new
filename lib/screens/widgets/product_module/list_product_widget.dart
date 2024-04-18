@@ -38,7 +38,7 @@ class _ListProductsState extends State<ListProducts> {
     super.initState();
     initializeHive();
     _allProducts = productListNotifier.value;
-    print(_allProducts.map((product) => product.category).toSet().toList());
+    _allProducts.map((product) => product.category).toSet().toList();
   }
 
   Future<void> showDeleteConfirmationDialog(int id) async {
@@ -199,7 +199,7 @@ class _ListProductsState extends State<ListProducts> {
                       itemBuilder: (ctx, index) {
                         final product = products[index];
                         return Container(
-                          height: 85,
+                          height: 100,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
@@ -244,7 +244,7 @@ class _ListProductsState extends State<ListProducts> {
                                       tag: 'edit_icon_${product.id}',
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 20, right: 8),
+                                            top: 23, right: 8),
                                         child: GestureDetector(
                                           onTap: () {
                                             Navigator.push(
