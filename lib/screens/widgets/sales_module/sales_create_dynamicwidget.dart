@@ -293,6 +293,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     //  final ProductModel? selectedProduct = state. selectedProducts[i];
+                    if (value.isEmpty) return;
                     int nos1 = int.parse(state.nosControllers[i].text);
                     final double price1 =
                         double.parse(state.selectedProducts[i].total);
@@ -380,7 +381,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
               child: GestureDetector(
                 onTap: () {
                   state.removeRow(i);
-                  // updateGrandTotal();
+                  state.updateGrandTotal();
                 },
                 child: Material(
                   color: const Color(0xFF4B4B87),

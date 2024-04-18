@@ -60,7 +60,8 @@ class SalesControllerState extends ChangeNotifier {
     double total = 0;
     for (int i = 0; i < _selectedProducts.length; i++) {
       if (totalControllers[i].text.isNotEmpty) {
-        total += double.parse(_selectedProducts[i].total);
+        total += (double.parse(_selectedProducts[i].total) *
+            int.parse(nosControllers[i].text.trim()));
       }
     }
 
