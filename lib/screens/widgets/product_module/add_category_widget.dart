@@ -1,7 +1,9 @@
 // add_category_widget.dart
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
+import 'package:provider/provider.dart';
 
 class AddCategory extends StatefulWidget {
   final CategoryModel? category;
@@ -124,7 +126,7 @@ class _AddCategoryState extends State<AddCategory> {
                 onPressed: () async {
                   if (widget.category != null) {
                     widget.category!.name = _nameController.text;
-                    await updateCategory( widget.category!);
+                    await updateCategory(widget.category!);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -135,8 +137,12 @@ class _AddCategoryState extends State<AddCategory> {
                   } else {
                     CategoryModel category =
                         CategoryModel(name: _nameController.text);
-                    
+
                     await addCategory(category);
+                    if (context.mounted) {
+                      Provider.of<CountProvider>(context, listen: false)
+                          .loadCounts();
+                    }
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -145,7 +151,7 @@ class _AddCategoryState extends State<AddCategory> {
                       ),
                     );
                   }
-                  
+
                   // Navigate back to the category list page and pass a flag to indicate refreshing
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop(true);

@@ -6,10 +6,12 @@ import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -88,7 +90,8 @@ class _AddProductsState extends State<AddProducts> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 2)));
+                          builder: (context) =>
+                              const BottomNavigation(initialIndex: 2)));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 16),
@@ -509,6 +512,10 @@ class _AddProductsState extends State<AddProducts> {
                             image: imagePath, // Add image path
                           );
                           await addProducts(product);
+                          if (context.mounted) {
+                            Provider.of<CountProvider>(context, listen: false)
+                                .loadCounts();
+                          }
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -521,9 +528,10 @@ class _AddProductsState extends State<AddProducts> {
                         // Navigate back to the product list page and pass a flag to indicate refreshing
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavigation(initialIndex: 3)));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const BottomNavigation(initialIndex: 3)));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),

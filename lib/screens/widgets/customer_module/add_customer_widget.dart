@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
-
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddCustomer extends StatefulWidget {
   final CustomerModel? customer;
@@ -240,7 +241,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     widget.customer!.name = _nameController.text;
                     widget.customer!.phone = _phoneController.text;
                     widget.customer!.address = _addressController.text;
-                    await updateCustomers( widget.customer!);
+                    await updateCustomers(widget.customer!);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -249,9 +250,18 @@ class _AddCustomerState extends State<AddCustomer> {
                       ),
                     );
                   } else {
-                    CustomerModel customer1 =
-                        CustomerModel(name:  _nameController.text, phone:  _phoneController.text, address:  _addressController.text);
+                    Provider.of<CountProvider>(context, listen: false);
+                    CustomerModel customer1 = CustomerModel(
+                        name: _nameController.text,
+                        phone: _phoneController.text,
+                        address: _addressController.text);
                     await addCustomers(customer1);
+
+                    if (context.mounted) {
+                      Provider.of<CountProvider>(context, listen: false)
+                          .loadCounts();
+                    }
+
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -260,7 +270,7 @@ class _AddCustomerState extends State<AddCustomer> {
                       ),
                     );
                   }
-                  
+
                   // Navigate back to the customer list page and pass a flag to indicate refreshing
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop(true);
