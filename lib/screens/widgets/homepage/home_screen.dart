@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var totalGrandFuture;
+  String dropdownValue = 'This Week';
 
   @override
   void initState() {
@@ -377,9 +378,15 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: DropdownButton<String>(
-                value: 'This Week',
+                value:
+                    dropdownValue, // Use a variable to hold the dropdown value
                 onChanged: (String? newValue) {
-                  // Implement onChanged function to handle dropdown value changes
+                  if (newValue != null) {
+                    setState(() {
+                      dropdownValue = newValue; // Update the dropdown value
+                    });
+                    calculateTotalSales(newValue);
+                  }
                   // You can navigate or update state based on the selected value
                 },
                 items: <String>['This Week', 'This Month']
@@ -435,14 +442,14 @@ class _HomePageState extends State<HomePage> {
                           child: Image.asset('lib/assets/Vector5.png'),
                         ),
                       ),
-                       Positioned(
+                      Positioned(
                         left: 80, // Adjust left position to align with circle
                         top: 10, // Adjust top position for alignment
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                           const SizedBox(height: 15),
-                           const Text(
+                            const SizedBox(height: 15),
+                            const Text(
                               'Sales',
                               style: TextStyle(
                                 fontSize: 14,
@@ -453,7 +460,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 20), // Add some spacing
                             Text(
                               '₹ ${totalGrandFuture.toString()}',
-                              style:const TextStyle(
+                              style: const TextStyle(
                                 fontSize: 30,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

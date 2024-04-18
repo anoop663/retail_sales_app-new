@@ -156,3 +156,33 @@ Future<double> calculateTotalGrandHive() async {
 
   return totalGrand;
 }
+
+
+  // Method to calculate total sales for the selected time frame
+  
+  Future<double> calculateTotalSales(String selectedTimeFrame) async {
+    final salesBox = await Hive.openBox<SalesModel>('sales_db');
+    double totalSales = 0;
+
+    final now = DateTime.now();
+    final beginningOfWeek =
+        now.subtract(Duration(days: now.weekday - 1)); // Monday of the current week
+    final beginningOfMonth = DateTime(now.year, now.month, 1); // First day of the current month
+
+    // Filter sales data based on the selected time frame
+    final filteredSales = salesBox.values.where((sale) {
+      if (selectedTimeFrame == 'This Week') {
+        return sale.createddate!.isAfter(beginningOfWeek);
+      } else if (selectedTimeFrame == 'This Month') {
+        return sale.createddate!.isAfter(beginningOfMonth);
+      }
+      return true; // Return true for all other cases
+    }).toList();
+
+    // Calculate total sales for the filtered sales data
+    for (final sale in filteredSales) {
+      totalSales += double.parse(sale.grand);
+    }
+
+    return totalSales;
+  }
