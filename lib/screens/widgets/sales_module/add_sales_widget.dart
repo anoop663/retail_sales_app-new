@@ -12,6 +12,7 @@ class AddSales extends StatefulWidget {
   const AddSales({Key? key, this.sales}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddSalesState createState() => _AddSalesState();
 }
 
@@ -162,6 +163,7 @@ class _AddSalesState extends State<AddSales> {
                   await salesState.createSales(
                     _customerController.text,
                   );
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const ListSales()),

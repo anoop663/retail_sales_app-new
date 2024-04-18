@@ -1,27 +1,28 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-class AddProducts extends StatefulWidget {
+class UpdateProducts extends StatefulWidget {
   final ProductModel? product;
 
-  const AddProducts({Key? key, this.product}) : super(key: key);
+  const UpdateProducts({Key? key, this.product}) : super(key: key);
 
   @override
-  _AddProductsState createState() => _AddProductsState();
+  // ignore: library_private_types_in_public_api
+  _UpdateproductsState createState() => _UpdateproductsState();
 }
 
-class _AddProductsState extends State<AddProducts> {
+class _UpdateproductsState extends State<UpdateProducts> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
@@ -32,7 +33,7 @@ class _AddProductsState extends State<AddProducts> {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _getImage() async {
+ Future<void> _getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
@@ -137,6 +138,10 @@ class _AddProductsState extends State<AddProducts> {
                       ],
                     ),
                     child: DropdownButtonFormField<CategoryModel>(
+                      value: categories.firstWhere(
+                        (category) => category == widget.product!.category,
+                        orElse: () => categories.first,
+                      ),
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -145,6 +150,7 @@ class _AddProductsState extends State<AddProducts> {
                       }).toList(),
                       onChanged: (CategoryModel? value) {
                         // Do something with the selected category
+                        // ignore: avoid_print
                         print('Selected category: ${value?.name}');
                       },
                       decoration: InputDecoration(
@@ -492,6 +498,7 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.date = _expiryDateController.text;
                           widget.product!.image = imagePath;
                           await updateProducts(widget.product!);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product updated successfully!'),
@@ -509,11 +516,7 @@ class _AddProductsState extends State<AddProducts> {
                             image: imagePath,
                           );
                           await addProducts(product);
-
-                          if (context.mounted) {
-                            Provider.of<CountProvider>(context, listen: false)
-                                .loadCounts();
-                          }
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product created successfully!'),
@@ -522,6 +525,7 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         }
 
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -547,7 +551,7 @@ class _AddProductsState extends State<AddProducts> {
                         ),
                       ),
                     ),
-                  ),
+                  ),const SizedBox(height: 10),
                 ],
               ),
             ),

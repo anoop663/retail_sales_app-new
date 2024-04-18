@@ -105,7 +105,7 @@ class _OutofStockState extends State<OutofStock> {
                 products.where((product) => product.stock == "0").toList();
 
                 // Product Count Provider
-                 //   outCount.updateOutofStcokCount(outOfStockProducts.length);
+                   outCount.updateOutofStcokCount(outOfStockProducts.length);
             if (outOfStockProducts.isEmpty) {
               return const Center(
                 child: Text(
