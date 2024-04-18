@@ -33,13 +33,14 @@ class _UpdateproductsState extends State<UpdateProducts> {
 
   final ImagePicker _picker = ImagePicker();
 
- Future<void> _getImage() async {
+  Future<void> _getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
+        // ignore: avoid_print
         print('No image selected.');
       }
     });
@@ -138,10 +139,10 @@ class _UpdateproductsState extends State<UpdateProducts> {
                       ],
                     ),
                     child: DropdownButtonFormField<CategoryModel>(
-                      value: categories.firstWhere(
-                        (category) => category == widget.product!.category,
-                        orElse: () => categories.first,
-                      ),
+                      value: widget.product != null
+                          ? categories.firstWhere((category) =>
+                              category.name == widget.product!.category)
+                          : null,
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -149,9 +150,9 @@ class _UpdateproductsState extends State<UpdateProducts> {
                         );
                       }).toList(),
                       onChanged: (CategoryModel? value) {
-                        // Do something with the selected category
+                        _categoryController.text = value!.name;
                         // ignore: avoid_print
-                        print('Selected category: ${value?.name}');
+                        print('Selected category: ${value.name}');
                       },
                       decoration: InputDecoration(
                         hintText: "Select Category",
@@ -551,7 +552,8 @@ class _UpdateproductsState extends State<UpdateProducts> {
                         ),
                       ),
                     ),
-                  ),const SizedBox(height: 10),
+                  ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

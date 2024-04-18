@@ -432,7 +432,10 @@ class _ListProductsState extends State<ListProducts> {
                 onChanged: (String? newValue) {
                   setState(() {
                     _selectedCategory = newValue;
-                    filterProducts(_searchController.text);
+                    filterProducts1(
+                      _searchController.text,
+                      _selectedCategory,
+                    );
                     Navigator.of(context).pop(); // Close the dialog
                   });
                 },
@@ -441,7 +444,6 @@ class _ListProductsState extends State<ListProducts> {
                     .toSet()
                     .toList()
                     .map<DropdownMenuItem<String>>((String value) {
-                  print('Dropdown item: $value');
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -453,7 +455,11 @@ class _ListProductsState extends State<ListProducts> {
                 onPressed: () {
                   setState(() {
                     _selectedCategory = null;
-                    filterProducts(_searchController.text);
+                    filterProducts1(
+                      _searchController.text,
+                       _selectedCategory,
+                     
+                    );
                     Navigator.of(context).pop(); // Close the dialog
                   });
                 },
@@ -464,5 +470,25 @@ class _ListProductsState extends State<ListProducts> {
         );
       },
     );
+  }
+
+  void filterProducts1(String searchText, String? selectedCategory) {
+    if (searchText.isEmpty && selectedCategory == null) {
+      // If both search text and selected category are empty, restore all products
+      productListNotifier.value = _allProducts;
+      return;
+    }
+
+    // Filter products based on the entered text and selected category
+    List<ProductModel> filteredProducts = _allProducts.where((product) {
+      final nameMatches =
+          product.name.toLowerCase().contains(searchText.toLowerCase());
+      final categoryMatches =
+          selectedCategory == null || product.category == selectedCategory;
+      return nameMatches && categoryMatches;
+    }).toList();
+
+    // Update the ValueListenable with the filtered products
+    productListNotifier.value = filteredProducts;
   }
 }
