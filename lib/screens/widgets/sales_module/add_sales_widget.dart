@@ -144,7 +144,10 @@ class _AddSalesState extends State<AddSales> {
                 ),
               ),
             ),
+
+            //Create new Customer if customer is not available to select from dropdown.
             AddcustomerSale(),
+
             const SizedBox(height: 50),
             const Text(
               'Products',
