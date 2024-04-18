@@ -90,14 +90,17 @@ class SalesControllerState extends ChangeNotifier {
 
       );
 
+      // ignore: avoid_print
       print(sales);
       try {
         await salesBox.add(sales).then((value) {
+          // ignore: avoid_print
           print(value);
         });
 
         getAllSales();
       } catch (e) {
+        // ignore: avoid_print
         print(e);
       }
     } catch (error) {

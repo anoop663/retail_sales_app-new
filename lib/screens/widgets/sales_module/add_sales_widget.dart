@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/new_customesales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -143,6 +144,7 @@ class _AddSalesState extends State<AddSales> {
                 ),
               ),
             ),
+            AddcustomerSale(),
             const SizedBox(height: 50),
             const Text(
               'Products',

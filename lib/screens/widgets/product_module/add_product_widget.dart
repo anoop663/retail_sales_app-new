@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
@@ -18,6 +20,7 @@ class AddProducts extends StatefulWidget {
   const AddProducts({Key? key, this.product}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddProductsState createState() => _AddProductsState();
 }
 
@@ -39,6 +42,7 @@ class _AddProductsState extends State<AddProducts> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
+        // ignore: avoid_print
         print('No image selected.');
       }
     });
@@ -146,7 +150,8 @@ class _AddProductsState extends State<AddProducts> {
                       onChanged: (CategoryModel? value) {
                         _categoryController.text = value!.name;
                         // Do something with the selected category
-                        print('Selected category: ${value?.name}');
+                        // ignore: avoid_print
+                        print('Selected category: ${value.name}');
                       },
                       decoration: InputDecoration(
                         hintText: "Select Category",
@@ -493,6 +498,7 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.date = _expiryDateController.text;
                           widget.product!.image = imagePath;
                           await updateProducts(widget.product!);
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product updated successfully!'),
@@ -515,6 +521,7 @@ class _AddProductsState extends State<AddProducts> {
                             Provider.of<CountProvider>(context, listen: false)
                                 .loadCounts();
                           }
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Product created successfully!'),
@@ -523,6 +530,7 @@ class _AddProductsState extends State<AddProducts> {
                           );
                         }
 
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
