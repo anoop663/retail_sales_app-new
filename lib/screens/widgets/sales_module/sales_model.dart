@@ -11,11 +11,14 @@ class SalesModel {
   late String grand;
   @HiveField(3)
   int? id;
+  @HiveField(4)
+  DateTime? createddate;
 
   SalesModel({
     required this.customer,
     required this.products,
     required this.grand,
+    this.createddate,
     this.id,
   });
 }

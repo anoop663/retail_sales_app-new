@@ -81,10 +81,13 @@ class SalesControllerState extends ChangeNotifier {
       final uuidString = uuid.v4(); // Generate UUID as a string
       final id = uuidString.hashCode.abs(); // Convert UUID string to integer
       final sales = SalesModel(
+
         customer: customerName,
         products: selectedProducts,
         grand: grandTotalController.text.trim(),
+        createddate: DateTime.now(),
         id: id,
+
       );
 
       print(sales);
