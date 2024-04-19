@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  dropdown_search: ^5.0.6
   flutter:
     sdk: flutter
   flutter_typeahead: ^5.2.0
