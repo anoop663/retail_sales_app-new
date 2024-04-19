@@ -126,7 +126,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
         Row(
           children: [
             Expanded(
-              flex: 1,
+              flex: 0,
               child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -181,7 +181,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             const SizedBox(width: 5),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -265,6 +265,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             const SizedBox(width: 5),
             Expanded(
+              flex: 1,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -327,6 +328,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             const SizedBox(width: 5),
             Expanded(
+              flex: 1,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -375,7 +377,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             const SizedBox(width: 5),
             Expanded(
-              flex: 1,
+              flex: 0,
               child: GestureDetector(
                 onTap: () {
                   state.addRow();
@@ -396,6 +398,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             Expanded(
               flex: 0,
+              
               child: GestureDetector(
                 onTap: () {
                   state.removeRow(i);

@@ -143,18 +143,17 @@ class _AddProductsState extends State<AddProducts> {
                       ],
                     ),
                     child: CustomDropdown<CategoryModel>.search(
-                    
-                     hintText: 'Select Categories',
-                     items: categories,
-                     excludeSelected: false,
-                     onChanged: (CategoryModel? value) {
-                       _categoryController.text = value!.name;
-                       // Do something with the selected category
-                       // ignore: avoid_print
-                       print('Selected category: ${value.name}');
-                     },
-                   ),
-
+                      hintText: 'Select Categories',
+                      items: categories,
+                      initialItem: categories[0],
+                      excludeSelected: false,
+                      onChanged: (CategoryModel? value) {
+                        _categoryController.text = value!.name;
+                        // Do something with the selected category
+                        // ignore: avoid_print
+                        print('Selected category: ${value.name}');
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -560,7 +559,7 @@ class _AddProductsState extends State<AddProducts> {
       setState(() {
         final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         _expiryDateController.text = formattedDate;
-         // Update category controller text with selected category
+        // Update category controller text with selected category
       });
     }
   }
