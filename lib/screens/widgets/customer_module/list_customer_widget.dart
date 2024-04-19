@@ -3,8 +3,6 @@ import 'package:project_fourth/screens/widgets/customer_module/add_customer_widg
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
-import 'package:provider/provider.dart';
 
 class ListCustomer extends StatefulWidget {
   const ListCustomer({Key? key}) : super(key: key);
