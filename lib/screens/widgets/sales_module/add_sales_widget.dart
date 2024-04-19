@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
-import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/new_customesales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
@@ -171,9 +170,10 @@ class _AddSalesState extends State<AddSales> {
                   for (int i = 0; i < salesState.selectedProducts.length; i++) {
                     final selectedProduct = salesState.selectedProducts[i];
                     final quantity = int.parse(selectedProduct.nos);
-                    final productModelBox =
-                        await Hive.openBox<ProductModel>('product_db2');
-                    final product = productModelBox.values.firstWhere(
+                    final products =
+                        await hiveProducts(); // Using the hiveProducts function
+
+                    final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,
                       //orElse: () => null,
                     );

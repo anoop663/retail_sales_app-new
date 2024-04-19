@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -29,9 +29,9 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   Future<void> loadProducts() async {
-    final productBox = await Hive.openBox<ProductModel>('product_db2');
+    final productBox = await hiveProducts();
     setState(() {
-      products.addAll(productBox.values);
+      products.addAll(productBox);
     });
   }
 
