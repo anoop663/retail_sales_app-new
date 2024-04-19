@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
