@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 // ignore: depend_on_referenced_packages
@@ -14,8 +13,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
 
@@ -142,17 +139,44 @@ class _AddProductsState extends State<AddProducts> {
                         ),
                       ],
                     ),
-                    child: CustomDropdown<CategoryModel>.search(
-                      hintText: 'Select Categories',
-                      items: categories,
-                      initialItem: categories[0],
-                      excludeSelected: false,
+                    child: DropdownButtonFormField<CategoryModel>(
+                      items: categories.map((category) {
+                        return DropdownMenuItem<CategoryModel>(
+                          value: category,
+                          child: Text(category.name),
+                        );
+                      }).toList(),
                       onChanged: (CategoryModel? value) {
                         _categoryController.text = value!.name;
                         // Do something with the selected category
                         // ignore: avoid_print
                         print('Selected category: ${value.name}');
                       },
+                      decoration: InputDecoration(
+                        hintText: "Select Category",
+                        hintStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -559,7 +583,7 @@ class _AddProductsState extends State<AddProducts> {
       setState(() {
         final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         _expiryDateController.text = formattedDate;
-        // Update category controller text with selected category
+         // Update category controller text with selected category
       });
     }
   }

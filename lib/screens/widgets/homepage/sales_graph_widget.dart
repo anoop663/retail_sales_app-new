@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 
-class SalesData {
-  final String customerName;
-  final double salesValue;
+class SalesGraphWidgetBackup1 extends StatefulWidget {
+  const SalesGraphWidgetBackup1({Key? key}) : super(key: key);
 
-  SalesData(this.customerName, this.salesValue);
+  @override
+  _SalesGraphWidgetBackupState1 createState() => _SalesGraphWidgetBackupState1();
 }
 
-class SalesGraphWidget extends StatelessWidget {
-  final List<SalesData> salesDataList;
+class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
+  List<SalesGraphModel> salesDataList = [];
+  double maxValue = 0;
 
-  const SalesGraphWidget({Key? key, required this.salesDataList})
-      : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    loadSalesData();
+  }
+
+  Future<void> loadSalesData() async {
+    final box = await Hive.openBox<SalesGraphModel>('graph_db');
+    setState(() {
+      salesDataList = box.values.toList();
+      // Calculate the maximum sales value
+      maxValue = salesDataList.isNotEmpty
+          ? salesDataList.map((data) => double.parse(data.salesValue)).reduce((value, element) => value > element ? value : element)
+          : 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    double maxValue = 0;
-    for (var data in salesDataList) {
-      if (data.salesValue > maxValue) {
-        maxValue = data.salesValue;
-      }
-    }
-
     return SizedBox(
       width: 358,
       height: 258,
@@ -80,9 +90,9 @@ class SalesGraphWidget extends StatelessWidget {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 27 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 205 - (180 * salesDataList[i].salesValue / maxValue),
+              top: 205 - (180 * double.parse(salesDataList[i].salesValue) / maxValue),
               child: Text(
-                salesDataList[i].salesValue.toStringAsFixed(0),
+                salesDataList[i].salesValue.toString(),
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
@@ -103,25 +113,8 @@ class SalesGraphWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       width: 1,
-                      strokeAlign: BorderSide.strokeAlignCenter,
                       color: Color(0xFFE2E2E2),
                     ),
-                  ),
-                ),
-              ),
-            ),
-          // Render colored bars
-          for (int i = 0; i < salesDataList.length; i++)
-            Positioned(
-              left: 63 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 7,
-              child: Container(
-                width: 30,
-                height: 206 * salesDataList[i].salesValue / maxValue,
-                decoration: ShapeDecoration(
-                  color: Color(0xFF6659FF), // You can use different colors here
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),

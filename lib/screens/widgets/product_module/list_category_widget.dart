@@ -40,7 +40,6 @@ class _ListCategoriesState extends State<ListCategories> {
               onPressed: () {
                 deleteCategory(id);
                 Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Category deleted successfully!'),

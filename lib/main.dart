@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screen_splash.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   Hive.registerAdapter(CustomerModelAdapter());
   Hive.registerAdapter(SalesModelAdapter());
   Hive.registerAdapter(ProductSaleAdapter());
+  Hive.registerAdapter(SalesGraphModelAdapter());
 
   runApp(
     MyApp(),
