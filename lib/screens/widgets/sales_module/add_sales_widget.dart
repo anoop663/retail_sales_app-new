@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/new_customesales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
@@ -165,14 +167,58 @@ class _AddSalesState extends State<AddSales> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  await salesState.createSales(
-                    _customerController.text,
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ListSales()),
-                  );
+                  bool canCreateSale = true;
+                  for (int i = 0; i < salesState.selectedProducts.length; i++) {
+                    final selectedProduct = salesState.selectedProducts[i];
+                    final quantity = int.parse(selectedProduct.nos);
+                    final productModelBox =
+                        await Hive.openBox<ProductModel>('product_db2');
+                    final product = productModelBox.values.firstWhere(
+                      (product) => product.name == selectedProduct.name,
+                      //orElse: () => null,
+                    );
+                    // ignore: unnecessary_null_comparison
+                    if (product == null) {
+                      // Product not found in the database
+                      canCreateSale = false;
+                      break;
+                    }
+                    final availableStock = int.parse(product.stock);
+                    if (quantity > availableStock) {
+                      // Show a snackbar with the error message
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('No stock available for some products'),
+                        backgroundColor: Colors.red,
+                      ));
+                      canCreateSale = false;
+                      break; // Exit loop if any product has insufficient stock
+                    }
+                    if (quantity == 0) {
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Remove products with zero stock'),
+                        backgroundColor: Colors.red,
+                      ));
+                      canCreateSale = false;
+                      break; // Exit loop if any product has zero stock
+                    }
+                  }
+
+                  if (canCreateSale) {
+                    await salesState.createSales(_customerController.text);
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Sale created successfully!'),
+                      backgroundColor: Colors.green,
+                    ));
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListSales()),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4B4B87),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
-import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -74,41 +73,49 @@ class SalesControllerState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createSales(
-    String customerName,
-  ) async {
-    try {
-      final salesBox = await Hive.openBox<SalesModel>('sales_db');
-      const uuid = Uuid();
-      final uuidString = uuid.v4(); // Generate UUID as a string
-      final id = uuidString.hashCode.abs(); // Convert UUID string to integer
-      final sales = SalesModel(
+//Creating sale entry function
 
-        customer: customerName,
-        products: selectedProducts,
-        grand: grandTotalController.text.trim(),
-        createddate: DateTime.now(),
-        id: id,
+  Future<void> createSales(String customerName) async {
+  try {
+    final salesBox = await Hive.openBox<SalesModel>('sales_db');
+    const uuid = Uuid();
+    final uuidString = uuid.v4(); // Generate UUID as a string
+    final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+    final sales = SalesModel(
+      customer: customerName,
+      products: selectedProducts,
+      grand: grandTotalController.text.trim(),
+      createddate: DateTime.now(),
+      id: id,
+    );
 
-      );
-
-      // ignore: avoid_print
-      print(sales);
-      try {
-        await salesBox.add(sales).then((value) {
-          // ignore: avoid_print
-          print(value);
-        });
-
-        getAllSales();
-      } catch (e) {
-        // ignore: avoid_print
-        print(e);
+    // Add the sale to sales_db
+    await salesBox.add(sales).then((value) {
+      // Get all products from product_db2
+      final productBox = Hive.box<ProductModel>('product_db2');
+      // Iterate through each selected product in the sale
+      for (var productSale in selectedProducts) {
+        // Find the corresponding product in product_db2 by its code
+        final index = productBox.values.toList().indexWhere((product) => product.name == productSale.name);
+        if (index != -1) {
+          // Get the product from product_db2
+          final productToUpdate = productBox.getAt(index);
+          // Update the stock of the product
+          final int updatedStock = int.parse(productToUpdate!.stock) - int.parse(productSale.nos);
+          productToUpdate.stock = updatedStock.toString();
+          // Update the product in product_db2
+          productBox.putAt(index, productToUpdate);
+        }
       }
-    } catch (error) {
-      // Handle error
-    }
+    });
+
+    // Get all sales after adding the new sale
+    getAllSales();
+  } catch (error) {
+    // Handle error
   }
+}
+
 
   deleteSale(int index) async {
     final box1 = await Hive.openBox<SalesModel>('sales_db');
@@ -159,40 +166,38 @@ Future<double> calculateTotalGrandHive() async {
   return totalGrand;
 }
 
+// Method to calculate total sales for the selected time frame
 
-  // Method to calculate total sales for the selected time frame
+Future<double> calculateTotalSales(String selectedTimeFrame) async {
+  final salesBox = await Hive.openBox<SalesModel>('sales_db');
+  double totalSales = 0;
 
-  Future<double> calculateTotalSales(String selectedTimeFrame) async {
-    final salesBox = await Hive.openBox<SalesModel>('sales_db');
-    double totalSales = 0;
+  final now = DateTime.now();
+  final beginningOfWeek = now
+      .subtract(Duration(days: now.weekday - 1)); // Monday of the current week
+  final beginningOfMonth =
+      DateTime(now.year, now.month, 1); // First day of the current month
 
-    final now = DateTime.now();
-    final beginningOfWeek =
-        now.subtract(Duration(days: now.weekday - 1)); // Monday of the current week
-    final beginningOfMonth = DateTime(now.year, now.month, 1); // First day of the current month
-
-    // Filter sales data based on the selected time frame
-    final filteredSales = salesBox.values.where((sale) {
-      if (selectedTimeFrame == 'This Week') {
-        return sale.createddate!.isAfter(beginningOfWeek);
-      } else if (selectedTimeFrame == 'This Month') {
-        return sale.createddate!.isAfter(beginningOfMonth);
-      }
-      return true; // Return true for all other cases
-    }).toList();
-
-    // Calculate total sales for the filtered sales data
-    for (final sale in filteredSales) {
-      totalSales += double.parse(sale.grand);
+  // Filter sales data based on the selected time frame
+  final filteredSales = salesBox.values.where((sale) {
+    if (selectedTimeFrame == 'This Week') {
+      return sale.createddate!.isAfter(beginningOfWeek);
+    } else if (selectedTimeFrame == 'This Month') {
+      return sale.createddate!.isAfter(beginningOfMonth);
     }
+    return true; // Return true for all other cases
+  }).toList();
 
-    return totalSales;
+  // Calculate total sales for the filtered sales data
+  for (final sale in filteredSales) {
+    totalSales += double.parse(sale.grand);
   }
 
+  return totalSales;
+}
 
 class ProductController {
   static Future<Box<ProductModel>> openProductDatabase() async {
     return await Hive.openBox<ProductModel>('product_db2');
   }
 }
-
