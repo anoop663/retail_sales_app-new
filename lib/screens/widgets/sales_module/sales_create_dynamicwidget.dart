@@ -200,22 +200,38 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                       value: product,
                       child: Text(
                         product.name,
-                        textScaleFactor: .7,
+                        //textScaleFactor: .7,
                         overflow: TextOverflow.clip,
                       ),
                     );
                   }).toList(),
                   onChanged: (ProductModel? value) {
-                    double price1 = double.parse(value!.price);
+                    if (value != null) {
+                      double price1 = double.parse(value.price);
 
-                    state.selectedProducts[i] = ProductSale(
-                        name: value.name, nos: '1', total: value.price);
+                      state.selectedProducts[i] = ProductSale(
+                          name: value.name, nos: '1', total: value.price);
 
-                    state.nosControllers[i].text = '1';
+                      state.nosControllers[i].text = '1';
 
-                    int nos1 = int.parse(state.nosControllers[i].text);
-                    state.totalControllers[i].text = (nos1 * price1).toString();
-                    state.updateGrandTotal();
+                      int nos1 = int.parse(state.nosControllers[i].text);
+                      state.totalControllers[i].text =
+                          (nos1 * price1).toString();
+                      if (state.nosControllers[i].text.isNotEmpty) {
+                        int quantity = int.parse(state.nosControllers[i].text);
+                        int availableStock = int.parse(value
+                            .stock); // Access stock from the selected product
+                        if (quantity > availableStock) {
+                          // Show a snackbar with the error message
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('No stock available'),
+                            backgroundColor: Colors.red,
+                          ));
+                        }
+                      }
+                      state.updateGrandTotal();
+                    }
                   },
                   decoration: InputDecoration(
                     hintText: "Products",
@@ -299,10 +315,12 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         double.parse(state.selectedProducts[i].total);
                     final double newTotalPrice = price1 * nos1;
                     state.totalControllers[i].text = newTotalPrice.toString();
+                    
                     //  widget.getNos(i, nos1);
                     //  widget.getTotal(i, newTotalPrice);
                     state.updateGrandTotal();
                     // widget.getGrandTotal(grandTotal);
+                    
                   },
                 ),
               ),

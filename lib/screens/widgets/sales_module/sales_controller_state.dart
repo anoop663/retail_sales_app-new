@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
@@ -159,7 +161,7 @@ Future<double> calculateTotalGrandHive() async {
 
 
   // Method to calculate total sales for the selected time frame
-  
+
   Future<double> calculateTotalSales(String selectedTimeFrame) async {
     final salesBox = await Hive.openBox<SalesModel>('sales_db');
     double totalSales = 0;
@@ -186,3 +188,11 @@ Future<double> calculateTotalGrandHive() async {
 
     return totalSales;
   }
+
+
+class ProductController {
+  static Future<Box<ProductModel>> openProductDatabase() async {
+    return await Hive.openBox<ProductModel>('product_db2');
+  }
+}
+
