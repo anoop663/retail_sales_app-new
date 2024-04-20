@@ -192,7 +192,7 @@ Future<double> calculateTotalGrandHive() async {
 
 // Method to calculate total sales for the selected time frame
 
-Future<double> calculateTotalSales(String selectedTimeFrame) async {
+Future<double> calculateTotalSales2(String selectedTimeFrame) async {
   final salesBox = await Hive.openBox<SalesModel>('sales_db');
   double totalSales = 0;
 

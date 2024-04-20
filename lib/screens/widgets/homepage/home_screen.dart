@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_fourth/screens/widgets/homepage/barcode_scanscreen.dart';
-import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/sales_totalbyday.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
@@ -11,16 +10,17 @@ import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  // ignore: prefer_typing_uninitialized_variables
   var totalGrandFuture;
   String dropdownValue = 'This Week';
 
@@ -372,111 +372,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const SizedBox(height: 10),
-          SizedBox(
-            height: 30, // Set the desired height here
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButton<String>(
-                value:
-                    dropdownValue, // Use a variable to hold the dropdown value
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                      dropdownValue = newValue; // Update the dropdown value
-                    });
-                    calculateTotalSales(newValue);
-                  }
-                  // You can navigate or update state based on the selected value
-                },
-                items: <String>['This Week', 'This Month']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        value,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 120,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const ListSales(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity, // Remove the height property here
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF2AC3FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 16,
-                        top: 10,
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF38D3FD),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset('lib/assets/Vector5.png'),
-                        ),
-                      ),
-                      Positioned(
-                        left: 80, // Adjust left position to align with circle
-                        top: 10, // Adjust top position for alignment
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 15),
-                            const Text(
-                              'Sales',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                            const SizedBox(height: 20), // Add some spacing
-                            Text(
-                              '₹ ${totalGrandFuture.toString()}',
-                              style: const TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const SalesDropdownAndTotal(),
           const SizedBox(height: 20),
           const SalesGraphWidgetBackup1(),
         ]),
