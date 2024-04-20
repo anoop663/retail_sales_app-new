@@ -50,7 +50,7 @@ Future<void> loadSalesData() async {
         children: [
           Positioned(
             left: 0,
-            top: 128,
+            top: 110,
             child: Transform(
               transform: Matrix4.identity()
                 ..translate(0.0, 0.0)
@@ -69,7 +69,7 @@ Future<void> loadSalesData() async {
           ),
           const Positioned(
             left: 140,
-            top: 232,
+            top: 220,
             child: Text(
               'Customers',
               style: TextStyle(
@@ -85,7 +85,7 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 45 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom: 10, // Position at the bottom
+              bottom: 25, // Position at the bottom
               child: Text(
                 salesDataList[i].customerName,
                 style: const TextStyle(
@@ -117,7 +117,7 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 63 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom: 23, // Adjust bottom position to align with the bottom of the graph
+              bottom: 40, // Adjust bottom position to align with the bottom of the graph
               child: Container(
                 width: 30,
                 height: 206 * double.parse(salesDataList[i].salesValue) / maxValue,
@@ -134,7 +134,7 @@ Future<void> loadSalesData() async {
               bottom: 9 + 41 * i.toDouble(), // Adjust bottom position to align with the bottom of the graph
               child:  Container(
                 width: 318,
-                height: 12, // Change height to represent horizontal lines
+                height: 30, // Change height to represent horizontal lines
                 child: CustomPaint(
                   painter: DottedLinePainter(),
                 ),
@@ -150,7 +150,7 @@ class DottedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color =const Color.fromARGB(255, 236, 234, 234)
+      ..color =const Color(0xFFE2E2E2)
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
