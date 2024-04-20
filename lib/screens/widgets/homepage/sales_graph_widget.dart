@@ -12,6 +12,14 @@ class SalesGraphWidgetBackup1 extends StatefulWidget {
 class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
   List<SalesGraphModel> salesDataList = [];
   double maxValue = 0;
+  List<Color> pillarColors = [
+    const Color(0xFF6659FF),
+    const Color(0xFFB9EAFF),
+    const Color(0xFFBEADFF),
+    const Color(0xFFEC77FF),
+    Colors.purple,
+    Colors.yellow,
+  ]; // Define different colors for each pillar
 
   @override
   void initState() {
@@ -70,7 +78,7 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
               ),
             ),
           ),
-          // Render customer names dynamically
+          // Fetch customer names dynamically
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 27 + 80 * i.toDouble(), // Adjust position dynamically
@@ -102,6 +110,20 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
                 ),
               ),
             ),
+          // Render colored bars
+          for (int i = 0; i < salesDataList.length; i++)
+            Positioned(
+              left: 63 + 80 * i.toDouble(), // Adjust position dynamically
+              top: 7,
+              child: Container(
+                width: 30,
+                height: 206 * double.parse(salesDataList[i].salesValue) / maxValue,
+                decoration: BoxDecoration(
+                  color: pillarColors[i % pillarColors.length], // Assign a color from the list
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
           // Render horizontal lines
           for (int i = 0; i < 6; i++)
             Positioned(
@@ -109,14 +131,8 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
               top: 8 + 41 * i.toDouble(),
               child: Container(
                 width: 318,
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: Color(0xFFE2E2E2),
-                    ),
-                  ),
-                ),
+                height: 1, // Change height to represent horizontal lines
+                color: const Color(0xFFE2E2E2),
               ),
             ),
         ],

@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -76,46 +80,58 @@ class SalesControllerState extends ChangeNotifier {
 //Creating sale entry function
 
   Future<void> createSales(String customerName) async {
-  try {
-    final salesBox = await Hive.openBox<SalesModel>('sales_db');
-    const uuid = Uuid();
-    final uuidString = uuid.v4(); // Generate UUID as a string
-    final id = uuidString.hashCode.abs(); // Convert UUID string to integer
-    final sales = SalesModel(
-      customer: customerName,
-      products: selectedProducts,
-      grand: grandTotalController.text.trim(),
-      createddate: DateTime.now(),
-      id: id,
-    );
+    try {
+      final salesBox = await Hive.openBox<SalesModel>('sales_db');
+      const uuid = Uuid();
+      final uuidString = uuid.v4(); // Generate UUID as a string
+      final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+      final sales = SalesModel(
+        customer: customerName,
+        products: selectedProducts,
+        grand: grandTotalController.text.trim(),
+        createddate: DateTime.now(),
+        id: id,
+      );
 
-    // Add the sale to sales_db
-    await salesBox.add(sales).then((value) {
-      // Get all products from product_db2
-      final productBox = Hive.box<ProductModel>('product_db2');
-      // Iterate through each selected product in the sale
-      for (var productSale in selectedProducts) {
-        // Find the corresponding product in product_db2 by its code
-        final index = productBox.values.toList().indexWhere((product) => product.name == productSale.name);
-        if (index != -1) {
-          // Get the product from product_db2
-          final productToUpdate = productBox.getAt(index);
-          // Update the stock of the product
-          final int updatedStock = int.parse(productToUpdate!.stock) - int.parse(productSale.nos);
-          productToUpdate.stock = updatedStock.toString();
-          // Update the product in product_db2
-          productBox.putAt(index, productToUpdate);
+      // Add the sale to sales_db
+      await salesBox.add(sales).then((value) async{
+        // Get all products from product_db2
+        //initializeHive();
+       await Hive.openBox<ProductModel>('product_db2');
+        final productBox = Hive.box<ProductModel>('product_db2');
+        // Iterate through each selected product in the sale
+        for (var productSale in selectedProducts) {
+          // Find the corresponding product in product_db2 by its code
+          final index = productBox.values
+              .toList()
+              .indexWhere((product) => product.name == productSale.name);
+          if (index != -1) {
+            // Get the product from product_db2
+            final productToUpdate = productBox.getAt(index);
+            // Update the stock of the product
+            final int updatedStock =
+                int.parse(productToUpdate!.stock) - int.parse(productSale.nos);
+            productToUpdate.stock = updatedStock.toString();
+            // Update the product in product_db2
+            productBox.putAt(index, productToUpdate);
+          }
         }
-      }
+       // Save data to SalesGraphModel
+      final graphBox = await Hive.openBox<SalesGraphModel>('graph_db');
+      final salesGraph =  SalesGraphModel(
+        customerName: customerName,
+        salesValue: grandTotalController.text.trim(),
+      );
+      await graphBox.add(salesGraph);
     });
+      
 
-    // Get all sales after adding the new sale
-    getAllSales();
-  } catch (error) {
-    // Handle error
+      // Get all sales after adding the new sale
+      getAllSales();
+    } catch (error) {
+      log(error.toString());
+    }
   }
-}
-
 
   deleteSale(int index) async {
     final box1 = await Hive.openBox<SalesModel>('sales_db');
