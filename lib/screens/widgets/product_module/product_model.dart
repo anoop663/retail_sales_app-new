@@ -48,4 +48,9 @@ class ProductModel {
     this.image,
     this.id,
   });
+  @override
+  String toString() {
+    
+    return name.toString();
+  }
 }

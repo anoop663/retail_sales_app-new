@@ -18,4 +18,9 @@ class CustomerModel {
     required this.address,
     this.id, // Update constructor to require id
   });
+
+  @override
+  String toString() {
+    return name.toString();
+  }
 }

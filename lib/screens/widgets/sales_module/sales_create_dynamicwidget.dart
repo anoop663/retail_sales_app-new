@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
@@ -194,17 +195,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     ),
                   ],
                 ),
-                child: DropdownButtonFormField<ProductModel>(
-                  items: products.map((product) {
-                    return DropdownMenuItem<ProductModel>(
-                      value: product,
-                      child: Text(
-                        product.name,
-                        //textScaleFactor: .7,
-                        overflow: TextOverflow.clip,
-                      ),
-                    );
-                  }).toList(),
+                child: CustomDropdown<ProductModel>.search(
+                hintText: 'Select Product',
+                items: products,
+                excludeSelected: false,
                   onChanged: (ProductModel? value) {
                     if (value != null) {
                       double price1 = double.parse(value.price);
@@ -233,33 +227,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                       state.updateGrandTotal();
                     }
                   },
-                  decoration: InputDecoration(
-                    hintText: "Products",
-                    hintStyle: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
                 ),
               ),
             ),

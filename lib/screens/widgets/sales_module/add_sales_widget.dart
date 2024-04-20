@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
@@ -95,42 +96,16 @@ class _AddSalesState extends State<AddSales> {
                   ),
                 ],
               ),
-              child: DropdownButtonFormField<CustomerModel>(
-                items: salesState.customers.map((customer) {
-                  return DropdownMenuItem<CustomerModel>(
-                    value: customer,
-                    child: Text(customer.name),
-                  );
-                }).toList(),
+              child: CustomDropdown<CustomerModel>.search(
+                hintText: 'Select Customer',
+                items: salesState.customers,
+                excludeSelected: false,
                 onChanged: (CustomerModel? value) {
-                  _customerController =
-                      TextEditingController(text: value!.name);
+                  _customerController.text = value!.name;
+                  // Do something with the selected customer
+                  // ignore: avoid_print
+                  print('Selected customer: ${value.name}');
                 },
-                decoration: InputDecoration(
-                  hintText: "Select Customer",
-                  hintStyle: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
               ),
             ),
             const SizedBox(height: 20),
