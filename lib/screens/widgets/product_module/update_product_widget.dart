@@ -233,6 +233,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                     ),
                     child: TextFormField(
                       controller: _codeController,
+                      readOnly: true,
                       decoration: InputDecoration(
                         hintText: "Enter Product Code",
                         hintStyle: const TextStyle(
@@ -258,7 +259,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.none,
                     ),
                   ),
                   const SizedBox(height: 20),

@@ -107,6 +107,7 @@ Future<void> addProducts(ProductModel product) async {
   final uuidString = uuid.v4(); // Generate UUID as a string
   final id = uuidString.hashCode.abs(); // Convert UUID string to integer
   product.id = id;
+  product.code = id.toString();
   await box1.add(product);
   getAllProducts();
 }
