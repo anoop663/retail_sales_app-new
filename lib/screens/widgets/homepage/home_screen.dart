@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_totalbyday.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,17 +19,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // ignore: prefer_typing_uninitialized_variables
-  var totalGrandFuture;
-  String dropdownValue = 'This Week';
+  
 
   @override
   void initState() {
     super.initState();
-    calculateTotalGrandHive().then((value) {
-      setState(() {
-        totalGrandFuture = value;
-      });
-    });
   }
 
   @override
@@ -388,8 +380,12 @@ class _HomePageState extends State<HomePage> {
               shape: const CircleBorder(),
               onPressed: () {
                 //Need to Add Navigation to Sale create Page
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const AddSales()));
+              //  Navigator.push(
+              //    context,
+              //    MaterialPageRoute(
+              //      builder: (context) => AddSales(sales: sale),
+              //    ),
+              //  );
               },
               child: const Icon(Icons.percent, color: Colors.white, size: 28),
             ),

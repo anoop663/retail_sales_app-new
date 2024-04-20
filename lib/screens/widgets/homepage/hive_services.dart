@@ -60,3 +60,5 @@ Future<List<SalesGraphModel>> hiveSalesGraph() async {
   // Return the collected products
   return graph;
 }
+
+

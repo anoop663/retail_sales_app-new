@@ -210,7 +210,7 @@ class _ListSalesState extends State<ListSales> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'ID: ${sale.createddate}',
+                                      'ID: ${sale.id}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 
 class SalesDropdownAndTotal extends StatefulWidget {
   const SalesDropdownAndTotal({Key? key}) : super(key: key);
@@ -47,9 +46,10 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
                   calculateTotalSales(newValue);
                 }
               },
-              style:const TextStyle(color: Colors.black), // Dropdown text color
-              icon:const Icon(Icons.arrow_drop_down), // Dropdown icon
-              underline:const SizedBox(), // Remove underline
+              style:
+                  const TextStyle(color: Colors.black), // Dropdown text color
+              icon: const Icon(Icons.arrow_drop_down), // Dropdown icon
+              underline: const SizedBox(), // Remove underline
               items: <String>['Today', 'Yesterday']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -140,37 +140,9 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
   }
 
   void calculateTotalSales(String newValue) async {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-
-    double totalSales = 0;
-    final salesBox = await Hive.openBox<SalesModel>('sales_db');
-
-    // Iterate through each sales model to calculate total sales based on the selected time frame
-    for (final sale in salesBox.values) {
-      if (newValue == 'Today') {
-        // Check if the sale was made today
-        if (isSameDay(sale.createddate!, today)) {
-          totalSales += double.parse(sale.grand);
-        }
-      } else if (newValue == 'Yesterday') {
-        // Check if the sale was made yesterday
-        if (isSameDay(sale.createddate!, yesterday)) {
-          totalSales += double.parse(sale.grand);
-        }
-      }
-    }
-
+    final double totalSales = await getTotalSalesForTimeFrame(newValue);
     setState(() {
       totalGrandFuture = totalSales;
     });
-  }
-
-  // Function to check if two dates are on the same day
-  bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
   }
 }
