@@ -28,9 +28,9 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
 
 Future<void> loadSalesData() async {
   List<SalesGraphModel> graph = await hiveSalesGraph();
-  
+  graph.sort((a, b) => double.parse(b.salesValue).compareTo(double.parse(a.salesValue)));
   setState(() {
-    salesDataList = graph;
+    salesDataList = graph.take(4).toList();
     // Calculate the maximum sales value
     maxValue = salesDataList.isNotEmpty
         ? salesDataList.map((data) => double.parse(data.salesValue)).reduce((value, element) => value > element ? value : element)
@@ -65,8 +65,8 @@ Future<void> loadSalesData() async {
             ),
           ),
           const Positioned(
-            left: 140,
-            top: 220,
+            left: 150,
+            top: 230,
             child: Text(
               'Customers',
               style: TextStyle(
@@ -82,7 +82,7 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 45 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom: 25, // Position at the bottom
+              bottom: 24, // Position at the bottom
               child: Text(
                 salesDataList[i].customerName,
                 style: const TextStyle(
@@ -131,7 +131,7 @@ Future<void> loadSalesData() async {
               bottom: 9 + 41 * i.toDouble(), // Adjust bottom position to align with the bottom of the graph
               child:  Container(
                 width: 318,
-                height: 30, // Change height to represent horizontal lines
+                height: 32, // Change height to represent horizontal lines
                 child: CustomPaint(
                   painter: DottedLinePainter(),
                 ),
