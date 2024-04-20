@@ -18,8 +18,6 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
     const Color(0xFFB9EAFF),
     const Color(0xFFBEADFF),
     const Color(0xFFEC77FF),
-    Colors.purple,
-    Colors.yellow,
   ]; // Define different colors for each pillar
 
   @override
