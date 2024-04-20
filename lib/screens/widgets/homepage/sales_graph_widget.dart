@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 
 class SalesGraphWidgetBackup1 extends StatefulWidget {
   const SalesGraphWidgetBackup1({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SalesGraphWidgetBackupState1 createState() => _SalesGraphWidgetBackupState1();
 }
 
@@ -27,22 +29,23 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
     loadSalesData();
   }
 
-  Future<void> loadSalesData() async {
-    final box = await Hive.openBox<SalesGraphModel>('graph_db');
-    setState(() {
-      salesDataList = box.values.toList();
-      // Calculate the maximum sales value
-      maxValue = salesDataList.isNotEmpty
-          ? salesDataList.map((data) => double.parse(data.salesValue)).reduce((value, element) => value > element ? value : element)
-          : 0;
-    });
-  }
+Future<void> loadSalesData() async {
+  List<SalesGraphModel> graph = await hiveSalesGraph();
+  
+  setState(() {
+    salesDataList = graph;
+    // Calculate the maximum sales value
+    maxValue = salesDataList.isNotEmpty
+        ? salesDataList.map((data) => double.parse(data.salesValue)).reduce((value, element) => value > element ? value : element)
+        : 0;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 358,
-      height: 258,
+      height: 245,
       child: Stack(
         children: [
           Positioned(
@@ -66,7 +69,7 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
           ),
           const Positioned(
             left: 140,
-            top: 241,
+            top: 232,
             child: Text(
               'Customers',
               style: TextStyle(
@@ -81,8 +84,8 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
           // Fetch customer names dynamically
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
-              left: 27 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 223,
+              left: 45 + 80 * i.toDouble(), // Adjust position dynamically
+              bottom: 10, // Position at the bottom
               child: Text(
                 salesDataList[i].customerName,
                 style: const TextStyle(
@@ -114,7 +117,7 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 63 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 7,
+              bottom: 23, // Adjust bottom position to align with the bottom of the graph
               child: Container(
                 width: 30,
                 height: 206 * double.parse(salesDataList[i].salesValue) / maxValue,
@@ -128,15 +131,41 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
           for (int i = 0; i < 6; i++)
             Positioned(
               left: 40,
-              top: 8 + 41 * i.toDouble(),
-              child: Container(
+              bottom: 9 + 41 * i.toDouble(), // Adjust bottom position to align with the bottom of the graph
+              child:  Container(
                 width: 318,
-                height: 1, // Change height to represent horizontal lines
-                color: const Color(0xFFE2E2E2),
+                height: 12, // Change height to represent horizontal lines
+                child: CustomPaint(
+                  painter: DottedLinePainter(),
+                ),
               ),
             ),
         ],
       ),
     );
+  }
+}
+
+class DottedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color =const Color.fromARGB(255, 236, 234, 234)
+      ..strokeWidth = 1
+      ..strokeCap = StrokeCap.round;
+
+    const  double dashWidth = 5;
+    const  double dashSpace = 3;
+    double startX = 0;
+
+    while (startX < size.width) {
+      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/home_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 
@@ -44,4 +45,18 @@ Future<List<CustomerModel>> hiveCustomers() async {
 
   // Return the collected products
   return customers;
+}
+
+Future<List<SalesGraphModel>> hiveSalesGraph() async {
+  // Open the Hive box
+  final box = await Hive.openBox<SalesGraphModel>('graph_db');
+  
+  // Collect data from the box
+  List<SalesGraphModel> graph = box.values.toList();
+  
+  // Close the box
+  await box.close();
+
+  // Return the collected products
+  return graph;
 }
