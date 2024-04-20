@@ -146,9 +146,9 @@ class _AddProductsState extends State<AddProducts> {
                     
                      hintText: 'Select Categories',
                      items: categories,
-                     initialItem: _categoryController.text.isNotEmpty
-                         ? CategoryModel(name: _categoryController.text)
-                         : null,
+                     //initialItem: _categoryController.text.isNotEmpty
+                      //   ? CategoryModel(name: _categoryController.text)
+                     //    : null,
                      excludeSelected: false,
                      onChanged: (CategoryModel? value) {
                        _categoryController.text = value!.name;
