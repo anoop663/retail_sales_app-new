@@ -11,6 +11,12 @@ class CategoryModel {
     required this.name,
     this.id,
   });
+  @override
+  String toString() {
+    
+    return name.toString();
+  }
+
 }
 
 @HiveType(typeId: 5)
