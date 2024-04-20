@@ -32,8 +32,6 @@ class _HomePageState extends State<HomePage> {
         totalGrandFuture = value;
       });
     });
-    // Load counts from shared preferences when the home page is opened
-    // Provider.of<CountProvider>(context, listen: false).loadCounts();
   }
 
   @override
