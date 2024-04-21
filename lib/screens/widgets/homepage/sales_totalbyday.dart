@@ -12,7 +12,7 @@ class SalesDropdownAndTotal extends StatefulWidget {
 }
 
 class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
-  String dropdownValue = 'Today'; // Initial dropdown value
+  String dropdownValue = 'Total'; // Initial dropdown value
   double totalGrandFuture = 0.0; // Initial total sales value
 
   @override
@@ -50,7 +50,7 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
                   const TextStyle(color: Colors.black), // Dropdown text color
               icon: const Icon(Icons.arrow_drop_down), // Dropdown icon
               underline: const SizedBox(), // Remove underline
-              items: <String>['Today', 'Yesterday']
+              items: <String>['Total','Today', 'Yesterday', ]
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
