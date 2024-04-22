@@ -4,6 +4,9 @@ import 'package:project_fourth/screens/widgets/product_module/product_model.dart
 import 'package:uuid/uuid.dart';
 
 //Category Controllers are given below
+class ProductController {
+  void getAllCategories(){}
+}
 
 ValueNotifier<List<CategoryModel>> categoryListNotifier = ValueNotifier([]);
 
