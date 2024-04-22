@@ -5,6 +5,7 @@ import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dar
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
+import 'package:project_fourth/screens/widgets/sales_module/update_sale_widget.dart.dart';
 import 'package:provider/provider.dart';
 
 class ListSales extends StatefulWidget {
@@ -244,7 +245,7 @@ class _ListSalesState extends State<ListSales> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  AddSales(sales: sale),
+                                                  UpdateSales(sales: sale),
                                             ),
                                           );
                                         },

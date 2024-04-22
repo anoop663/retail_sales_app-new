@@ -11,6 +11,7 @@ Future<double> getTotalSalesForTimeFrame(String timeFrame) async {
 
   for (final sale in salesBox.values) {
     if (timeFrame == 'Today') {
+     
       if (isSameDay(sale.createddate!, today)) {
         totalSales += double.parse(sale.grand);
       }
@@ -26,9 +27,9 @@ Future<double> getTotalSalesForTimeFrame(String timeFrame) async {
   return totalSales;
 }
 
-// Function to check if two dates are on the same day
-bool isSameDay(DateTime date1, DateTime date2) {
-  return date1.year == date2.year &&
-      date1.month == date2.month &&
-      date1.day == date2.day;
-}
+  // Function to check if two dates are on the same day
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
