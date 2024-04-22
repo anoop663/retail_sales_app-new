@@ -7,6 +7,7 @@ class MyDrawer2 extends StatefulWidget {
   const MyDrawer2({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyDrawer2State createState() => _MyDrawer2State();
 }
 
@@ -31,6 +32,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
                   // ignore: avoid_print
                   print('Business length: ${businessList.length}');
                   if (businessList.isEmpty) {
+                    // ignore: sized_box_for_whitespace
                     return Container(
                       height: 20,
                       width: 20,

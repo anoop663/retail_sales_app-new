@@ -4,7 +4,6 @@ import 'package:project_fourth/screens/widgets/customer_module/customer_model.da
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
-import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_update_dynamicwidget.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +19,7 @@ class UpdateSales extends StatefulWidget {
 }
 
 class _UpdateSalesState extends State<UpdateSales> {
+  // ignore: prefer_final_fields
   TextEditingController _customerController = TextEditingController();
   // double grandTo tal = 0;
   List<CustomerModel> customers = []; 

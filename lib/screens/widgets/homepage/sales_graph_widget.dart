@@ -129,6 +129,7 @@ Future<void> loadSalesData() async {
             Positioned(
               left: 40,
               bottom: 9 + 41 * i.toDouble(), // Adjust bottom position to align with the bottom of the graph
+              // ignore: sized_box_for_whitespace
               child:  Container(
                 width: 318,
                 height: 32, // Change height to represent horizontal lines

@@ -20,6 +20,7 @@ class AddSales extends StatefulWidget {
 }
 
 class _AddSalesState extends State<AddSales> {
+  // ignore: prefer_final_fields
   TextEditingController _customerController = TextEditingController();
   // double grandTo tal = 0;
 

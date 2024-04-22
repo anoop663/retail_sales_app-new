@@ -11,6 +11,7 @@ class AddSales1 extends StatefulWidget {
   const AddSales1({Key? key, this.sales}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddSalesState1 createState() => _AddSalesState1();
 }
 
@@ -72,6 +73,7 @@ class _AddSalesState1 extends State<AddSales1> {
     updateGrandTotal();
   }
 
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Hive.openBox<CustomerModel>('customer_db'),
@@ -475,7 +477,7 @@ class _AddSalesState1 extends State<AddSales1> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.remove_circle),
+          icon:const Icon(Icons.remove_circle),
           onPressed: () {
             removeRow(index);
           },

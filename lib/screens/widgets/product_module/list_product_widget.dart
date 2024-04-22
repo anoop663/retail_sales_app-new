@@ -23,6 +23,7 @@ class ListProducts extends StatefulWidget {
   const ListProducts({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ListProductsState createState() => _ListProductsState();
 }
 

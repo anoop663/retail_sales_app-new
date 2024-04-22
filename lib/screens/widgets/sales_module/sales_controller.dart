@@ -109,6 +109,7 @@ Future<void> deleteSales(int id) async {
     salesListNotifier.value.clear();
   } catch (e) {
     // Handle error
+    // ignore: avoid_print
     print('Error deleting sales: $e');
   }
   await getAllSales();
