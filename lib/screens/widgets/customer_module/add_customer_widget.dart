@@ -15,6 +15,8 @@ class AddCustomer extends StatefulWidget {
 }
 
 class _AddCustomerState extends State<AddCustomer> {
+  final CustomerController _customerController = CustomerController();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -241,7 +243,7 @@ class _AddCustomerState extends State<AddCustomer> {
                     widget.customer!.name = _nameController.text;
                     widget.customer!.phone = _phoneController.text;
                     widget.customer!.address = _addressController.text;
-                    await updateCustomers(widget.customer!);
+                    await _customerController.updateCustomers(widget.customer!);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -255,7 +257,7 @@ class _AddCustomerState extends State<AddCustomer> {
                         name: _nameController.text,
                         phone: _phoneController.text,
                         address: _addressController.text);
-                    await addCustomers(customer1);
+                    await  _customerController.addCustomers(customer1);
 
                     if (context.mounted) {
                       Provider.of<CountProvider>(context, listen: false)

@@ -28,6 +28,7 @@ class ListProducts extends StatefulWidget {
 }
 
 class _ListProductsState extends State<ListProducts> {
+  final ProductPageController _productpageController = ProductPageController();
   String result = '';
   // ignore: prefer_final_fields
   TextEditingController _searchController = TextEditingController();
@@ -37,8 +38,8 @@ class _ListProductsState extends State<ListProducts> {
   @override
   void initState() {
     super.initState();
-    initializeHive();
-    _allProducts = productListNotifier.value;
+    _productpageController.initializeHive();
+    _allProducts = _productpageController.productListNotifier.value;
     _allProducts.map((product) => product.category).toSet().toList();
   }
 
@@ -58,7 +59,7 @@ class _ListProductsState extends State<ListProducts> {
             ),
             TextButton(
               onPressed: () {
-                deleteProducts(id);
+                _productpageController.deleteProducts(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -179,7 +180,7 @@ class _ListProductsState extends State<ListProducts> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: ValueListenableBuilder<List<ProductModel>>(
-                valueListenable: productListNotifier,
+                valueListenable: _productpageController.productListNotifier,
                 builder: (context, products, _) {
                   //Count provider Data passing
                   //proCount.updateProductCount(products.length);
@@ -390,7 +391,7 @@ class _ListProductsState extends State<ListProducts> {
   void filterProducts(String value) {
     if (value.isEmpty) {
       // If search text is empty, restore all products
-      productListNotifier.value = _allProducts;
+      _productpageController.productListNotifier.value = _allProducts;
       return;
     }
 
@@ -413,7 +414,7 @@ class _ListProductsState extends State<ListProducts> {
     }
 
     // Update the ValueListenable with the filtered products
-    productListNotifier.value = filteredProducts;
+    _productpageController.productListNotifier.value = filteredProducts;
   }
 
   void _showFilterDialog(BuildContext context) {
@@ -476,7 +477,7 @@ class _ListProductsState extends State<ListProducts> {
   void filterProductsCategory(String searchText, String? selectedCategory) {
     if (searchText.isEmpty && selectedCategory == null) {
       // If both search text and selected category are empty, restore all products
-      productListNotifier.value = _allProducts;
+      _productpageController.productListNotifier.value = _allProducts;
       return;
     }
 
@@ -490,6 +491,6 @@ class _ListProductsState extends State<ListProducts> {
     }).toList();
 
     // Update the ValueListenable with the filtered products
-    productListNotifier.value = filteredProducts;
+    _productpageController.productListNotifier.value = filteredProducts;
   }
 }

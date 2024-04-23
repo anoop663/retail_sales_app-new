@@ -24,6 +24,7 @@ class UpdateProducts extends StatefulWidget {
 }
 
 class _UpdateproductsState extends State<UpdateProducts> {
+  final ProductPageController _productpageController = ProductPageController();
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
@@ -473,7 +474,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                           widget.product!.stock = _stockController.text;
                           widget.product!.date = _expiryDateController.text;
                           widget.product!.image = imagePath;
-                          await updateProducts(widget.product!);
+                          await _productpageController.updateProducts(widget.product!);
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -491,7 +492,7 @@ class _UpdateproductsState extends State<UpdateProducts> {
                             date: _expiryDateController.text,
                             image: imagePath,
                           );
-                          await addProducts(product);
+                          await _productpageController.addProducts(product);
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

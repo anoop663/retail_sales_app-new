@@ -14,11 +14,12 @@ class ListCategories extends StatefulWidget {
 }
 
 class _ListCategoriesState extends State<ListCategories> {
+  final CategoryPageController _categorypageController = CategoryPageController();
   @override
   void initState() {
     super.initState();
     // Initialize category list when the widget is first initialized
-    getAllCategories();
+    _categorypageController.getAllCategories();
   }
 
   // Delete confirmation popup
@@ -38,7 +39,7 @@ class _ListCategoriesState extends State<ListCategories> {
             ),
             TextButton(
               onPressed: () {
-                deleteCategory(id);
+                _categorypageController.deleteCategory(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -97,7 +98,7 @@ class _ListCategoriesState extends State<ListCategories> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: ValueListenableBuilder<List<CategoryModel>>(
-          valueListenable: categoryListNotifier,
+          valueListenable: _categorypageController.categoryListNotifier,
           builder: (context, categories, _) {
             //Count provider Data passing
            // if (catCount != null) {

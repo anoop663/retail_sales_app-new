@@ -16,6 +16,7 @@ class OutofStock extends StatefulWidget {
 }
 
 class _OutofStockState extends State<OutofStock> {
+  final ProductPageController _productpageController = ProductPageController();
   @override
   void initState() {
     super.initState();
@@ -39,7 +40,7 @@ class _OutofStockState extends State<OutofStock> {
             ),
             TextButton(
               onPressed: () {
-                deleteProducts(id);
+                _productpageController.deleteProducts(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -99,7 +100,7 @@ class _OutofStockState extends State<OutofStock> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: ValueListenableBuilder<List<ProductModel>>(
-          valueListenable: productListNotifier,
+          valueListenable: _productpageController.productListNotifier,
           builder: (context, products, _) {
             final outOfStockProducts =
                 products.where((product) => product.stock == "0").toList();

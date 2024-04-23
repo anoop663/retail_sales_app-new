@@ -16,6 +16,7 @@ class AddCategory extends StatefulWidget {
 }
 
 class _AddCategoryState extends State<AddCategory> {
+  final CategoryPageController _categorypageController = CategoryPageController();
   final TextEditingController _nameController = TextEditingController();
 
   @override
@@ -126,7 +127,7 @@ class _AddCategoryState extends State<AddCategory> {
                 onPressed: () async {
                   if (widget.category != null) {
                     widget.category!.name = _nameController.text;
-                    await updateCategory(widget.category!);
+                    await _categorypageController.updateCategory(widget.category!);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -138,7 +139,7 @@ class _AddCategoryState extends State<AddCategory> {
                     CategoryModel category =
                         CategoryModel(name: _nameController.text);
 
-                    await addCategory(category);
+                    await _categorypageController.addCategory(category);
                     if (context.mounted) {
                       Provider.of<CountProvider>(context, listen: false)
                           .loadCounts();

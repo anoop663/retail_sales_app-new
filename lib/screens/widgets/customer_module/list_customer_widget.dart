@@ -13,11 +13,12 @@ class ListCustomer extends StatefulWidget {
 }
 
 class _ListCustomerState extends State<ListCustomer> {
+  final CustomerController _customerController = CustomerController();
   @override
   void initState() {
     super.initState();
     // Initialize customer list when the widget is first initialized
-    getAllCustomers();
+    _customerController.getAllCustomers();
   }
 
   // Delete confirmation popup
@@ -37,7 +38,7 @@ class _ListCustomerState extends State<ListCustomer> {
             ),
             TextButton(
               onPressed: () {
-                deleteCustomers(id);
+                _customerController.deleteCustomers(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -96,7 +97,7 @@ class _ListCustomerState extends State<ListCustomer> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: ValueListenableBuilder<List<CustomerModel>>(
-          valueListenable: customerListNotifier,
+          valueListenable: _customerController.customerListNotifier,
           builder: (context, customers, _) {
             // Log the length of customers to verify if data exists
             // ignore: avoid_print

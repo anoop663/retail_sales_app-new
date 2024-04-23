@@ -20,6 +20,8 @@ class AddSales extends StatefulWidget {
 }
 
 class _AddSalesState extends State<AddSales> {
+ final HiveServices _hiveController = HiveServices();
+  final CustomerController _customerdataController = CustomerController();
   final TextEditingController _customerController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -328,7 +330,7 @@ class _AddSalesState extends State<AddSales> {
                         name: name, phone: phone, address: address);
 
                     // Save the new customer to Hive
-                    await addCustomers(newCustomer);
+                    await _customerdataController.addCustomers(newCustomer);
 
                     // Use the name of the newly created customer for the sale
                     customerName = name;
@@ -337,7 +339,7 @@ class _AddSalesState extends State<AddSales> {
                     final selectedProduct = salesState.selectedProducts[i];
                     final quantity = int.parse(selectedProduct.nos);
                     final products =
-                        await hiveProducts(); // Using the hiveProducts function
+                        await _hiveController.hiveProducts(); // Using the hiveProducts function
 
                     final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,

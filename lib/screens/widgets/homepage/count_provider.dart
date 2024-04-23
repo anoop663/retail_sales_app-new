@@ -4,6 +4,7 @@ import 'package:project_fourth/screens/widgets/customer_module/customer_model.da
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class CountProvider extends ChangeNotifier {
   int _catCount = 0;
   int _proCount = 0;

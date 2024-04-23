@@ -19,13 +19,16 @@ class UpdateSales extends StatefulWidget {
 }
 
 class _UpdateSalesState extends State<UpdateSales> {
+   final HiveServices _hiveController = HiveServices();
+
+  final CustomerController _customerdataController = CustomerController();
   final TextEditingController _customerController = TextEditingController();
   List<CustomerModel> customers = [];
 
   @override
   void initState() {
     super.initState();
-    getAllCustomers();
+    _customerdataController.getAllCustomers();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
     }
@@ -160,7 +163,7 @@ class _UpdateSalesState extends State<UpdateSales> {
                     final selectedProduct = salesState.selectedProducts[i];
                     final quantity = int.parse(selectedProduct.nos);
                     final products =
-                        await hiveProducts(); // Using the hiveProducts function
+                        await _hiveController.hiveProducts(); // Using the hiveProducts function
 
                     final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,

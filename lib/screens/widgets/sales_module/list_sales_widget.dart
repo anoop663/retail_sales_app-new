@@ -17,16 +17,16 @@ class ListSales extends StatefulWidget {
 }
 
 class _ListSalesState extends State<ListSales> {
-  // ignore: prefer_final_fields
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  final SalesController _salesController = SalesController();
   List<SalesModel> _allSales = [];
 
   @override
   void initState() {
     super.initState();
     // Initialize Hive when the widget is first initialized
-    initializeHiveSales();
-    _allSales = salesListNotifier.value; // Store all products initially
+    _salesController.initializeHiveSales();
+    _allSales = _salesController.salesListNotifier.value; // Store all products initially
   }
 
   Future<void> showDeleteConfirmationDialog(int index) async {
@@ -159,7 +159,7 @@ class _ListSalesState extends State<ListSales> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: ValueListenableBuilder<List<SalesModel>>(
-                valueListenable: salesListNotifier,
+                valueListenable: _salesController.salesListNotifier,
                 builder: (context, sales, _) {
                   if (sales.isEmpty) {
                     return const Center(
@@ -337,7 +337,7 @@ class _ListSalesState extends State<ListSales> {
   void filterSales(String value) {
     if (value.isEmpty) {
       // If search text is empty, restore all Sales
-      salesListNotifier.value = _allSales;
+      _salesController.salesListNotifier.value = _allSales;
       return;
     }
     // Filter Sales based on the entered text
@@ -345,6 +345,6 @@ class _ListSalesState extends State<ListSales> {
       return sales.customer.toLowerCase().contains(value.toLowerCase());
     }).toList();
     // Update the ValueListenable with the filtered Sales
-    salesListNotifier.value = filteredSales;
+    _salesController.salesListNotifier.value = filteredSales;
   }
 }

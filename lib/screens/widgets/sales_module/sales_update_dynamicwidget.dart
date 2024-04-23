@@ -18,6 +18,8 @@ class UpdateSalesDynamic extends StatefulWidget {
 }
 
 class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
+   final HiveServices _hiveController = HiveServices();
+
   final List<ProductModel> products = [];
 
   double grandTotal = 0;
@@ -30,7 +32,7 @@ class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
   }
 
   Future<void> loadProducts() async {
-    final productBox = await hiveProducts();
+    final productBox = await _hiveController.hiveProducts();
     setState(() {
       products.addAll(productBox);
     });

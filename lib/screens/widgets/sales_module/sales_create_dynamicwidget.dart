@@ -7,6 +7,7 @@ import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
+
 class AddSalesDynamic extends StatefulWidget {
   const AddSalesDynamic({
     Key? key,
@@ -18,6 +19,7 @@ class AddSalesDynamic extends StatefulWidget {
 }
 
 class _AddSalesDynamicState extends State<AddSalesDynamic> {
+  final HiveServices _hiveServices = HiveServices();
   final List<ProductModel> products = [];
 
   double grandTotal = 0;
@@ -30,7 +32,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   Future<void> loadProducts() async {
-    final productBox = await hiveProducts();
+    final productBox = await _hiveServices.hiveProducts();
     setState(() {
       products.addAll(productBox);
     });
@@ -196,9 +198,9 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ],
                 ),
                 child: CustomDropdown<ProductModel>.search(
-                hintText: 'Select Product',
-                items: products,
-                excludeSelected: false,
+                  hintText: 'Select Product',
+                  items: products,
+                  excludeSelected: false,
                   onChanged: (ProductModel? value) {
                     if (value != null) {
                       double price1 = double.parse(value.price);
@@ -283,12 +285,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         double.parse(state.selectedProducts[i].total);
                     final double newTotalPrice = price1 * nos1;
                     state.totalControllers[i].text = newTotalPrice.toString();
-                    
+
                     //  widget.getNos(i, nos1);
                     //  widget.getTotal(i, newTotalPrice);
                     state.updateGrandTotal();
                     // widget.getGrandTotal(grandTotal);
-                    
                   },
                 ),
               ),
@@ -365,7 +366,6 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             ),
             Expanded(
               flex: 0,
-              
               child: GestureDetector(
                 onTap: () {
                   state.removeRow(i);

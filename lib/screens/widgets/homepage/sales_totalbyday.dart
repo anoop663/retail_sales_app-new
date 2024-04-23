@@ -12,6 +12,7 @@ class SalesDropdownAndTotal extends StatefulWidget {
 }
 
 class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
+  final GraphData _homeGraph = GraphData();
   String dropdownValue = 'Total'; // Initial dropdown value
   double totalGrandFuture = 0.0; // Initial total sales value
 
@@ -50,8 +51,11 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
                   const TextStyle(color: Colors.black), // Dropdown text color
               icon: const Icon(Icons.arrow_drop_down), // Dropdown icon
               underline: const SizedBox(), // Remove underline
-              items: <String>['Total','Today', 'Yesterday', ]
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                'Total',
+                'Today',
+                'Yesterday',
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Padding(
@@ -140,7 +144,7 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
   }
 
   void calculateTotalSales(String newValue) async {
-    final double totalSales = await getTotalSalesForTimeFrame(newValue);
+    final double totalSales = await _homeGraph.getTotalSalesForTimeFrame(newValue);
     setState(() {
       totalGrandFuture = totalSales;
     });

@@ -7,10 +7,12 @@ class SalesGraphWidgetBackup1 extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _SalesGraphWidgetBackupState1 createState() => _SalesGraphWidgetBackupState1();
+  _SalesGraphWidgetBackupState1 createState() =>
+      _SalesGraphWidgetBackupState1();
 }
 
 class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
+ final HiveServices _hiveController = HiveServices();
   List<SalesGraphModel> salesDataList = [];
   double maxValue = 0;
   List<Color> pillarColors = [
@@ -26,17 +28,20 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
     loadSalesData();
   }
 
-Future<void> loadSalesData() async {
-  List<SalesGraphModel> graph = await hiveSalesGraph();
-  graph.sort((a, b) => double.parse(b.salesValue).compareTo(double.parse(a.salesValue)));
-  setState(() {
-    salesDataList = graph.take(4).toList();
-    // Calculate the maximum sales value
-    maxValue = salesDataList.isNotEmpty
-        ? salesDataList.map((data) => double.parse(data.salesValue)).reduce((value, element) => value > element ? value : element)
-        : 0;
-  });
-}
+  Future<void> loadSalesData() async {
+    List<SalesGraphModel> graph = await _hiveController.hiveSalesGraph();
+    graph.sort((a, b) =>
+        double.parse(b.salesValue).compareTo(double.parse(a.salesValue)));
+    setState(() {
+      salesDataList = graph.take(4).toList();
+      // Calculate the maximum sales value
+      maxValue = salesDataList.isNotEmpty
+          ? salesDataList
+              .map((data) => double.parse(data.salesValue))
+              .reduce((value, element) => value > element ? value : element)
+          : 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +103,8 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 27 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 205 - (180 * double.parse(salesDataList[i].salesValue) / maxValue),
+              top: 205 -
+                  (180 * double.parse(salesDataList[i].salesValue) / maxValue),
               child: Text(
                 salesDataList[i].salesValue.toString(),
                 style: const TextStyle(
@@ -114,12 +120,15 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < salesDataList.length; i++)
             Positioned(
               left: 63 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom: 40, // Adjust bottom position to align with the bottom of the graph
+              bottom:
+                  40, // Adjust bottom position to align with the bottom of the graph
               child: Container(
                 width: 30,
-                height: 206 * double.parse(salesDataList[i].salesValue) / maxValue,
+                height:
+                    206 * double.parse(salesDataList[i].salesValue) / maxValue,
                 decoration: BoxDecoration(
-                  color: pillarColors[i % pillarColors.length], // Assign a color from the list
+                  color: pillarColors[
+                      i % pillarColors.length], // Assign a color from the list
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -128,9 +137,11 @@ Future<void> loadSalesData() async {
           for (int i = 0; i < 6; i++)
             Positioned(
               left: 40,
-              bottom: 9 + 41 * i.toDouble(), // Adjust bottom position to align with the bottom of the graph
+              bottom: 9 +
+                  41 *
+                      i.toDouble(), // Adjust bottom position to align with the bottom of the graph
               // ignore: sized_box_for_whitespace
-              child:  Container(
+              child: Container(
                 width: 318,
                 height: 32, // Change height to represent horizontal lines
                 child: CustomPaint(
@@ -148,12 +159,12 @@ class DottedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color =const Color(0xFFE2E2E2)
+      ..color = const Color(0xFFE2E2E2)
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
-    const  double dashWidth = 5;
-    const  double dashSpace = 3;
+    const double dashWidth = 5;
+    const double dashSpace = 3;
     double startX = 0;
 
     while (startX < size.width) {

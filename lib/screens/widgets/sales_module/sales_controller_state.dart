@@ -8,7 +8,9 @@ import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dar
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
 
+
 class SalesControllerState extends ChangeNotifier {
+   final SalesController _salesController = SalesController();
   final List<TextEditingController> _nosControllers = [];
 
   List<TextEditingController> get nosControllers => _nosControllers;
@@ -134,7 +136,7 @@ class SalesControllerState extends ChangeNotifier {
       
 
       // Get all sales after adding the new sale
-      getAllSales();
+     _salesController.getAllSales();
     } catch (error) {
       log(error.toString());
     }
@@ -144,7 +146,7 @@ class SalesControllerState extends ChangeNotifier {
     final box1 = await Hive.openBox<SalesModel>('sales_db');
 
     box1.deleteAt(index);
-    initializeHiveSales();
+    _salesController.initializeHiveSales();
   }
 
   //////////////////////////////////////////////////////////////
