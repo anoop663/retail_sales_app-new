@@ -366,9 +366,9 @@ class _ListProductsState extends State<ListProducts> {
                   setState(() {
                     result = res;
                     filterProducts(result);
-                  },
-                  );
+                  },);
                 }
+                
               },
               child: const ColorFiltered(
                 colorFilter: ColorFilter.mode(
