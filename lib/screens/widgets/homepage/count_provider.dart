@@ -4,8 +4,8 @@ import 'package:project_fourth/screens/widgets/customer_module/customer_model.da
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class CountProvider extends ChangeNotifier {
+  //final ProductPageController _productPageController = ProductPageController();
   int _catCount = 0;
   int _proCount = 0;
   int _outCount1 = 0;
@@ -18,43 +18,21 @@ class CountProvider extends ChangeNotifier {
 
   // Method to load counts from shared preferences
   Future<void> loadCounts() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final box1 = await Hive.openBox<ProductModel>('product_db2');
     final box2 = await Hive.openBox<CustomerModel>('customer_db');
     final box3 = await Hive.openBox<CategoryModel>('product_db');
+    List<ProductModel> products = box1.values.toList();
+    int zeroStockCount =
+        products.where((product) => product.stock == '0').length;
+
     _catCount = box3.length;
     _proCount = box1.length;
-    _outCount1 = prefs.getInt('outCount') ?? 0;
+    //_outCount1 = prefs.getInt('outCount') ?? 0;
+    _outCount1 = zeroStockCount;
+
     _custCount = box2.length;
     notifyListeners();
-  }
-
-  void updateCategoryCount2(int count1) async {
-    _catCount = count1;
-    notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('catCount', count1);
-  }
-
-  void updateProductCount(int count2) async {
-    _proCount = count2;
-    notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('proCount', count2);
-  }
-
-  void updateOutofStcokCount(int count3) async {
-    _outCount1 = count3;
-    notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('outCount', count3);
-  }
-
-  void updateCustomerCount(int count4) async {
-    _custCount = count4;
-    notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('custCount', count4);
   }
 }

@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
-import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
-import 'package:provider/provider.dart';
 
 class OutofStock extends StatefulWidget {
   const OutofStock({Key? key}) : super(key: key);
@@ -40,7 +38,7 @@ class _OutofStockState extends State<OutofStock> {
             ),
             TextButton(
               onPressed: () {
-                _productpageController.deleteProducts(id);
+                ProductPageController().deleteProducts(id);
                 Navigator.of(context).pop(true);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -60,7 +58,7 @@ class _OutofStockState extends State<OutofStock> {
   @override
   Widget build(BuildContext context) {
 
-    final outCount = Provider.of<CountProvider>(context);
+   // final outCount = Provider.of<CountProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -100,13 +98,13 @@ class _OutofStockState extends State<OutofStock> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: ValueListenableBuilder<List<ProductModel>>(
-          valueListenable: _productpageController.productListNotifier,
+          valueListenable: ProductPageController().productListNotifier,
           builder: (context, products, _) {
             final outOfStockProducts =
                 products.where((product) => product.stock == "0").toList();
 
                 // Product Count Provider
-                   outCount.updateOutofStcokCount(outOfStockProducts.length);
+                 //  outCount.updateOutofStcokCount(outOfStockProducts.length);
             if (outOfStockProducts.isEmpty) {
               return const Center(
                 child: Text(
