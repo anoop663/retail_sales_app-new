@@ -1,9 +1,9 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
-import 'package:project_fourth/screens/widgets/sales_module/new_customesales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_create_dynamicwidget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -20,8 +20,11 @@ class AddSales extends StatefulWidget {
 }
 
 class _AddSalesState extends State<AddSales> {
-  // ignore: prefer_final_fields
-  TextEditingController _customerController = TextEditingController();
+  final TextEditingController _customerController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
   // double grandTo tal = 0;
 
   @override
@@ -30,6 +33,7 @@ class _AddSalesState extends State<AddSales> {
     // Provider.of<SalesControllerState>(context, listen: false).addRow();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
+
       // selectedProducts.addAll(widget.sales!.products);
     }
   }
@@ -121,10 +125,169 @@ class _AddSalesState extends State<AddSales> {
                 ),
               ),
             ),
-
-            //Create new Customer if customer is not available to select from dropdown.
-            AddcustomerSale(),
-
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Customer Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Customer Name",
+                      hintStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Customer Phone',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Customer Phone",
+                      hintStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    keyboardType: TextInputType.phone,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Customer Address',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: _addressController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Address",
+                      hintStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 50),
             const Text(
               'Products',
@@ -143,6 +306,32 @@ class _AddSalesState extends State<AddSales> {
               child: ElevatedButton(
                 onPressed: () async {
                   bool canCreateSale = true;
+                  String customerName = _customerController.text.trim();
+                  // If no customer selected from dropdown, use information from text fields
+                  if (customerName.isEmpty) {
+                    // Use information from text fields
+                    String name = _nameController.text.trim();
+                    String phone = _phoneController.text.trim();
+                    String address = _addressController.text.trim();
+                    // Validate if any of the fields are empty
+                    if (name.isEmpty || phone.isEmpty || address.isEmpty) {
+                      // Show a snackbar indicating required fields are empty
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Please fill all the fields'),
+                        backgroundColor: Colors.red,
+                      ));
+                      return; // Exit onPressed method
+                    }
+                    // Create a new CustomerModel object with the provided information
+                    CustomerModel newCustomer = CustomerModel(
+                        name: name, phone: phone, address: address);
+
+                    // Save the new customer to Hive
+                    await addCustomers(newCustomer);
+
+                    // Use the name of the newly created customer for the sale
+                    customerName = name;
+                  }
                   for (int i = 0; i < salesState.selectedProducts.length; i++) {
                     final selectedProduct = salesState.selectedProducts[i];
                     final quantity = int.parse(selectedProduct.nos);
@@ -182,7 +371,12 @@ class _AddSalesState extends State<AddSales> {
                   }
 
                   if (canCreateSale) {
-                    await salesState.createSales(_customerController.text);
+                    if (_customerController.text.isEmpty) {
+                      await salesState.createSales(customerName);
+                     
+                    } else {
+                       await salesState.createSales(_customerController.text);
+                    }
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Sale created successfully!'),
