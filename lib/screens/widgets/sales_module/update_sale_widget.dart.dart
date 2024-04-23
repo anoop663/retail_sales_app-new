@@ -10,29 +10,23 @@ import 'package:provider/provider.dart';
 
 class UpdateSales extends StatefulWidget {
   final SalesModel? sales;
-  
- const UpdateSales({Key? key, this.sales}) : super(key: key);
+
+  const UpdateSales({Key? key, this.sales}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _UpdateSalesState createState() => _UpdateSalesState();
 }
 
 class _UpdateSalesState extends State<UpdateSales> {
-  // ignore: prefer_final_fields
   TextEditingController _customerController = TextEditingController();
-  // double grandTo tal = 0;
-  List<CustomerModel> customers = []; 
+  List<CustomerModel> customers = [];
 
   @override
   void initState() {
     super.initState();
     getAllCustomers();
-    // Provider.of<SalesControllerState>(context, listen: false).addRow();
     if (widget.sales != null) {
       _customerController.text = widget.sales!.customer;
-      
-      // selectedProducts.addAll(widget.sales!.products);
     }
   }
 
@@ -53,8 +47,10 @@ class _UpdateSalesState extends State<UpdateSales> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const ListSales()));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ListSales()),
+            );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),
@@ -100,42 +96,46 @@ class _UpdateSalesState extends State<UpdateSales> {
                 ],
               ),
               child: DropdownButtonFormField<CustomerModel>(
-               
-                            items: customers.map((customer) {
-                              return DropdownMenuItem<CustomerModel>(
-                                value: customer,
-                                child: Text(customer.name),
-                              );
-                            }).toList(),
-                            onChanged: (CustomerModel? value) {
-                              _customerController.text = value!.name;
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Select Customer",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
+                value: customers.isNotEmpty &&
+                        _customerController.text.isNotEmpty
+                    ? customers.firstWhere(
+                        (customer) => customer.name == _customerController.text)
+                    : null,
+                items: customers.map((customer) {
+                  return DropdownMenuItem<CustomerModel>(
+                    value: customer,
+                    child: Text(customer.name),
+                  );
+                }).toList(),
+                onChanged: (CustomerModel? value) {
+                  _customerController.text = value!.name;
+                },
+                decoration: InputDecoration(
+                  hintText: "Select Customer",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             const Text(
@@ -163,44 +163,36 @@ class _UpdateSalesState extends State<UpdateSales> {
 
                     final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,
-                      //orElse: () => null,
                     );
-                    // ignore: unnecessary_null_comparison
                     if (product == null) {
-                      // Product not found in the database
                       canCreateSale = false;
                       break;
                     }
                     final availableStock = int.parse(product.stock);
                     if (quantity > availableStock) {
-                      // Show a snackbar with the error message
-                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('No stock available for some products'),
                         backgroundColor: Colors.red,
                       ));
                       canCreateSale = false;
-                      break; // Exit loop if any product has insufficient stock
+                      break;
                     }
                     if (quantity == 0) {
-                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Remove products with zero stock'),
                         backgroundColor: Colors.red,
                       ));
                       canCreateSale = false;
-                      break; // Exit loop if any product has zero stock
+                      break;
                     }
                   }
 
                   if (canCreateSale) {
                     await salesState.createSales(_customerController.text);
-                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Sale created successfully!'),
                       backgroundColor: Colors.green,
                     ));
-                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

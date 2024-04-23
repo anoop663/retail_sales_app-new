@@ -116,7 +116,7 @@ class _AddSalesState extends State<AddSales> {
             const SizedBox(height: 20),
             const Center(
               child: Text(
-                'OR',
+                'Or you can create a New Customer ',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -125,6 +125,7 @@ class _AddSalesState extends State<AddSales> {
                 ),
               ),
             ),
+             const SizedBox(height: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
