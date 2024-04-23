@@ -14,7 +14,7 @@ class OutofStock extends StatefulWidget {
 }
 
 class _OutofStockState extends State<OutofStock> {
-  final ProductPageController _productpageController = ProductPageController();
+  //final ProductPageController _productpageController = ProductPageController();
   @override
   void initState() {
     super.initState();

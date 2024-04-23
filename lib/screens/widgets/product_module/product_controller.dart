@@ -139,10 +139,10 @@ class ProductPageController {
     getAllProducts(); // Fetch products from Hive
   }
 
-  
+
   Future<int> countProductsWithZeroStock() async {
   final box = await Hive.openBox<ProductModel>('product_db2');
-  List<ProductModel> products = await box.values.toList();
+  List<ProductModel> products =  box.values.toList();
 
   await box.close();
   int zeroStockCount = products.where((product) => product.stock == '0').length;

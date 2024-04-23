@@ -53,7 +53,7 @@ class _ListProductsState extends State<ListProducts> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false);// No
+                Navigator.of(context).pop(false); // No
               },
               child: const Text("No"),
             ),
@@ -358,8 +358,16 @@ class _ListProductsState extends State<ListProducts> {
                 if (res is String) {
                   setState(() {
                     result = res;
+                    filterProducts(result);
                   });
-                  filterProducts(_searchController.text);
+                  //filterProducts(_searchController.text);
+                } else {
+                  result = res.toString();
+                  setState(() {
+                    result = res;
+                    filterProducts(result);
+                  },
+                  );
                 }
               },
               child: const ColorFiltered(
@@ -459,8 +467,7 @@ class _ListProductsState extends State<ListProducts> {
                     _selectedCategory = null;
                     filterProductsCategory(
                       _searchController.text,
-                       _selectedCategory,
-                     
+                      _selectedCategory,
                     );
                     Navigator.of(context).pop(); // Close the dialog
                   });
