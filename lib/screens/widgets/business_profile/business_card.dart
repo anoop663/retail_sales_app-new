@@ -16,10 +16,11 @@ class BusinessCard extends StatefulWidget {
 }
 
 class _BusinessCardState extends State<BusinessCard> {
+  final BusinussController _businessController = BusinussController();
   @override
   void initState() {
     super.initState();
-    getAllBusines();
+    _businessController.getAllBusines();
   }
 
   @override
@@ -58,7 +59,7 @@ class _BusinessCardState extends State<BusinessCard> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14),
         child: ValueListenableBuilder<List<RetailModel2>>(
-          valueListenable: businessListNotifier,
+          valueListenable: _businessController.businessListNotifier,
           builder: (context, business1, _) {
             // ignore: avoid_print
             print('Busniess length: ${business1.length}');

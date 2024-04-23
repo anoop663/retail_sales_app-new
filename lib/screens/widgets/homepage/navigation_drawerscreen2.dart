@@ -12,10 +12,12 @@ class MyDrawer2 extends StatefulWidget {
 }
 
 class _MyDrawer2State extends State<MyDrawer2> {
+  final BusinussController _businessController = BusinussController();
+
   @override
   void initState() {
     super.initState();
-    getAllBusines();
+    _businessController.getAllBusines();
   }
 
   @override
@@ -27,7 +29,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
             Padding(
               padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
               child: ValueListenableBuilder<List<RetailModel2>>(
-                valueListenable: businessListNotifier,
+                valueListenable: _businessController.businessListNotifier,
                 builder: (context, businessList, _) {
                   // ignore: avoid_print
                   print('Business length: ${businessList.length}');

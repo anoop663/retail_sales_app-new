@@ -13,6 +13,7 @@ class BusinessProfile extends StatefulWidget {
 }
 
 class _BusinessProfileState extends State<BusinessProfile> {
+  final BusinussController _businessController = BusinussController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -240,8 +241,8 @@ class _BusinessProfileState extends State<BusinessProfile> {
                     widget.business!.name = _nameController.text;
                     widget.business!.phone = _phoneController.text;
                     widget.business!.address = _addressController.text;
-                    await updateBusiness(widget.business!);
-                    await getAllBusines();
+                    await  _businessController.updateBusiness(widget.business!);
+                    await  _businessController.getAllBusines();
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -254,7 +255,7 @@ class _BusinessProfileState extends State<BusinessProfile> {
                         name: _nameController.text,
                         phone: _phoneController.text,
                         address: _addressController.text);
-                    await addBusiness(business1);
+                    await  _businessController.addBusiness(business1);
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

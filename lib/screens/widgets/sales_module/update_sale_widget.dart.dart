@@ -14,11 +14,12 @@ class UpdateSales extends StatefulWidget {
   const UpdateSales({Key? key, this.sales}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateSalesState createState() => _UpdateSalesState();
 }
 
 class _UpdateSalesState extends State<UpdateSales> {
-  TextEditingController _customerController = TextEditingController();
+  final TextEditingController _customerController = TextEditingController();
   List<CustomerModel> customers = [];
 
   @override
@@ -164,12 +165,14 @@ class _UpdateSalesState extends State<UpdateSales> {
                     final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,
                     );
+                    // ignore: unnecessary_null_comparison
                     if (product == null) {
                       canCreateSale = false;
                       break;
                     }
                     final availableStock = int.parse(product.stock);
                     if (quantity > availableStock) {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('No stock available for some products'),
                         backgroundColor: Colors.red,
@@ -178,6 +181,7 @@ class _UpdateSalesState extends State<UpdateSales> {
                       break;
                     }
                     if (quantity == 0) {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Remove products with zero stock'),
                         backgroundColor: Colors.red,
@@ -189,10 +193,12 @@ class _UpdateSalesState extends State<UpdateSales> {
 
                   if (canCreateSale) {
                     await salesState.createSales(_customerController.text);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Sale created successfully!'),
                       backgroundColor: Colors.green,
                     ));
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
