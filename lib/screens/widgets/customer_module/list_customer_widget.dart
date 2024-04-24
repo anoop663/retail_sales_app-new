@@ -18,7 +18,6 @@ class _ListCustomerState extends State<ListCustomer> {
   void initState() {
     super.initState();
     _customerController.getAllCustomers();
-     
   }
 
   // Delete confirmation popup
@@ -199,8 +198,14 @@ class _ListCustomerState extends State<ListCustomer> {
                         ),
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(height: 14),
+                    separatorBuilder: (BuildContext context, int index) {
+                      if (index == customers.length) {
+                        return const SizedBox(height: 100);
+                        
+                      } else {
+                        return const SizedBox(height: 14);
+                      }
+                    },
                     itemCount: customers.length,
                   );
           },
@@ -216,7 +221,6 @@ class _ListCustomerState extends State<ListCustomer> {
               context,
               MaterialPageRoute(builder: (context) => const AddCustomer()),
             );
-            
           },
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 28),

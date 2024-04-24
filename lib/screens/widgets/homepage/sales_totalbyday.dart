@@ -59,7 +59,7 @@ class _SalesDropdownAndTotalState extends State<SalesDropdownAndTotal> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       value,
                       style: const TextStyle(fontSize: 16),
