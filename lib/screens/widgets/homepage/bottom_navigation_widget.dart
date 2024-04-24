@@ -21,8 +21,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const ListCategories(),
     const ListCustomer(),
+    const ListCategories(),
     const ListProducts(),
   ]; // List of pages to switch between
 

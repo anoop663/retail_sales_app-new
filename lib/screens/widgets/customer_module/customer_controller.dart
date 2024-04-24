@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
 import 'package:uuid/uuid.dart';
-
+  
 class CustomerController {
 //CAtegory Controllers are given below
   ValueNotifier<List<CustomerModel>> customerListNotifier = ValueNotifier([]);

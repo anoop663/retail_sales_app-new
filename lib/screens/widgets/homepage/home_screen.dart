@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigation(initialIndex: 1),
+                            builder: (context) => const BottomNavigation(initialIndex: 2),
                           ),
                         );
                       },
@@ -189,7 +189,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigation(initialIndex: 2),
+                            builder: (context) => const BottomNavigation(initialIndex: 1),
                           ),
                         );
                       },

@@ -1,5 +1,6 @@
 // add_category_widget.dart
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
@@ -155,7 +156,12 @@ class _AddCategoryState extends State<AddCategory> {
 
                   // Navigate back to the category list page and pass a flag to indicate refreshing
                   // ignore: use_build_context_synchronously
-                  Navigator.of(context).pop(true);
+                   Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const BottomNavigation(initialIndex: 2),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4B4B87),

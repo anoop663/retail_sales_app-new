@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -257,7 +258,7 @@ class _AddCustomerState extends State<AddCustomer> {
                         name: _nameController.text,
                         phone: _phoneController.text,
                         address: _addressController.text);
-                    await  _customerController.addCustomers(customer1);
+                    await _customerController.addCustomers(customer1);
 
                     if (context.mounted) {
                       Provider.of<CountProvider>(context, listen: false)
@@ -272,10 +273,13 @@ class _AddCustomerState extends State<AddCustomer> {
                       ),
                     );
                   }
-
-                  // Navigate back to the customer list page and pass a flag to indicate refreshing
                   // ignore: use_build_context_synchronously
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const BottomNavigation(initialIndex: 1),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4B4B87),

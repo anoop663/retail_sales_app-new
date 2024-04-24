@@ -17,8 +17,8 @@ class _ListCustomerState extends State<ListCustomer> {
   @override
   void initState() {
     super.initState();
-    // Initialize customer list when the widget is first initialized
     _customerController.getAllCustomers();
+     
   }
 
   // Delete confirmation popup
@@ -216,6 +216,7 @@ class _ListCustomerState extends State<ListCustomer> {
               context,
               MaterialPageRoute(builder: (context) => const AddCustomer()),
             );
+            
           },
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 28),
