@@ -12,7 +12,7 @@ class SalesGraphWidgetBackup1 extends StatefulWidget {
 }
 
 class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
- final HiveServices _hiveController = HiveServices();
+  final HiveServices _hiveController = HiveServices();
   List<SalesGraphModel> salesDataList = [];
   double maxValue = 0;
   List<Color> pillarColors = [
@@ -45,20 +45,37 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 358,
-      height: 245,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            top: 110,
-            child: Transform(
-              transform: Matrix4.identity()
-                ..translate(0.0, 0.0)
-                ..rotateZ(-1.57),
-              child: const Text(
-                'Sales',
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: 358,
+        height: 245,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 110,
+              child: Transform(
+                transform: Matrix4.identity()
+                  ..translate(0.0, 0.0)
+                  ..rotateZ(-1.57),
+                child: const Text(
+                  'Sales',
+                  style: TextStyle(
+                    color: Color(0xFF4B4B87),
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+            const Positioned(
+              left: 150,
+              top: 230,
+              child: Text(
+                'Customers',
                 style: TextStyle(
                   color: Color(0xFF4B4B87),
                   fontSize: 14,
@@ -68,88 +85,74 @@ class _SalesGraphWidgetBackupState1 extends State<SalesGraphWidgetBackup1> {
                 ),
               ),
             ),
-          ),
-          const Positioned(
-            left: 150,
-            top: 230,
-            child: Text(
-              'Customers',
-              style: TextStyle(
-                color: Color(0xFF4B4B87),
-                fontSize: 14,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-                height: 0,
-              ),
-            ),
-          ),
-          // Fetch customer names dynamically
-          for (int i = 0; i < salesDataList.length; i++)
-            Positioned(
-              left: 45 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom: 24, // Position at the bottom
-              child: Text(
-                salesDataList[i].customerName,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 10,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
+            // Fetch customer names dynamically
+            for (int i = 0; i < salesDataList.length; i++)
+              Positioned(
+                left: 45 + 80 * i.toDouble(), // Adjust position dynamically
+                bottom: 24, // Position at the bottom
+                child: Text(
+                  salesDataList[i].customerName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 10,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
                 ),
               ),
-            ),
-          // Render sales values dynamically
-          for (int i = 0; i < salesDataList.length; i++)
-            Positioned(
-              left: 27 + 80 * i.toDouble(), // Adjust position dynamically
-              top: 205 -
-                  (180 * double.parse(salesDataList[i].salesValue) / maxValue),
-              child: Text(
-                salesDataList[i].salesValue.toString(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
+            // Render sales values dynamically
+            for (int i = 0; i < salesDataList.length; i++)
+              Positioned(
+                left: 27 + 80 * i.toDouble(), // Adjust position dynamically
+                top: 205 -
+                    (180 * double.parse(salesDataList[i].salesValue) / maxValue),
+                child: Text(
+                  salesDataList[i].salesValue.toString(),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
                 ),
               ),
-            ),
-          // Render colored bars
-          for (int i = 0; i < salesDataList.length; i++)
-            Positioned(
-              left: 63 + 80 * i.toDouble(), // Adjust position dynamically
-              bottom:
-                  40, // Adjust bottom position to align with the bottom of the graph
-              child: Container(
-                width: 30,
-                height:
-                    206 * double.parse(salesDataList[i].salesValue) / maxValue,
-                decoration: BoxDecoration(
-                  color: pillarColors[
-                      i % pillarColors.length], // Assign a color from the list
-                  borderRadius: BorderRadius.circular(4),
+            // Render colored bars
+            for (int i = 0; i < salesDataList.length; i++)
+              Positioned(
+                left: 63 + 80 * i.toDouble(), // Adjust position dynamically
+                bottom:
+                    40, // Adjust bottom position to align with the bottom of the graph
+                child: Container(
+                  width: 30,
+                  height:
+                      206 * double.parse(salesDataList[i].salesValue) / maxValue,
+                  decoration: BoxDecoration(
+                    color: pillarColors[
+                        i % pillarColors.length], // Assign a color from the list
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
               ),
-            ),
-          // Render horizontal lines
-          for (int i = 0; i < 6; i++)
-            Positioned(
-              left: 40,
-              bottom: 9 +
-                  41 *
-                      i.toDouble(), // Adjust bottom position to align with the bottom of the graph
-              // ignore: sized_box_for_whitespace
-              child: Container(
-                width: 318,
-                height: 32, // Change height to represent horizontal lines
-                child: CustomPaint(
-                  painter: DottedLinePainter(),
+            // Render horizontal lines
+            for (int i = 0; i < 6; i++)
+              Positioned(
+                left: 40,
+                bottom: 9 +
+                    41 *
+                        i.toDouble(), // Adjust bottom position to align with the bottom of the graph
+                // ignore: sized_box_for_whitespace
+                child: Container(
+                  width: 318,
+                  height: 32, // Change height to represent horizontal lines
+                  child: CustomPaint(
+                    painter: DottedLinePainter(),
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
