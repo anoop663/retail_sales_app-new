@@ -198,14 +198,16 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                     ),
                   ],
                 ),
-                child: CustomDropdown<ProductModel>.search(
+                child: CustomDropdown<ProductModel>.search (
                   hintText: 'Select Product',
-                  items: products,
-                  excludeSelected: false,
-                  initialItem: widget.sales == null
+                  initialItem: widget.sales ==  null
                       ? null
                       : products.firstWhere((element) =>
                           element.name == widget.sales!.products[i].name),
+                  items: products,
+                  
+                  excludeSelected: false,
+                  
                   onChanged: (ProductModel? value) {
                     if (value != null) {
                       double price1 = double.parse(value.price);
