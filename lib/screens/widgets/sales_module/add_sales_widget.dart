@@ -20,9 +20,9 @@ class AddSales extends StatefulWidget {
 }
 
 class _AddSalesState extends State<AddSales> {
- final HiveServices _hiveController = HiveServices();
+  final HiveServices _hiveController = HiveServices();
   final CustomerController _customerdataController = CustomerController();
-  final TextEditingController _customerController = TextEditingController();
+  TextEditingController _customerController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -34,7 +34,7 @@ class _AddSalesState extends State<AddSales> {
     super.initState();
     // Provider.of<SalesControllerState>(context, listen: false).addRow();
     if (widget.sales != null) {
-      _customerController.text = widget.sales!.customer;
+      _customerController = TextEditingController(text: widget.sales!.customer);
 
       // selectedProducts.addAll(widget.sales!.products);
     }
@@ -107,6 +107,10 @@ class _AddSalesState extends State<AddSales> {
                 hintText: 'Select Customer',
                 items: salesState.customers,
                 excludeSelected: false,
+                initialItem: widget.sales == null
+                    ? null
+                    : salesState.customers.firstWhere(
+                        (element) => element.name == widget.sales!.customer),
                 onChanged: (CustomerModel? value) {
                   _customerController.text = value!.name;
                   // Do something with the selected customer
@@ -127,7 +131,7 @@ class _AddSalesState extends State<AddSales> {
                 ),
               ),
             ),
-             const SizedBox(height: 20),
+            const SizedBox(height: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -302,7 +306,9 @@ class _AddSalesState extends State<AddSales> {
               ),
             ),
             const SizedBox(height: 10),
-            const AddSalesDynamic(),
+            AddSalesDynamic(
+              sales: widget.sales,
+            ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -338,8 +344,8 @@ class _AddSalesState extends State<AddSales> {
                   for (int i = 0; i < salesState.selectedProducts.length; i++) {
                     final selectedProduct = salesState.selectedProducts[i];
                     final quantity = int.parse(selectedProduct.nos);
-                    final products =
-                        await _hiveController.hiveProducts(); // Using the hiveProducts function
+                    final products = await _hiveController
+                        .hiveProducts(); // Using the hiveProducts function
 
                     final product = products.firstWhere(
                       (product) => product.name == selectedProduct.name,
@@ -373,24 +379,46 @@ class _AddSalesState extends State<AddSales> {
                     }
                   }
 
-                  if (canCreateSale) {
-                    if (_customerController.text.isEmpty) {
-                      await salesState.createSales(customerName);
-                     
-                    } else {
-                       await salesState.createSales(_customerController.text);
+                  if (widget.sales == null) {
+                    if (canCreateSale) {
+                      if (_customerController.text.isEmpty) {
+                        await salesState.createSales(customerName);
+                      } else {
+                        await salesState.createSales(_customerController.text);
+                      }
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Sale created successfully!'),
+                        backgroundColor: Colors.green,
+                      ));
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ListSales()),
+                      );
                     }
-                    // ignore: use_build_context_synchronously
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Sale created successfully!'),
-                      backgroundColor: Colors.green,
-                    ));
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ListSales()),
-                    );
+                  } else {
+                    if (canCreateSale) {
+                      if (_customerController.text.isEmpty) {
+                        await salesState.updateSale(
+                            widget.sales!, customerName);
+                      } else {
+                        await salesState.updateSale(
+                            widget.sales!, _customerController.text);
+                      }
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Sale updated successfully!'),
+                        backgroundColor: Colors.green,
+                      ));
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ListSales()),
+                      );
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(

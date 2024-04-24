@@ -7,10 +7,11 @@ import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
-
 class AddSalesDynamic extends StatefulWidget {
+  final SalesModel? sales;
   const AddSalesDynamic({
     Key? key,
+    this.sales,
   }) : super(key: key);
 
   @override
@@ -201,6 +202,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   hintText: 'Select Product',
                   items: products,
                   excludeSelected: false,
+                  initialItem: widget.sales == null
+                      ? null
+                      : products.firstWhere((element) =>
+                          element.name == widget.sales!.products[i].name),
                   onChanged: (ProductModel? value) {
                     if (value != null) {
                       double price1 = double.parse(value.price);

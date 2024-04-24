@@ -8,9 +8,8 @@ import 'package:project_fourth/screens/widgets/sales_module/sales_controller.dar
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
 import 'package:uuid/uuid.dart';
 
-
 class SalesControllerState extends ChangeNotifier {
-   final SalesController _salesController = SalesController();
+  final SalesController _salesController = SalesController();
   final List<TextEditingController> _nosControllers = [];
 
   List<TextEditingController> get nosControllers => _nosControllers;
@@ -77,6 +76,43 @@ class SalesControllerState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editClickBinding(SalesModel editData) {
+    selectedProducts.clear();
+    nosControllers.clear();
+    totalControllers.clear();
+
+    getCustomers();
+    grandTotalController = TextEditingController(text: editData.grand);
+    for (var i in editData.products) {
+      addSelectedProducts = (i);
+      addtotalControllers = TextEditingController(text: i.total);
+      addnosControllers = TextEditingController(text: i.nos);
+    }
+  }
+
+  Future<void> updateSale(SalesModel item, String customerName) async {
+    try {
+      var box1 = await Hive.openBox<SalesModel>('sales_db');
+      int index = box1.values.toList().indexWhere((cat) => cat.id == item.id);
+      if (index != -1) {
+        final sales = SalesModel(
+          customer: customerName,
+          products: selectedProducts,
+          grand: grandTotalController.text.trim(),
+          id: item.id,
+        );
+
+        box1.putAt(index, sales);
+      } else {
+        throw 'sales not found';
+      } // Notify listeners after updating
+    } catch (error) {
+      // ignore: avoid_print
+      print('Failed to update sales: $error');
+      throw 'Failed to update sales: $error';
+    }
+  }
+
 //Creating sale entry function
 
   Future<void> createSales(String customerName) async {
@@ -94,15 +130,17 @@ class SalesControllerState extends ChangeNotifier {
       );
 
       // Add the sale to sales_db
-      await salesBox.add(sales).then((value) async{
+      await salesBox.add(sales).then((value) async {
         // Get all products from product_db2
         //initializeHive();
-       await Hive.openBox<ProductModel>('product_db2');
+        await Hive.openBox<ProductModel>('product_db2');
         final productBox = Hive.box<ProductModel>('product_db2');
         // Iterate through each selected product in the sale
         for (var productSale in selectedProducts) {
           // Find the corresponding product in product_db2 by its code
-          final index = productBox.values.toList().indexWhere((product) => product.name == productSale.name);
+          final index = productBox.values
+              .toList()
+              .indexWhere((product) => product.name == productSale.name);
           if (index != -1) {
             // Get the product from product_db2
             final productToUpdate = productBox.getAt(index);
@@ -114,29 +152,33 @@ class SalesControllerState extends ChangeNotifier {
             productBox.putAt(index, productToUpdate);
           }
         }
-       // Save data to SalesGraphModel
-      final graphBox = await Hive.openBox<SalesGraphModel>('graph_db');
-      final existingCustomerIndex = graphBox.values.toList().indexWhere((graph) => graph.customerName == customerName);
-      if (existingCustomerIndex != -1) {
-        // If customerName already exists, update the it
-        final existingGraph = graphBox.getAt(existingCustomerIndex);
-        final double currentSalesValue = double.parse(existingGraph!.salesValue);
-        final double newSalesValue = double.parse(grandTotalController.text.trim());
-        existingGraph.salesValue = (currentSalesValue + newSalesValue).toString();
-        graphBox.putAt(existingCustomerIndex, existingGraph);
-      } else {
-        // If customerName doesn't exist, add it as a new
-        final salesGraph = SalesGraphModel(
-          customerName: customerName,
-          salesValue: grandTotalController.text.trim(),
-        );
-        await graphBox.add(salesGraph);
-      }
-    });
-      
+        // Save data to SalesGraphModel
+        final graphBox = await Hive.openBox<SalesGraphModel>('graph_db');
+        final existingCustomerIndex = graphBox.values
+            .toList()
+            .indexWhere((graph) => graph.customerName == customerName);
+        if (existingCustomerIndex != -1) {
+          // If customerName already exists, update the it
+          final existingGraph = graphBox.getAt(existingCustomerIndex);
+          final double currentSalesValue =
+              double.parse(existingGraph!.salesValue);
+          final double newSalesValue =
+              double.parse(grandTotalController.text.trim());
+          existingGraph.salesValue =
+              (currentSalesValue + newSalesValue).toString();
+          graphBox.putAt(existingCustomerIndex, existingGraph);
+        } else {
+          // If customerName doesn't exist, add it as a new
+          final salesGraph = SalesGraphModel(
+            customerName: customerName,
+            salesValue: grandTotalController.text.trim(),
+          );
+          await graphBox.add(salesGraph);
+        }
+      });
 
       // Get all sales after adding the new sale
-     _salesController.getAllSales();
+      _salesController.getAllSales();
     } catch (error) {
       log(error.toString());
     }
