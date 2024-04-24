@@ -26,7 +26,8 @@ class _ListSalesState extends State<ListSales> {
     super.initState();
     // Initialize Hive when the widget is first initialized
     _salesController.initializeHiveSales();
-    _allSales = _salesController.salesListNotifier.value; // Store all products initially
+    _allSales = _salesController
+        .salesListNotifier.value; // Store all products initially
   }
 
   Future<void> showDeleteConfirmationDialog(int index) async {
@@ -241,13 +242,21 @@ class _ListSalesState extends State<ListSales> {
                                           top: 0, right: 8),
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UpdateSales(sales: sale),
-                                            ),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         UpdateSales(sales: sale),
+                                          //   ),
+                                          // );
+
+                                          salesState.editClickBinding(sale);
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddSales(
+                                                        sales: sale,
+                                                      )));
                                         },
                                         child: Container(
                                           width: 30,
