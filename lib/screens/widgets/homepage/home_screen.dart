@@ -9,11 +9,13 @@ import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //final salesState = Provider.of<SalesControllerState>(context);
     final screenSize = MediaQuery.of(context).size;
     final isDesktop = screenSize.width > 600;
 
@@ -327,9 +329,8 @@ class HomePage extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () {
-                // Handle sales button tap
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const AddSales()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const AddSales()));
               },
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'Sales Button',

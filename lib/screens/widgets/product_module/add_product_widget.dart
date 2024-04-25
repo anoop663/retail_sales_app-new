@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
@@ -14,6 +14,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:http/http.dart' as http;
+
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -35,14 +37,16 @@ class _AddProductsState extends State<AddProducts> {
   final TextEditingController _expiryDateController = TextEditingController();
   File? _image;
 
-  final ImagePicker _picker = ImagePicker();
+  //final ImagePicker _picker = ImagePicker();
 
   Future<void> _getImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    //final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    FilePickerResult? pickedFile = await FilePicker.platform.pickFiles();
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+          _image = File(pickedFile.files.single.path!);
+       // _image = File(pickedFile.paths);
       } else {
         // ignore: avoid_print
         print('No image selected.');
@@ -50,12 +54,30 @@ class _AddProductsState extends State<AddProducts> {
     });
   }
 
-  Future<String> _saveImage(File image) async {
-    final appDir = await getApplicationDocumentsDirectory();
+  Future<String> _saveImage(dynamic image) async {
+  final appDir = await getApplicationDocumentsDirectory();
+  late String imagePath;
+
+  if (image is String) {
+    // If the image is from a website (URL)
+    final http.Response response = await http.get(Uri.parse(image));
+    final List<int> bytes = response.bodyBytes;
+    final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final File savedImage = File('${appDir.path}/$imageName');
+    await savedImage.writeAsBytes(bytes);
+    imagePath = savedImage.path;
+  } else if (image is File) {
+    // If the image is from local storage (File)
     final imageName = path.basename(image.path);
     final savedImage = await image.copy('${appDir.path}/$imageName');
-    return savedImage.path;
+    imagePath = savedImage.path;
+  } else {
+    imagePath = image.toString();
   }
+
+  return imagePath;
+}
+
 
   @override
   void initState() {

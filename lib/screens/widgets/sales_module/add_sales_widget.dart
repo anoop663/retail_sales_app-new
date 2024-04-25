@@ -13,12 +13,10 @@ class AddSales extends StatefulWidget {
   final SalesModel? sales;
 
   const AddSales({Key? key, this.sales}) : super(key: key);
-  
 
   @override
   // ignore: library_private_types_in_public_api
   _AddSalesState createState() => _AddSalesState();
-  
 }
 
 class _AddSalesState extends State<AddSales> {
@@ -316,7 +314,7 @@ class _AddSalesState extends State<AddSales> {
             ),
             const SizedBox(height: 10),
             AddSalesDynamic(
-               //key: UniqueKey(),
+              //key: UniqueKey(),
               sales: widget.sales,
             ),
             const SizedBox(height: 20),
