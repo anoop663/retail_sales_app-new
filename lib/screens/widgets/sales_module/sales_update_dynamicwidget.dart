@@ -18,7 +18,7 @@ class UpdateSalesDynamic extends StatefulWidget {
 }
 
 class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
-   final HiveServices _hiveController = HiveServices();
+  final HiveServices _hiveController = HiveServices();
 
   final List<ProductModel> products = [];
 
@@ -198,9 +198,20 @@ class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
                   ],
                 ),
                 child: CustomDropdown<ProductModel>.search(
-                hintText: 'Select Product',
-                items: products,
-                excludeSelected: false,
+                  hintText: 'Select Product',
+                  //items: products,
+                  items: products.isNotEmpty
+                      ? products
+                      : [
+                          ProductModel(
+                              name: 'No Customers Added',
+                              code: '',
+                              stock: '',
+                              price: '',
+                              date: '',
+                              category: ''),
+                        ],
+                  excludeSelected: false,
                   onChanged: (ProductModel? value) {
                     if (value != null) {
                       double price1 = double.parse(value.price);
@@ -285,12 +296,11 @@ class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
                         double.parse(state.selectedProducts[i].total);
                     final double newTotalPrice = price1 * nos1;
                     state.totalControllers[i].text = newTotalPrice.toString();
-                    
+
                     //  widget.getNos(i, nos1);
                     //  widget.getTotal(i, newTotalPrice);
                     state.updateGrandTotal();
                     // widget.getGrandTotal(grandTotal);
-                    
                   },
                 ),
               ),
@@ -367,7 +377,6 @@ class _UpdateSalesDynamicState extends State<UpdateSalesDynamic> {
             ),
             Expanded(
               flex: 0,
-              
               child: GestureDetector(
                 onTap: () {
                   state.removeRow(i);

@@ -15,7 +15,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 
-
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
 
@@ -132,34 +131,30 @@ class _AddProductsState extends State<AddProducts> {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: CustomDropdown<CategoryModel>.search(
-                    
-                     hintText: 'Select Categories',
-                     items: categories,
-                     //initialItem: _categoryController.text.isNotEmpty
-                      //   ? CategoryModel(name: _categoryController.text)
-                     //    : null,
-                     excludeSelected: false,
-                     onChanged: (CategoryModel? value) {
-                       _categoryController.text = value!.name;
-                       // Do something with the selected category
-                       // ignore: avoid_print
-                       print('Selected category: ${value.name}');
-                     },
-                   ),
-
-                  ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: CustomDropdown<CategoryModel>.search(
+                        hintText: 'Select Categories',
+                        items: categories.isNotEmpty
+                            ? categories
+                            : [CategoryModel(name: 'No Categories Added')],
+                        excludeSelected: false,
+                        onChanged: (CategoryModel? value) {
+                          _categoryController.text = value!.name;
+                          // Do something with the selected category
+                          // ignore: avoid_print
+                          print('Selected category: ${value.name}');
+                        },
+                      )),
                   const SizedBox(height: 20),
                   const Text(
                     'Product Name',
@@ -213,7 +208,7 @@ class _AddProductsState extends State<AddProducts> {
                       keyboardType: TextInputType.text,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 20),
                   const Text(
                     'Product Stock',
@@ -425,7 +420,8 @@ class _AddProductsState extends State<AddProducts> {
                           widget.product!.stock = _stockController.text;
                           widget.product!.date = _expiryDateController.text;
                           widget.product!.image = imagePath;
-                          await _productpageController.updateProducts(widget.product!);
+                          await _productpageController
+                              .updateProducts(widget.product!);
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -512,7 +508,7 @@ class _AddProductsState extends State<AddProducts> {
       setState(() {
         final formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         _expiryDateController.text = formattedDate;
-         // Update category controller text with selected category
+        // Update category controller text with selected category
       });
     }
   }

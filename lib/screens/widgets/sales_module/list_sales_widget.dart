@@ -50,7 +50,12 @@ class _ListSalesState extends State<ListSales> {
               onPressed: () {
                 debugPrint('The Sales id is: $index');
                 salesState.deleteSale(index);
-                Navigator.of(context).pop(true);
+                //Navigator.of(context).pop(true);
+                 Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const ListSales(),
+              ),
+            );
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Sales deleted successfully!'),
