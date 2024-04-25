@@ -316,7 +316,7 @@ class _AddSalesState extends State<AddSales> {
             ),
             const SizedBox(height: 10),
             AddSalesDynamic(
-               key: UniqueKey(),
+               //key: UniqueKey(),
               sales: widget.sales,
             ),
             const SizedBox(height: 20),

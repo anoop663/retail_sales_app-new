@@ -199,6 +199,7 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ],
                 ),
                 child: CustomDropdown<ProductModel>.search(
+                  
                   hintText: 'Select Product',
                   items: products.isNotEmpty
                       ? products
@@ -211,9 +212,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                               date: '',
                               category: ''),
                         ],
+                 // key: GlobalKey(), 
                   excludeSelected: false,
                   onChanged: (ProductModel? value) {
                     if (value != null) {
+                      
                       double price1 = double.parse(value.price);
 
                       state.selectedProducts[i] = ProductSale(

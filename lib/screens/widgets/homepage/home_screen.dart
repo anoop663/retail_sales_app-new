@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_totalbyday.dart';
+import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
@@ -327,6 +328,8 @@ class HomePage extends StatelessWidget {
             FloatingActionButton(
               onPressed: () {
                 // Handle sales button tap
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const AddSales()));
               },
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'Sales Button',
