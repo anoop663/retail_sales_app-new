@@ -34,6 +34,7 @@ dependencies:
   file_picker: ^8.0.0+1
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
   flutter_typeahead: ^5.2.0
   grouped_list: ^5.1.2
   hive: ^2.2.3

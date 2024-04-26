@@ -4,7 +4,7 @@
 
     <application
     
-        android:label="project_fourth"
+        android:label="S-Helper"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         
