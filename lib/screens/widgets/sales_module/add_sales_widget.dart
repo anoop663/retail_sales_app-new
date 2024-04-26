@@ -2,6 +2,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_controller.dart';
 import 'package:project_fourth/screens/widgets/customer_module/customer_model.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
 import 'package:project_fourth/screens/widgets/sales_module/list_sales_widget.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
@@ -428,6 +429,8 @@ class _AddSalesState extends State<AddSales> {
                       );
                     }
                   }
+                  // ignore: use_build_context_synchronously
+                  Provider.of<CountProvider>(context, listen: false).loadCounts();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4B4B87),

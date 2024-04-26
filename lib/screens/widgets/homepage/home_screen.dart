@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_graph_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/sales_totalbyday.dart';
 import 'package:project_fourth/screens/widgets/sales_module/add_sales_widget.dart';
+import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:provider/provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/homepage/navigation_drawerscreen2.dart';
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/add_product_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/outofstock_widget.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,8 +18,10 @@ class HomePage extends StatelessWidget {
     //final salesState = Provider.of<SalesControllerState>(context);
     final screenSize = MediaQuery.of(context).size;
     final isDesktop = screenSize.width > 600;
+    
 
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text(
           'Home',
@@ -37,7 +39,8 @@ class HomePage extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0),
-              child: Image.asset('lib/assets/Vector1.png', width: 40, height: 40),
+              child:
+                  Image.asset('lib/assets/Vector1.png', width: 40, height: 40),
             ),
           ),
         ),
@@ -57,7 +60,8 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigation(initialIndex: 2),
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 2),
                           ),
                         );
                       },
@@ -99,7 +103,9 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    Provider.of<CountProvider>(context).catCount.toString(),
+                                    Provider.of<CountProvider>(context)
+                                        .catCount
+                                        .toString(),
                                     style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
@@ -122,7 +128,8 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigation(initialIndex: 3),
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 3),
                           ),
                         );
                       },
@@ -164,7 +171,9 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    Provider.of<CountProvider>(context).proCount.toString(),
+                                    Provider.of<CountProvider>(context)
+                                        .proCount
+                                        .toString(),
                                     style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
@@ -192,7 +201,8 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavigation(initialIndex: 1),
+                            builder: (context) =>
+                                const BottomNavigation(initialIndex: 1),
                           ),
                         );
                       },
@@ -234,7 +244,9 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    Provider.of<CountProvider>(context).custCount.toString(),
+                                    Provider.of<CountProvider>(context)
+                                        .custCount
+                                        .toString(),
                                     style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
@@ -296,7 +308,9 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    Provider.of<CountProvider>(context).outCount.toString(),
+                                    Provider.of<CountProvider>(context)
+                                        .outCount
+                                        .toString(),
                                     style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
@@ -329,6 +343,11 @@ class HomePage extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () {
+                Provider.of<SalesControllerState>(context, listen: false).selectedProducts.clear();
+                Provider.of<SalesControllerState>(context, listen: false).nosControllers.clear();
+                Provider.of<SalesControllerState>(context, listen: false).totalControllers.clear();
+                Provider.of<SalesControllerState>(context, listen: false).addRow();
+                Provider.of<SalesControllerState>(context, listen: false).getCustomers();
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const AddSales()));
               },

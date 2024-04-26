@@ -23,11 +23,13 @@ class CountProvider extends ChangeNotifier {
     final box2 = await Hive.openBox<CustomerModel>('customer_db');
     final box3 = await Hive.openBox<CategoryModel>('product_db');
     List<ProductModel> products = box1.values.toList();
-    int zeroStockCount =
+     int zeroStockCount =
         products.where((product) => product.stock == '0').length;
+        notifyListeners();
 
     _catCount = box3.length;
     _proCount = box1.length;
+    notifyListeners();
     //_outCount1 = prefs.getInt('outCount') ?? 0;
     _outCount1 = zeroStockCount;
 

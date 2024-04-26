@@ -7,11 +7,13 @@ import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/count_provider.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class UpdateProducts extends StatefulWidget {
   final ProductModel? product;
@@ -509,6 +511,8 @@ class _UpdateproductsState extends State<UpdateProducts> {
                               builder: (context) =>
                                   const BottomNavigation(initialIndex: 3)),
                         );
+                        // ignore: use_build_context_synchronously
+                        Provider.of<CountProvider>(context, listen: false).loadCounts();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4B4B87),
