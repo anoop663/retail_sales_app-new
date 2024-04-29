@@ -1,6 +1,8 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:project_fourth/screens/widgets/homepage/hive_services.dart';
+import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
+import 'package:project_fourth/screens/widgets/product_module/product_controller.dart';
 import 'package:project_fourth/screens/widgets/product_module/product_model.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_controller_state.dart';
 import 'package:project_fourth/screens/widgets/sales_module/sales_model.dart';
@@ -20,6 +22,7 @@ class AddSalesDynamic extends StatefulWidget {
 }
 
 class _AddSalesDynamicState extends State<AddSalesDynamic> {
+  final ProductPageController _productpageController = ProductPageController();
   final HiveServices _hiveServices = HiveServices();
   final List<ProductModel> products = [];
 
@@ -158,23 +161,32 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                         builder: (context) => const SimpleBarcodeScannerPage(),
                       ),
                     );
-                    if (scanResult != null) {
-                      // Find the product from ProductModel using product code
-                      ProductModel? scannedProduct = products.firstWhere(
-                        (product) => product.code == scanResult,
-                      );
-
-                      // Set the scanned product in the dropdown
+                    if (scanResult is String) {
                       setState(() {
-                        // selectedProducts1[i] = scannedProduct;
-                        // Update other fields as necessary
-                        // For example, if you want to set the quantity to 1:
-                        state.nosControllers[i].text = '1';
-                        double price1 = double.parse(scannedProduct.price);
-                        state.totalControllers[i].text = price1.toString();
-                        // updateGrandTotal();
+                        String result = scanResult;
+                        filterProducts(result);
                       });
+                      //filterProducts(_searchController.text);
+                    } else {
+                      String result = scanResult.toString();
+                      setState(
+                        () {
+                          result = scanResult;
+                          filterProducts(result);
+                        },
+                      );
                     }
+
+                    // Set the scanned product in the dropdown
+                    setState(() {
+                      // selectedProducts1[i] = scannedProduct;
+                      // Update other fields as necessary
+                      // For example, if you want to set the quantity to 1:
+                      state.nosControllers[i].text = '1';
+                      double price1 = double.parse(scanResult.price);
+                      state.totalControllers[i].text = price1.toString();
+                      // updateGrandTotal();
+                    });
                   },
                   child: Material(
                     color: Colors.white,
@@ -414,5 +426,29 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
         const SizedBox(height: 10), // Add gap between rows
       ],
     );
+  }
+
+  void filterProducts(String value) {
+    if (value.isEmpty) {
+      // If search text is empty, restore all products
+      _productpageController.productListNotifier.value = products;
+      return;
+    }
+
+    // Check if the scanned result matches any product code
+    ProductModel? scannedProduct;
+    if (value.isNotEmpty) {
+      scannedProduct = products.firstWhereOrNull(
+        (product) => product.code == value,
+      );
+    }
+
+    // Update the ValueListenable with the scanned product or filtered products
+    _productpageController.productListNotifier.value = scannedProduct != null
+        ? [scannedProduct]
+        : products
+            .where((product) =>
+                product.name.toLowerCase().contains(value.toLowerCase()))
+            .toList();
   }
 }
