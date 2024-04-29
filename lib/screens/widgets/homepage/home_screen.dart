@@ -18,10 +18,8 @@ class HomePage extends StatelessWidget {
     //final salesState = Provider.of<SalesControllerState>(context);
     final screenSize = MediaQuery.of(context).size;
     final isDesktop = screenSize.width > 600;
-    
 
     return Scaffold(
-      
       appBar: AppBar(
         title: const Text(
           'Home',
@@ -343,21 +341,31 @@ class HomePage extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () {
-                Provider.of<SalesControllerState>(context, listen: false).selectedProducts.clear();
-                Provider.of<SalesControllerState>(context, listen: false).nosControllers.clear();
-                Provider.of<SalesControllerState>(context, listen: false).totalControllers.clear();
-                Provider.of<SalesControllerState>(context, listen: false).addRow();
-                Provider.of<SalesControllerState>(context, listen: false).getCustomers();
+                Provider.of<SalesControllerState>(context, listen: false)
+                    .selectedProducts
+                    .clear();
+                Provider.of<SalesControllerState>(context, listen: false)
+                    .nosControllers
+                    .clear();
+                Provider.of<SalesControllerState>(context, listen: false)
+                    .totalControllers
+                    .clear();
+                Provider.of<SalesControllerState>(context, listen: false)
+                    .addRow();
+                Provider.of<SalesControllerState>(context, listen: false)
+                    .getCustomers();
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const AddSales()));
               },
               backgroundColor: const Color(0xFF4B4B87),
               tooltip: 'Sales Button',
+              heroTag: "111111155",
               shape: const CircleBorder(),
               child: const Icon(Icons.percent, color: Colors.white, size: 28),
             ),
             const SizedBox(width: 12), // Add space between the buttons
             FloatingActionButton(
+              heroTag: "11111111",
               onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const AddProducts()));

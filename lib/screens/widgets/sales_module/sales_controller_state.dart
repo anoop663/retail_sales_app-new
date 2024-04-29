@@ -178,15 +178,13 @@ class SalesControllerState extends ChangeNotifier {
       });
 
       // Get all sales after adding the new sale
-      _salesController.getAllSales();
+      _salesController.initializeHiveSales();
       grandTotalController.clear();
       selectedProducts.clear();
       nosControllers.clear();
       totalControllers.clear();
       addRow();
       getCustomers();
-      
-
     } catch (error) {
       log(error.toString());
     }
