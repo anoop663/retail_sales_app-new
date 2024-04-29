@@ -179,13 +179,9 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
                     // Set the scanned product in the dropdown
                     setState(() {
-                      // selectedProducts1[i] = scannedProduct;
-                      // Update other fields as necessary
-                      // For example, if you want to set the quantity to 1:
                       state.nosControllers[i].text = '1';
                       double price1 = double.parse(scanResult.price);
                       state.totalControllers[i].text = price1.toString();
-                      // updateGrandTotal();
                     });
                   },
                   child: Material(
