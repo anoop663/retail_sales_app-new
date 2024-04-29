@@ -17,8 +17,8 @@ Future<void> main() async {
   Hive.registerAdapter(CategoryModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
   Hive.registerAdapter(CustomerModelAdapter());
-  Hive.registerAdapter(SalesModelAdapter());
   Hive.registerAdapter(ProductSaleAdapter());
+  Hive.registerAdapter(SalesModelAdapter());
   Hive.registerAdapter(SalesGraphModelAdapter());
 
   runApp(
@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
         // ),
         ChangeNotifierProvider(create: (_) => CountProvider()),
         ChangeNotifierProvider(create: (_) => SalesControllerState()),
-         
       ],
 
       // Provide CountProvider

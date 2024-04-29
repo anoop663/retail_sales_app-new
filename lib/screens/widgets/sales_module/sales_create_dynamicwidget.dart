@@ -25,6 +25,8 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
 
   double grandTotal = 0;
 
+  bool isLoadingItem = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,9 +35,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
   }
 
   Future<void> loadProducts() async {
+    isLoadingItem = (true);
     final productBox = await _hiveServices.hiveProducts();
     setState(() {
       products.addAll(productBox);
+      isLoadingItem = (false);
     });
   }
 
@@ -49,7 +53,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
             physics: const ScrollPhysics(),
             itemCount: salesState.selectedProducts.length,
             itemBuilder: (b, i) {
-              return productIncrement(i, salesState);
+              return isLoadingItem
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : productIncrement(i, salesState);
             }),
 
         // for (int i = 0; i < salesState.selectedProducts.length; i++)
@@ -199,8 +207,11 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                   ],
                 ),
                 child: CustomDropdown<ProductModel>.search(
-                  
                   hintText: 'Select Product',
+                  initialItem: widget.sales == null
+                      ? null
+                      : products.firstWhere((element) =>
+                          state.selectedProducts[i].name == element.name),
                   items: products.isNotEmpty
                       ? products
                       : [
@@ -212,11 +223,10 @@ class _AddSalesDynamicState extends State<AddSalesDynamic> {
                               date: '',
                               category: ''),
                         ],
-                 // key: GlobalKey(), 
+                  // key: GlobalKey(),
                   excludeSelected: false,
                   onChanged: (ProductModel? value) {
                     if (value != null) {
-                      
                       double price1 = double.parse(value.price);
 
                       state.selectedProducts[i] = ProductSale(
