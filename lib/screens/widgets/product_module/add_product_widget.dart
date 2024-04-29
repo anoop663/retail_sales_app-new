@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -36,6 +36,7 @@ class _AddProductsState extends State<AddProducts> {
   final TextEditingController _stockController = TextEditingController();
   final TextEditingController _expiryDateController = TextEditingController();
   File? _image;
+  Uint8List? logoBase64;
 
   //final ImagePicker _picker = ImagePicker();
 
@@ -44,9 +45,14 @@ class _AddProductsState extends State<AddProducts> {
     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles();
 
     setState(() {
+      print('Step1');
       if (pickedFile != null) {
+        if (kIsWeb) {
+          logoBase64 = pickedFile.files.first.bytes;
+        } else {
           _image = File(pickedFile.files.single.path!);
-       // _image = File(pickedFile.paths);
+        }
+        // _image = File(pickedFile.paths);
       } else {
         // ignore: avoid_print
         print('No image selected.');
@@ -55,29 +61,28 @@ class _AddProductsState extends State<AddProducts> {
   }
 
   Future<String> _saveImage(dynamic image) async {
-  final appDir = await getApplicationDocumentsDirectory();
-  late String imagePath;
+    final appDir = await getApplicationDocumentsDirectory();
+    late String imagePath;
 
-  if (image is String) {
-    // If the image is from a website (URL)
-    final http.Response response = await http.get(Uri.parse(image));
-    final List<int> bytes = response.bodyBytes;
-    final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
-    final File savedImage = File('${appDir.path}/$imageName');
-    await savedImage.writeAsBytes(bytes);
-    imagePath = savedImage.path;
-  } else if (image is File) {
-    // If the image is from local storage (File)
-    final imageName = path.basename(image.path);
-    final savedImage = await image.copy('${appDir.path}/$imageName');
-    imagePath = savedImage.path;
-  } else {
-    imagePath = image.toString();
+    if (image is String) {
+      // If the image is from a website (URL)
+      final http.Response response = await http.get(Uri.parse(image));
+      final List<int> bytes = response.bodyBytes;
+      final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final File savedImage = File('${appDir.path}/$imageName');
+      await savedImage.writeAsBytes(bytes);
+      imagePath = savedImage.path;
+    } else if (image is File) {
+      // If the image is from local storage (File)
+      final imageName = path.basename(image.path);
+      final savedImage = await image.copy('${appDir.path}/$imageName');
+      imagePath = savedImage.path;
+    } else {
+      imagePath = image.toString();
+    }
+
+    return imagePath;
   }
-
-  return imagePath;
-}
-
 
   @override
   void initState() {
@@ -417,10 +422,14 @@ class _AddProductsState extends State<AddProducts> {
                   if (_image != null) ...[
                     const SizedBox(height: 20),
                     SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: Image.file(_image!),
-                    ),
+                        height: 200, width: 200, child: Image.file(_image!)),
+                  ],
+                  if (logoBase64 != null) ...[
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: Image.memory(logoBase64!)),
                   ],
                   const SizedBox(
                     height: 30,
@@ -432,6 +441,9 @@ class _AddProductsState extends State<AddProducts> {
                         String? imagePath;
                         if (_image != null) {
                           imagePath = await _saveImage(_image!);
+                        }
+                        if (logoBase64 != null) {
+                          imagePath = await _saveImage(logoBase64);
                         }
 
                         if (widget.product != null) {
