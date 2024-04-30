@@ -121,9 +121,16 @@ class SalesControllerState extends ChangeNotifier {
       const uuid = Uuid();
       final uuidString = uuid.v4(); // Generate UUID as a string
       final id = uuidString.hashCode.abs(); // Convert UUID string to integer
+
+      final List<ProductSale> saleProducts = [];
+
+      for (var item in selectedProducts) {
+        saleProducts.add(item);
+      }
+
       final sales = SalesModel(
         customer: customerName,
-        products: selectedProducts,
+        products: saleProducts,
         grand: grandTotalController.text.trim(),
         createddate: DateTime.now(),
         id: id,
