@@ -22,6 +22,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color(0xFFF1F5F9),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
