@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/business_profile/business_card.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_controller.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
 
@@ -45,7 +46,8 @@ class _BusinessProfileState extends State<BusinessProfile> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const BusinessCard()));
           },
           child: Column(
             children: [

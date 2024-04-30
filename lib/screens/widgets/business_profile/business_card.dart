@@ -3,6 +3,7 @@ import 'package:project_fourth/screens/widgets/business_profile/business_control
 import 'package:project_fourth/screens/widgets/business_profile/business_model.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_screen.dart';
 import 'package:project_fourth/screens/widgets/customer_module/list_customer_widget.dart';
+import 'package:project_fourth/screens/widgets/homepage/bottom_navigation_widget.dart';
 import 'package:project_fourth/screens/widgets/homepage/home_screen.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_category_widget.dart';
 import 'package:project_fourth/screens/widgets/product_module/list_product_widget.dart';
@@ -39,7 +40,11 @@ class _BusinessCardState extends State<BusinessCard> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const BottomNavigation(initialIndex: 0),
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.only(left: 16),

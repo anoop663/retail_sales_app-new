@@ -306,7 +306,7 @@ class _ListProductsState extends State<ListProducts> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    'Price: ${product.price}',
+                                    'Price: ₹${product.price}',
                                     style: const TextStyle(
                                       fontSize: 14,
                                     ),
