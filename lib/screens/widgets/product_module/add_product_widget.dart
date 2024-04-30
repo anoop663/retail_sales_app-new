@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -45,7 +47,6 @@ class _AddProductsState extends State<AddProducts> {
     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles();
 
     setState(() {
-      print('Step1');
       if (pickedFile != null) {
         if (kIsWeb) {
           logoBase64 = pickedFile.files.first.bytes;
@@ -61,22 +62,20 @@ class _AddProductsState extends State<AddProducts> {
   }
 
   Future<String> _saveImage(dynamic image) async {
-    final appDir = await getApplicationDocumentsDirectory();
     late String imagePath;
 
-    if (image is String) {
-      // If the image is from a website (URL)
-      final http.Response response = await http.get(Uri.parse(image));
-      final List<int> bytes = response.bodyBytes;
-      final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
-      final File savedImage = File('${appDir.path}/$imageName');
-      await savedImage.writeAsBytes(bytes);
-      imagePath = savedImage.path;
-    } else if (image is File) {
+    if (image is File) {
+      final appDir = await getApplicationDocumentsDirectory();
       // If the image is from local storage (File)
       final imageName = path.basename(image.path);
       final savedImage = await image.copy('${appDir.path}/$imageName');
       imagePath = savedImage.path;
+    } else if (image is Uint8List) {
+      // If the image is in Uint8List format
+      final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final String base64Image = base64Encode(image);
+      html.window.localStorage[imageName] = base64Image;
+      return imageName;
     } else {
       imagePath = image.toString();
     }

@@ -220,7 +220,8 @@ class _ListProductsState extends State<ListProducts> {
                                   top: 10), // Adjust the top padding as needed
                               child: CircleAvatar(
                                 radius: 26,
-                                backgroundImage: product.image != null
+                                backgroundImage:
+                                 product.image != null
                                     ? FileImage(File(product.image!))
                                     : const AssetImage(
                                             'lib/assets/app_icon.png')
