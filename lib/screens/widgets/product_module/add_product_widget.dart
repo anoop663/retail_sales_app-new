@@ -1,4 +1,4 @@
-import 'dart:convert';
+//import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 
 class AddProducts extends StatefulWidget {
   final ProductModel? product;
@@ -73,8 +71,8 @@ class _AddProductsState extends State<AddProducts> {
     } else if (image is Uint8List) {
       // If the image is in Uint8List format
       final imageName = 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
-      final String base64Image = base64Encode(image);
-      html.window.localStorage[imageName] = base64Image;
+      //final String base64Image = base64Encode(image);
+     // html.window.localStorage[imageName] = base64Image;
       return imageName;
     } else {
       imagePath = image.toString();

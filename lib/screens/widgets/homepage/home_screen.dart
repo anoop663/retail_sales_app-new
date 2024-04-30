@@ -31,7 +31,6 @@ class HomePage extends StatelessWidget {
             ),
             centerTitle: true,
             leading: Builder(
-              // Wrap leading with Builder
               builder: (context) => GestureDetector(
                 onTap: () {
                   Scaffold.of(context).openDrawer(); // Open the drawer
