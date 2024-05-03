@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project_fourth/screens/widgets/business_profile/about_us_widget.dart';
 import 'package:project_fourth/screens/widgets/business_profile/business_card.dart';
-import 'package:project_fourth/screens/widgets/business_profile/business_controller.dart'; // Import the provided controller class
+import 'package:project_fourth/screens/widgets/business_profile/privacy_widget.dart';
+import 'package:project_fourth/screens/widgets/business_profile/terms_widget.dart';
 
-class MyDrawer2 extends StatefulWidget {
+class MyDrawer2 extends StatelessWidget {
   const MyDrawer2({Key? key}) : super(key: key);
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _MyDrawer2State createState() => _MyDrawer2State();
-}
-
-class _MyDrawer2State extends State<MyDrawer2> {
-  final BusinussController _businessController = BusinussController();
-
-  @override
-  void initState() {
-    super.initState();
-    _businessController.getAllBusines();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +42,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
             title: const Text('About Us'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const BusinessCard()));
+                  builder: (context) => const AboutUs()));
             },
           ),
           ListTile(
@@ -62,7 +50,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
             title: const Text('Privacy'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const BusinessCard()));
+                  builder: (context) => const Privacy()));
             },
           ),
           ListTile(
@@ -70,7 +58,7 @@ class _MyDrawer2State extends State<MyDrawer2> {
             title: const Text('Terms'),
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const BusinessCard()));
+                  builder: (context) => const Terms()));
             },
           ),
           ListTile(
